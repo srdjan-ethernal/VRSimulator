@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="sr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sertifikati o polozenim VR kursevima</title>
+    <meta
+      name="description"
+      content="Sertifikati za polaznike koji uspesno zavrse VR obuku, sa nazivom kursa, datumom izdavanja i rokom vazenja."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body data-page="certificates">
+    <header class="site-header" data-header>
+      <a class="brand" href="index.html#top" aria-label="Pocetak" data-i18n-aria-label="brand.home">
+        <span class="brand-mark">VR</span>
+        <span class="brand-text">Safety Sim</span>
+      </a>
+
+      <nav class="main-nav" aria-label="Glavna navigacija" data-i18n-aria-label="nav.label">
+        <a href="index.html#scenariji" data-i18n="nav.scenarios">Scenariji</a>
+        <a href="index.html#metodologija" data-i18n="nav.method">Metodologija</a>
+        <a href="pricing.html" data-i18n="nav.pricing">Cene</a>
+        <a href="certificates.html" aria-current="page" data-i18n="nav.certificates">Sertifikati</a>
+        <a href="index.html#kontakt" data-i18n="nav.contact">Kontakt</a>
+      </nav>
+
+      <a class="header-action" href="index.html#kontakt" data-i18n="nav.cta">Zakazite razgovor</a>
+
+      <div class="language-switch" aria-label="Izbor jezika" data-i18n-aria-label="language.label">
+        <button type="button" data-language-option="sr" aria-pressed="true">SR</button>
+        <button type="button" data-language-option="en" aria-pressed="false">EN</button>
+      </div>
+
+      <button class="nav-toggle" type="button" aria-label="Otvori navigaciju" data-i18n-aria-label="nav.open" data-nav-toggle>
+        <span></span>
+        <span></span>
+      </button>
+    </header>
+
+    <main id="top">
+      <section class="certificate-hero" aria-labelledby="certificates-title">
+        <div class="certificate-layout">
+          <div class="section-heading compact">
+            <p class="eyebrow" data-i18n="certificates.eyebrow">Sertifikacija</p>
+            <h1 id="certificates-title" data-i18n="certificates.title">Sertifikati o polozenom kursu</h1>
+            <p data-i18n="certificates.copy">
+              Nakon uspesno zavrsene VR obuke, polaznik moze dobiti sertifikat sa nazivom kursa, datumom izdavanja i duzinom vazenja.
+            </p>
+          </div>
+
+          <article class="certificate-preview-card">
+            <div class="certificate-preview-copy">
+              <span class="scenario-kicker" data-i18n="certificates.cardTitle">Primer sertifikata</span>
+              <p data-i18n="certificates.cardCopy">
+                Primer prikazuje kako izgleda potvrda za polaznika koji je polozio kurs protivpozarne zastite.
+              </p>
+            </div>
+            <img
+              class="certificate-image"
+              src="assets/certificate-pera-peric.svg"
+              alt="Primer sertifikata za Peru Perica"
+            />
+          </article>
+        </div>
+      </section>
+
+      <section class="section certificate-features" aria-label="Prednosti sertifikata">
+        <div class="benefit-grid">
+          <article>
+            <h3 data-i18n="certificates.feature1Title">Jasna potvrda obuke</h3>
+            <p data-i18n="certificates.feature1Copy">Sertifikat prikazuje ime polaznika, naziv kursa i status polozenog kursa.</p>
+          </article>
+          <article>
+            <h3 data-i18n="certificates.feature2Title">Datum i vazenje</h3>
+            <p data-i18n="certificates.feature2Copy">Svaki sertifikat sadrzi datum izdavanja i period vazenja koji organizacija moze definisati po proceduri.</p>
+          </article>
+          <article>
+            <h3 data-i18n="certificates.feature3Title">Spremno za evidenciju</h3>
+            <p data-i18n="certificates.feature3Copy">Format je pogodan za internu dokumentaciju, HR evidenciju i dokaz o zavrsenoj obuci.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="contact-section certificate-cta" aria-labelledby="certificate-cta-title">
+        <div>
+          <p class="eyebrow" data-i18n="contact.eyebrow">Sledeci korak</p>
+          <h2 id="certificate-cta-title" data-i18n="certificates.ctaTitle">Sertifikate mozemo prilagoditi vasoj organizaciji</h2>
+          <p data-i18n="certificates.ctaCopy">
+            Dodaju se naziv firme, logo, tip kursa, rok vazenja i interni broj sertifikata.
+          </p>
+        </div>
+        <a class="button primary" href="index.html#kontakt" data-i18n="pricing.ctaButton">Kontaktirajte nas</a>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <span>Safety Sim</span>
+      <span data-i18n="footer.copy">Profesionalne VR simulacije za bezbednosne obuke.</span>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>

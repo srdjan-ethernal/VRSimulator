@@ -617,6 +617,56 @@ h1 {
   margin-top: 72px;
 }
 
+.certificate-hero {
+  padding: 136px clamp(20px, 5vw, 64px) 56px;
+  background:
+    linear-gradient(180deg, rgba(238, 245, 244, 0.9), rgba(247, 249, 251, 0)),
+    var(--page);
+}
+
+.certificate-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(420px, 1.2fr);
+  gap: clamp(28px, 5vw, 72px);
+  align-items: center;
+}
+
+.certificate-hero h1 {
+  max-width: 720px;
+  font-size: clamp(40px, 5vw, 66px);
+  line-height: 1.02;
+}
+
+.certificate-preview-card {
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+
+.certificate-preview-copy {
+  padding: 24px 24px 0;
+}
+
+.certificate-preview-copy p {
+  color: var(--muted);
+  font-size: 15px;
+}
+
+.certificate-image {
+  width: 100%;
+  padding: 24px;
+}
+
+.certificate-features {
+  padding-top: 48px;
+}
+
+.certificate-cta {
+  margin-top: 0;
+}
+
 .included-list h3 {
   margin: 0;
   font-size: 18px;
@@ -662,6 +712,40 @@ h1 {
 .site-footer span:first-child {
   color: var(--ink);
   font-weight: 800;
+}
+
+@media (max-width: 1080px) {
+  .site-header {
+    grid-template-columns: auto 1fr auto auto;
+  }
+
+  .main-nav,
+  .header-action {
+    display: none;
+  }
+
+  .nav-toggle {
+    justify-self: end;
+    display: grid;
+    gap: 4px;
+  }
+
+  .site-header.is-open .main-nav {
+    position: absolute;
+    inset: 72px 20px auto;
+    display: grid;
+    justify-self: stretch;
+    gap: 4px;
+    padding: 10px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--surface);
+    box-shadow: var(--shadow);
+  }
+
+  .site-header.is-open .main-nav a {
+    padding: 14px;
+  }
 }
 
 @media (max-width: 900px) {
@@ -717,6 +801,7 @@ h1 {
   .method-layout,
   .benefit-grid,
   .pricing-hero-layout,
+  .certificate-layout,
   .pricing-rate,
   .pricing-grid,
   .contact-section {
@@ -750,7 +835,15 @@ h1 {
     padding: 112px 18px 28px;
   }
 
+  .certificate-hero {
+    padding: 112px 18px 40px;
+  }
+
   .pricing-hero h1 {
+    font-size: 40px;
+  }
+
+  .certificate-hero h1 {
     font-size: 40px;
   }
 
@@ -772,6 +865,7 @@ h1 {
   .intro-grid > div,
   .scenario-body,
   .pricing-card,
+  .certificate-image,
   .benefit-grid article {
     padding: 22px;
   }

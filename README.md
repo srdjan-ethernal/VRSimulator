@@ -17,3 +17,4 @@ Stranice:
 
 - Pocetna: `index.html`
 - Cene: `pricing.html`
+- Sertifikati: `certificates.html`

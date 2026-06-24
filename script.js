@@ -11,6 +11,7 @@
       scenarios: "Scenariji",
       method: "Metodologija",
       pricing: "Cene",
+      certificates: "Sertifikati",
       contact: "Kontakt",
       cta: "Zakazite razgovor",
     },
@@ -82,6 +83,11 @@
         metaDescription:
           "Cenovnik za VR simulacije: mala, srednja i velika preduzeca, sa mesecnom i godisnjom cenom po radniku.",
       },
+      certificates: {
+        metaTitle: "Sertifikati o polozenim VR kursevima",
+        metaDescription:
+          "Sertifikati za polaznike koji uspesno zavrse VR obuku, sa nazivom kursa, datumom izdavanja i rokom vazenja.",
+      },
     },
     pricing: {
       eyebrow: "Cenovnik",
@@ -134,6 +140,21 @@
       ctaCopy: "Posaljite okviran broj radnika i scenarije koje zelite da koristite.",
       ctaButton: "Kontaktirajte nas",
     },
+    certificates: {
+      eyebrow: "Sertifikacija",
+      title: "Sertifikati o polozenom kursu",
+      copy: "Nakon uspesno zavrsene VR obuke, polaznik moze dobiti sertifikat sa nazivom kursa, datumom izdavanja i duzinom vazenja.",
+      cardTitle: "Primer sertifikata",
+      cardCopy: "Primer prikazuje kako izgleda potvrda za polaznika koji je polozio kurs protivpozarne zastite.",
+      feature1Title: "Jasna potvrda obuke",
+      feature1Copy: "Sertifikat prikazuje ime polaznika, naziv kursa i status polozenog kursa.",
+      feature2Title: "Datum i vazenje",
+      feature2Copy: "Svaki sertifikat sadrzi datum izdavanja i period vazenja koji organizacija moze definisati po proceduri.",
+      feature3Title: "Spremno za evidenciju",
+      feature3Copy: "Format je pogodan za internu dokumentaciju, HR evidenciju i dokaz o zavrsenoj obuci.",
+      ctaTitle: "Sertifikate mozemo prilagoditi vasoj organizaciji",
+      ctaCopy: "Dodaju se naziv firme, logo, tip kursa, rok vazenja i interni broj sertifikata.",
+    },
   },
   en: {
     metaTitle: "VR simulations for industrial safety",
@@ -147,6 +168,7 @@
       scenarios: "Scenarios",
       method: "Methodology",
       pricing: "Pricing",
+      certificates: "Certificates",
       contact: "Contact",
       cta: "Schedule a call",
     },
@@ -218,6 +240,11 @@
         metaDescription:
           "Pricing for VR simulations: small, medium, and large companies, with monthly and annual pricing per employee.",
       },
+      certificates: {
+        metaTitle: "Certificates for completed VR courses",
+        metaDescription:
+          "Certificates for trainees who successfully complete VR training, including course name, issue date, and validity period.",
+      },
     },
     pricing: {
       eyebrow: "Pricing",
@@ -269,6 +296,21 @@
       ctaTitle: "Need an estimate for your organization?",
       ctaCopy: "Send the approximate employee count and scenarios you want to use.",
       ctaButton: "Contact us",
+    },
+    certificates: {
+      eyebrow: "Certification",
+      title: "Certificates for completed courses",
+      copy: "After successfully completing VR training, the trainee can receive a certificate with the course name, issue date, and validity period.",
+      cardTitle: "Certificate example",
+      cardCopy: "The example shows a completion certificate for a trainee who passed the fire protection course.",
+      feature1Title: "Clear training confirmation",
+      feature1Copy: "The certificate shows the trainee name, course name, and completed course status.",
+      feature2Title: "Date and validity",
+      feature2Copy: "Each certificate includes an issue date and validity period that the organization can define by procedure.",
+      feature3Title: "Ready for records",
+      feature3Copy: "The format is suitable for internal documentation, HR records, and proof of completed training.",
+      ctaTitle: "Certificates can be adapted to your organization",
+      ctaCopy: "Company name, logo, course type, validity period, and internal certificate number can be added.",
     },
   },
 };

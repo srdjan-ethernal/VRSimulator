@@ -10,6 +10,7 @@
       open: "Otvori navigaciju",
       scenarios: "Scenariji",
       method: "Metodologija",
+      pricing: "Cene",
       contact: "Kontakt",
       cta: "Zakazite razgovor",
     },
@@ -75,6 +76,62 @@
     footer: {
       copy: "Profesionalne VR simulacije za bezbednosne obuke.",
     },
+    pages: {
+      pricing: {
+        metaTitle: "Cene VR simulacija",
+        metaDescription:
+          "Cenovnik za VR simulacije: mala, srednja i velika preduzeca, sa mesecnom i godisnjom cenom po radniku.",
+      },
+    },
+    pricing: {
+      eyebrow: "Cenovnik",
+      title: "Jednostavna cena po radniku",
+      copy: "Model je napravljen da bude jasan za male timove i skalabilan za vece organizacije.",
+      monthlyLabel: "Mesecno",
+      yearlyLabel: "Godisnje",
+      monthlyPrice: "1 EUR",
+      yearlyPrice: "10 EUR",
+      perEmployeeMonth: "po radniku / mesecno",
+      perEmployeeYear: "po radniku / godisnje",
+      note: "Godisnji plan donosi 2 meseca ustede u odnosu na placanje svakog meseca.",
+      cards: {
+        small: {
+          label: "Mala preduzeca",
+          title: "Do 10 radnika",
+          monthly: "Do 10 EUR mesecno",
+          yearly: "Do 100 EUR godisnje",
+          point1: "Za male timove i pilot obuke",
+          point2: "Pristup svim dostupnim scenarijima",
+          point3: "Dobar pocetak za internu prezentaciju",
+        },
+        medium: {
+          label: "Srednja preduzeca",
+          title: "Do 100 radnika",
+          monthly: "Do 100 EUR mesecno",
+          yearly: "Do 1.000 EUR godisnje",
+          point1: "Za redovne obuke vise timova",
+          point2: "Standardizovan pristup po zaposlenom",
+          point3: "Pogodno za vise lokacija ili smena",
+        },
+        large: {
+          label: "Velika preduzeca",
+          title: "Preko 100 radnika",
+          monthly: "1 EUR x broj radnika",
+          yearly: "10 EUR x broj radnika",
+          point1: "Za organizacije sa vecim brojem polaznika",
+          point2: "Skaliranje po stvarnom broju zaposlenih",
+          point3: "Moguce planiranje po sektorima i lokacijama",
+        },
+      },
+      includedTitle: "Sta je ukljuceno",
+      included1: "Pristup visejezicnom katalogu VR scenarija",
+      included2: "Profesionalna prezentacija scenarija za interne timove",
+      included3: "Mogucnost dodavanja novih oblasti obuke",
+      included4: "Jasan obracun po broju radnika",
+      ctaTitle: "Zelite procenu za svoju organizaciju?",
+      ctaCopy: "Posaljite okviran broj radnika i scenarije koje zelite da koristite.",
+      ctaButton: "Kontaktirajte nas",
+    },
   },
   en: {
     metaTitle: "VR simulations for industrial safety",
@@ -87,6 +144,7 @@
       open: "Open navigation",
       scenarios: "Scenarios",
       method: "Methodology",
+      pricing: "Pricing",
       contact: "Contact",
       cta: "Schedule a call",
     },
@@ -151,6 +209,62 @@
     },
     footer: {
       copy: "Professional VR simulations for safety training.",
+    },
+    pages: {
+      pricing: {
+        metaTitle: "VR simulation pricing",
+        metaDescription:
+          "Pricing for VR simulations: small, medium, and large companies, with monthly and annual pricing per employee.",
+      },
+    },
+    pricing: {
+      eyebrow: "Pricing",
+      title: "Simple price per employee",
+      copy: "The model is designed to be clear for small teams and scalable for larger organizations.",
+      monthlyLabel: "Monthly",
+      yearlyLabel: "Annual",
+      monthlyPrice: "1 EUR",
+      yearlyPrice: "10 EUR",
+      perEmployeeMonth: "per employee / month",
+      perEmployeeYear: "per employee / year",
+      note: "The annual plan includes 2 months of savings compared with monthly billing.",
+      cards: {
+        small: {
+          label: "Small companies",
+          title: "Up to 10 employees",
+          monthly: "Up to 10 EUR monthly",
+          yearly: "Up to 100 EUR annually",
+          point1: "For small teams and pilot training",
+          point2: "Access to all available scenarios",
+          point3: "A strong start for internal presentation",
+        },
+        medium: {
+          label: "Medium companies",
+          title: "Up to 100 employees",
+          monthly: "Up to 100 EUR monthly",
+          yearly: "Up to 1,000 EUR annually",
+          point1: "For regular training across multiple teams",
+          point2: "Standardized access per employee",
+          point3: "Suitable for multiple locations or shifts",
+        },
+        large: {
+          label: "Large companies",
+          title: "Over 100 employees",
+          monthly: "1 EUR x number of employees",
+          yearly: "10 EUR x number of employees",
+          point1: "For organizations with larger trainee groups",
+          point2: "Scaling based on actual employee count",
+          point3: "Planning by department and location",
+        },
+      },
+      includedTitle: "What is included",
+      included1: "Access to a multilingual VR scenario catalog",
+      included2: "Professional scenario presentation for internal teams",
+      included3: "Option to add new training domains",
+      included4: "Clear calculation by number of employees",
+      ctaTitle: "Need an estimate for your organization?",
+      ctaCopy: "Send the approximate employee count and scenarios you want to use.",
+      ctaButton: "Contact us",
     },
   },
 };
@@ -345,6 +459,7 @@ const navToggle = document.querySelector("[data-nav-toggle]");
 const languageButtons = document.querySelectorAll("[data-language-option]");
 const metaDescription = document.querySelector('meta[name="description"]');
 const scenarioCount = document.querySelector("[data-scenario-count]");
+const pageName = document.body.dataset.page || "home";
 
 function getNestedValue(source, path) {
   return path.split(".").reduce((value, key) => value?.[key], source);
@@ -361,6 +476,10 @@ function getInitialLanguage() {
 }
 
 function renderScenarios(language) {
+  if (!scenarioGrid || !scenarioCount) {
+    return;
+  }
+
   scenarioCount.textContent = scenarios.length;
 
   scenarioGrid.innerHTML = scenarios
@@ -386,10 +505,11 @@ function renderScenarios(language) {
 
 function applyTranslations(language) {
   const dictionary = translations[language];
+  const pageMeta = dictionary.pages?.[pageName];
 
   document.documentElement.lang = language;
-  document.title = dictionary.metaTitle;
-  metaDescription.setAttribute("content", dictionary.metaDescription);
+  document.title = pageMeta?.metaTitle || dictionary.metaTitle;
+  metaDescription.setAttribute("content", pageMeta?.metaDescription || dictionary.metaDescription);
 
   document.querySelectorAll("[data-i18n]").forEach((element) => {
     const translatedText = getNestedValue(dictionary, element.dataset.i18n);

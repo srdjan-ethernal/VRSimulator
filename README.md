@@ -12,3 +12,8 @@ Trenutni scenariji:
 - VR simulacija za upravljanje biomedicinskim otpadom
 
 Sajt je staticki i moze se objaviti preko GitHub Pages, Netlify, Cloudflare Pages ili bilo kog statickog hostinga.
+
+Stranice:
+
+- Pocetna: `index.html`
+- Cene: `pricing.html`

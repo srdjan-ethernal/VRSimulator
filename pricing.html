@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="sr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cene VR simulacija</title>
+    <meta
+      name="description"
+      content="Cenovnik za VR simulacije: mala, srednja i velika preduzeca, sa mesecnom i godisnjom cenom po radniku."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body data-page="pricing">
+    <header class="site-header" data-header>
+      <a class="brand" href="index.html#top" aria-label="Pocetak" data-i18n-aria-label="brand.home">
+        <span class="brand-mark">VR</span>
+        <span class="brand-text">Safety Sim</span>
+      </a>
+
+      <nav class="main-nav" aria-label="Glavna navigacija" data-i18n-aria-label="nav.label">
+        <a href="index.html#scenariji" data-i18n="nav.scenarios">Scenariji</a>
+        <a href="index.html#metodologija" data-i18n="nav.method">Metodologija</a>
+        <a href="pricing.html" aria-current="page" data-i18n="nav.pricing">Cene</a>
+        <a href="index.html#kontakt" data-i18n="nav.contact">Kontakt</a>
+      </nav>
+
+      <a class="header-action" href="index.html#kontakt" data-i18n="nav.cta">Zakazite razgovor</a>
+
+      <div class="language-switch" aria-label="Izbor jezika" data-i18n-aria-label="language.label">
+        <button type="button" data-language-option="sr" aria-pressed="true">SR</button>
+        <button type="button" data-language-option="en" aria-pressed="false">EN</button>
+      </div>
+
+      <button class="nav-toggle" type="button" aria-label="Otvori navigaciju" data-i18n-aria-label="nav.open" data-nav-toggle>
+        <span></span>
+        <span></span>
+      </button>
+    </header>
+
+    <main id="top">
+      <section class="pricing-hero" aria-labelledby="pricing-title">
+        <div class="section-heading">
+          <p class="eyebrow" data-i18n="pricing.eyebrow">Cenovnik</p>
+          <h1 id="pricing-title" data-i18n="pricing.title">Jednostavna cena po radniku</h1>
+          <p data-i18n="pricing.copy">
+            Model je napravljen da bude jasan za male timove i skalabilan za vece organizacije.
+          </p>
+        </div>
+
+        <div class="pricing-rate" aria-label="Osnovna cena">
+          <div>
+            <span data-i18n="pricing.monthlyLabel">Mesecno</span>
+            <strong data-i18n="pricing.monthlyPrice">1 EUR</strong>
+            <small data-i18n="pricing.perEmployeeMonth">po radniku / mesecno</small>
+          </div>
+          <div>
+            <span data-i18n="pricing.yearlyLabel">Godisnje</span>
+            <strong data-i18n="pricing.yearlyPrice">10 EUR</strong>
+            <small data-i18n="pricing.perEmployeeYear">po radniku / godisnje</small>
+          </div>
+        </div>
+        <p class="pricing-note" data-i18n="pricing.note">
+          Godisnji plan donosi 2 meseca ustede u odnosu na placanje svakog meseca.
+        </p>
+      </section>
+
+      <section class="section pricing-section" aria-label="Paketi">
+        <div class="pricing-grid">
+          <article class="pricing-card">
+            <span class="scenario-kicker" data-i18n="pricing.cards.small.label">Mala preduzeca</span>
+            <h2 data-i18n="pricing.cards.small.title">Do 10 radnika</h2>
+            <div class="price-lines">
+              <strong data-i18n="pricing.cards.small.monthly">Do 10 EUR mesecno</strong>
+              <span data-i18n="pricing.cards.small.yearly">Do 100 EUR godisnje</span>
+            </div>
+            <ul class="scenario-list">
+              <li data-i18n="pricing.cards.small.point1">Za male timove i pilot obuke</li>
+              <li data-i18n="pricing.cards.small.point2">Pristup svim dostupnim scenarijima</li>
+              <li data-i18n="pricing.cards.small.point3">Dobar pocetak za internu prezentaciju</li>
+            </ul>
+          </article>
+
+          <article class="pricing-card featured">
+            <span class="scenario-kicker" data-i18n="pricing.cards.medium.label">Srednja preduzeca</span>
+            <h2 data-i18n="pricing.cards.medium.title">Do 100 radnika</h2>
+            <div class="price-lines">
+              <strong data-i18n="pricing.cards.medium.monthly">Do 100 EUR mesecno</strong>
+              <span data-i18n="pricing.cards.medium.yearly">Do 1.000 EUR godisnje</span>
+            </div>
+            <ul class="scenario-list">
+              <li data-i18n="pricing.cards.medium.point1">Za redovne obuke vise timova</li>
+              <li data-i18n="pricing.cards.medium.point2">Standardizovan pristup po zaposlenom</li>
+              <li data-i18n="pricing.cards.medium.point3">Pogodno za vise lokacija ili smena</li>
+            </ul>
+          </article>
+
+          <article class="pricing-card">
+            <span class="scenario-kicker" data-i18n="pricing.cards.large.label">Velika preduzeca</span>
+            <h2 data-i18n="pricing.cards.large.title">Preko 100 radnika</h2>
+            <div class="price-lines">
+              <strong data-i18n="pricing.cards.large.monthly">1 EUR x broj radnika</strong>
+              <span data-i18n="pricing.cards.large.yearly">10 EUR x broj radnika</span>
+            </div>
+            <ul class="scenario-list">
+              <li data-i18n="pricing.cards.large.point1">Za organizacije sa vecim brojem polaznika</li>
+              <li data-i18n="pricing.cards.large.point2">Skaliranje po stvarnom broju zaposlenih</li>
+              <li data-i18n="pricing.cards.large.point3">Moguce planiranje po sektorima i lokacijama</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section class="section light-section">
+        <div class="method-layout">
+          <div class="section-heading compact">
+            <p class="eyebrow" data-i18n="pricing.includedTitle">Sta je ukljuceno</p>
+            <h2 data-i18n="pricing.ctaTitle">Zelite procenu za svoju organizaciju?</h2>
+            <p data-i18n="pricing.ctaCopy">
+              Posaljite okviran broj radnika i scenarije koje zelite da koristite.
+            </p>
+            <a class="button primary pricing-contact" href="index.html#kontakt" data-i18n="pricing.ctaButton">Kontaktirajte nas</a>
+          </div>
+          <div class="included-list">
+            <article>
+              <h3 data-i18n="pricing.included1">Pristup visejezicnom katalogu VR scenarija</h3>
+            </article>
+            <article>
+              <h3 data-i18n="pricing.included2">Profesionalna prezentacija scenarija za interne timove</h3>
+            </article>
+            <article>
+              <h3 data-i18n="pricing.included3">Mogucnost dodavanja novih oblasti obuke</h3>
+            </article>
+            <article>
+              <h3 data-i18n="pricing.included4">Jasan obracun po broju radnika</h3>
+            </article>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <span>Safety Sim</span>
+      <span data-i18n="footer.copy">Profesionalne VR simulacije za bezbednosne obuke.</span>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>

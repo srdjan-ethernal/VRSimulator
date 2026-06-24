@@ -30,7 +30,7 @@
     scenarios: {
       eyebrow: "Slucajevi upotrebe",
       title: "Scenariji spremni za prezentaciju i razvoj",
-      copy: "Trenutni fokus je na protivpozarnoj zastiti i rukovanju radioaktivnim materijalima. Struktura je pripremljena za dodavanje novih oblasti.",
+      copy: "Katalog scenarija pokriva industrijsku bezbednost, upravljanje opasnim materijalima i obuke za odgovorno postupanje sa otpadom.",
     },
     method: {
       eyebrow: "Metodologija",
@@ -107,7 +107,7 @@
     scenarios: {
       eyebrow: "Use cases",
       title: "Scenarios ready for presentation and development",
-      copy: "The current focus is fire protection and radioactive material handling. The structure is prepared for adding new domains later.",
+      copy: "The scenario catalog covers industrial safety, hazardous material handling, and training for responsible waste management.",
     },
     method: {
       eyebrow: "Methodology",
@@ -216,6 +216,96 @@ const scenarios = [
       },
     },
   },
+  {
+    image: "assets/chemical-waste-vr.png",
+    variant: "is-chemical",
+    content: {
+      sr: {
+        title: "Upravljanje hemijskim otpadom",
+        label: "Industrijski scenario",
+        alt: "VR obuka za upravljanje hemijskim otpadom",
+        description:
+          "Simulacija uvezbava klasifikaciju, obelezavanje, privremeno skladistenje i reagovanje pri radu sa hemijskim otpadom.",
+        points: [
+          "Razdvajanje kompatibilnih i nekompatibilnih materija",
+          "Koriscenje zastitne opreme i sigurnosnih barijera",
+          "Postupanje pri prosipanju i proceduralnim greskama",
+        ],
+      },
+      en: {
+        title: "Chemical waste management",
+        label: "Industrial scenario",
+        alt: "VR training for chemical waste management",
+        description:
+          "The simulation trains classification, labeling, temporary storage, and response procedures for chemical waste handling.",
+        points: [
+          "Separating compatible and incompatible substances",
+          "Using protective equipment and safety barriers",
+          "Responding to spills and procedural errors",
+        ],
+      },
+    },
+  },
+  {
+    image: "assets/construction-waste-vr.png",
+    variant: "is-construction",
+    content: {
+      sr: {
+        title: "Upravljanje gradjevinskim otpadom",
+        label: "Gradjevinski scenario",
+        alt: "VR obuka za upravljanje gradjevinskim otpadom",
+        description:
+          "VR obuka pomaze timovima da pravilno razdvajaju materijale, kontrolisu rizike na lokaciji i prate tok otpada.",
+        points: [
+          "Razdvajanje betona, metala, drveta i ambalaze",
+          "Bezbedan rad u zoni odlaganja i transporta",
+          "Evidencija, oznacavanje i tokovi ponovne upotrebe",
+        ],
+      },
+      en: {
+        title: "Construction waste management",
+        label: "Construction scenario",
+        alt: "VR training for construction waste management",
+        description:
+          "VR training helps teams sort materials correctly, control site risks, and track waste flows from collection to reuse.",
+        points: [
+          "Sorting concrete, metal, wood, and packaging",
+          "Safe work in disposal and transport zones",
+          "Logging, labeling, and reuse workflows",
+        ],
+      },
+    },
+  },
+  {
+    image: "assets/electronic-waste-vr.png",
+    variant: "is-electronic",
+    content: {
+      sr: {
+        title: "Upravljanje elektronskim otpadom",
+        label: "Reciklazni scenario",
+        alt: "VR obuka za upravljanje elektronskim otpadom",
+        description:
+          "Scenario pokriva bezbedno sortiranje uredjaja, baterija, kablova i komponenti uz kontrolu rizika i sledljivost.",
+        points: [
+          "Identifikacija baterija, ekrana i osetljivih komponenti",
+          "Razdvajanje materijala za dalju obradu",
+          "Kontrola rizika od ostecenja, pozara i kontaminacije",
+        ],
+      },
+      en: {
+        title: "Electronic waste management",
+        label: "Recycling scenario",
+        alt: "VR training for electronic waste management",
+        description:
+          "The scenario covers safe sorting of devices, batteries, cables, and components with risk control and traceability.",
+        points: [
+          "Identifying batteries, screens, and sensitive components",
+          "Separating materials for downstream processing",
+          "Controlling damage, fire, and contamination risks",
+        ],
+      },
+    },
+  },
 ];
 
 const supportedLanguages = ["sr", "en"];
@@ -224,6 +314,7 @@ const header = document.querySelector("[data-header]");
 const navToggle = document.querySelector("[data-nav-toggle]");
 const languageButtons = document.querySelectorAll("[data-language-option]");
 const metaDescription = document.querySelector('meta[name="description"]');
+const scenarioCount = document.querySelector("[data-scenario-count]");
 
 function getNestedValue(source, path) {
   return path.split(".").reduce((value, key) => value?.[key], source);
@@ -240,6 +331,8 @@ function getInitialLanguage() {
 }
 
 function renderScenarios(language) {
+  scenarioCount.textContent = scenarios.length;
+
   scenarioGrid.innerHTML = scenarios
     .map((scenario) => {
       const content = scenario.content[language];

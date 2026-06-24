@@ -6,5 +6,8 @@ Trenutni scenariji:
 
 - VR simulacija za protivpozarnu zastitu
 - VR simulacija za upravljanje radioaktivnim materijalima
+- VR simulacija za upravljanje hemijskim otpadom
+- VR simulacija za upravljanje gradjevinskim otpadom
+- VR simulacija za upravljanje elektronskim otpadom
 
 Sajt je staticki i moze se objaviti preko GitHub Pages, Netlify, Cloudflare Pages ili bilo kog statickog hostinga.

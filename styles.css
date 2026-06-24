@@ -399,6 +399,18 @@ h1 {
   background: var(--amber);
 }
 
+.scenario-card.is-chemical .scenario-list li::before {
+  background: #2563eb;
+}
+
+.scenario-card.is-construction .scenario-list li::before {
+  background: #16a34a;
+}
+
+.scenario-card.is-electronic .scenario-list li::before {
+  background: #7c3aed;
+}
+
 .light-section {
   background: var(--surface);
   border-block: 1px solid var(--line);

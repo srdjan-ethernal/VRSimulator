@@ -1,0 +1,170 @@
+﻿<!doctype html>
+<html lang="sr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VR simulacije za industrijsku bezbednost</title>
+    <meta
+      name="description"
+      content="Profesionalne VR simulacije za obuku iz protivpozarne zastite, upravljanja radioaktivnim materijalima i drugih industrijskih scenarija."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header" data-header>
+      <a class="brand" href="#top" aria-label="Pocetak" data-i18n-aria-label="brand.home">
+        <span class="brand-mark">VR</span>
+        <span class="brand-text">Safety Sim</span>
+      </a>
+
+      <nav class="main-nav" aria-label="Glavna navigacija" data-i18n-aria-label="nav.label">
+        <a href="#scenariji" data-i18n="nav.scenarios">Scenariji</a>
+        <a href="#metodologija" data-i18n="nav.method">Metodologija</a>
+        <a href="#kontakt" data-i18n="nav.contact">Kontakt</a>
+      </nav>
+
+      <a class="header-action" href="#kontakt" data-i18n="nav.cta">Zakazite razgovor</a>
+
+      <div class="language-switch" aria-label="Izbor jezika" data-i18n-aria-label="language.label">
+        <button type="button" data-language-option="sr" aria-pressed="true">SR</button>
+        <button type="button" data-language-option="en" aria-pressed="false">EN</button>
+      </div>
+
+      <button class="nav-toggle" type="button" aria-label="Otvori navigaciju" data-i18n-aria-label="nav.open" data-nav-toggle>
+        <span></span>
+        <span></span>
+      </button>
+    </header>
+
+    <main id="top">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-media" aria-hidden="true"></div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+          <p class="eyebrow" data-i18n="hero.eyebrow">VR obuke za visokorizicne procese</p>
+          <h1 id="hero-title" data-i18n="hero.title">VR simulacije za industrijsku bezbednost</h1>
+          <p class="hero-copy" data-i18n="hero.copy">
+            Realisticne, kontrolisane i merljive obuke za timove koji rade u zahtevnim
+            bezbednosnim okruzenjima.
+          </p>
+          <div class="hero-actions" aria-label="Primarne akcije" data-i18n-aria-label="hero.actions">
+            <a class="button primary" href="#scenariji" data-i18n="hero.primary">Pogledajte scenarije</a>
+            <a class="button secondary" href="#kontakt" data-i18n="hero.secondary">Kontakt</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="intro-band" aria-label="Pregled vrednosti" data-i18n-aria-label="metrics.label">
+        <div class="intro-grid">
+          <div>
+            <span class="metric">2</span>
+            <span class="metric-label" data-i18n="metrics.active">aktivna scenarija</span>
+          </div>
+          <div>
+            <span class="metric">100%</span>
+            <span class="metric-label" data-i18n="metrics.controlled">kontrolisano okruzenje za obuku</span>
+          </div>
+          <div>
+            <span class="metric">VR</span>
+            <span class="metric-label" data-i18n="metrics.learning">imerzivno ucenje kroz praksu</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="scenariji" aria-labelledby="scenarios-title">
+        <div class="section-heading">
+          <p class="eyebrow" data-i18n="scenarios.eyebrow">Slucajevi upotrebe</p>
+          <h2 id="scenarios-title" data-i18n="scenarios.title">Scenariji spremni za prezentaciju i razvoj</h2>
+          <p data-i18n="scenarios.copy">
+            Trenutni fokus je na protivpozarnoj zastiti i rukovanju radioaktivnim
+            materijalima. Struktura je pripremljena za dodavanje novih oblasti.
+          </p>
+        </div>
+        <div class="scenario-grid" data-scenario-grid></div>
+      </section>
+
+      <section class="section light-section" id="metodologija" aria-labelledby="method-title">
+        <div class="method-layout">
+          <div class="section-heading compact">
+            <p class="eyebrow" data-i18n="method.eyebrow">Metodologija</p>
+            <h2 id="method-title" data-i18n="method.title">Od scenarija do merljive obuke</h2>
+            <p data-i18n="method.copy">
+              Svaka simulacija se projektuje oko stvarnih procedura, kriticnih odluka
+              i ponasanja koje organizacija zeli da uvezba pre rada u realnom okruzenju.
+            </p>
+          </div>
+
+          <div class="steps">
+            <article>
+              <span>01</span>
+              <div>
+                <h3 data-i18n="steps.analysis.title">Analiza procesa</h3>
+                <p data-i18n="steps.analysis.copy">Definisanje rizika, uloga, prostora, opreme i bezbednosnih protokola.</p>
+              </div>
+            </article>
+            <article>
+              <span>02</span>
+              <div>
+                <h3 data-i18n="steps.build.title">Izrada simulacije</h3>
+                <p data-i18n="steps.build.copy">Modelovanje scenarija, interakcija, instrukcija i grananja odluka.</p>
+              </div>
+            </article>
+            <article>
+              <span>03</span>
+              <div>
+                <h3 data-i18n="steps.evaluate.title">Evaluacija obuke</h3>
+                <p data-i18n="steps.evaluate.copy">Pracenje ucinka, gresaka, vremena reakcije i spremnosti polaznika.</p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section benefits" aria-labelledby="benefits-title">
+        <div class="section-heading">
+          <p class="eyebrow" data-i18n="benefits.eyebrow">Prednosti</p>
+          <h2 id="benefits-title" data-i18n="benefits.title">Bezbedna praksa pre realnog rizika</h2>
+        </div>
+        <div class="benefit-grid">
+          <article>
+            <h3 data-i18n="benefits.risk.title">Manji operativni rizik</h3>
+            <p data-i18n="benefits.risk.copy">Polaznici mogu da vezbaju opasne situacije bez izlaganja ljudi, opreme ili prostora.</p>
+          </article>
+          <article>
+            <h3 data-i18n="benefits.standard.title">Standardizovana obuka</h3>
+            <p data-i18n="benefits.standard.copy">Isti scenario, kriterijumi i povratne informacije za svaku grupu i lokaciju.</p>
+          </article>
+          <article>
+            <h3 data-i18n="benefits.iterate.title">Brze iteracije</h3>
+            <p data-i18n="benefits.iterate.copy">Novi scenariji, zadaci i greske mogu se dodavati kako se menjaju procedure.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="contact-section" id="kontakt" aria-labelledby="contact-title">
+        <div>
+          <p class="eyebrow" data-i18n="contact.eyebrow">Sledeci korak</p>
+          <h2 id="contact-title" data-i18n="contact.title">Razgovarajmo o scenarijima koje treba simulirati</h2>
+          <p data-i18n="contact.copy">
+            Posaljite kratak opis oblasti, ciljne grupe i procedura koje treba uvezbati.
+            Na osnovu toga se definise obim prve demonstracije.
+          </p>
+        </div>
+        <a class="button primary" href="mailto:kontakt@example.com">kontakt@example.com</a>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <span>Safety Sim</span>
+      <span data-i18n="footer.copy">Profesionalne VR simulacije za bezbednosne obuke.</span>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>

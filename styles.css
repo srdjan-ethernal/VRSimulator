@@ -411,6 +411,10 @@ h1 {
   background: #7c3aed;
 }
 
+.scenario-card.is-biomedical .scenario-list li::before {
+  background: #dc2626;
+}
+
 .light-section {
   background: var(--surface);
   border-block: 1px solid var(--line);

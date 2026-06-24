@@ -306,6 +306,36 @@ const scenarios = [
       },
     },
   },
+  {
+    image: "assets/biomedical-waste-vr.png",
+    variant: "is-biomedical",
+    content: {
+      sr: {
+        title: "Upravljanje biomedicinskim otpadom",
+        label: "Zdravstveni scenario",
+        alt: "VR obuka za upravljanje biomedicinskim otpadom",
+        description:
+          "Scenario uvezbava bezbedno razdvajanje, pakovanje, obelezavanje i privremeno skladistenje otpada iz zdravstvenih procesa.",
+        points: [
+          "Razdvajanje ostrih predmeta, zastitne opreme i medicinskog otpada",
+          "Koriscenje kontejnera, vrecica i procedura za kontaminirani materijal",
+          "Kontrola rizika pri sakupljanju, transportu i predaji otpada",
+        ],
+      },
+      en: {
+        title: "Biomedical waste management",
+        label: "Healthcare scenario",
+        alt: "VR training for biomedical waste management",
+        description:
+          "The scenario trains safe separation, packaging, labeling, and temporary storage of waste generated in healthcare processes.",
+        points: [
+          "Separating sharps, protective equipment, and medical waste",
+          "Using containers, bags, and procedures for contaminated material",
+          "Controlling risks during collection, transport, and handover",
+        ],
+      },
+    },
+  },
 ];
 
 const supportedLanguages = ["sr", "en"];

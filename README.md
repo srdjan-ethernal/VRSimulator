@@ -18,3 +18,32 @@ Stranice:
 - Pocetna: `index.html`
 - Cene: `pricing.html`
 - Sertifikati: `certificates.html`
+
+## Backend
+
+Backend je u folderu `src/VRSimulator.Api`.
+
+Tehnologije:
+
+- .NET 6
+- ASP.NET Core Minimal API
+- Microsoft runtime stack
+
+Pokretanje:
+
+```powershell
+dotnet run --project src\VRSimulator.Api\VRSimulator.Api.csproj
+```
+
+Pocetne rute:
+
+- `GET /api/health`
+- `GET /api/scenarios`
+- `GET /api/courses`
+- `GET /api/workers`
+- `POST /api/workers`
+- `POST /api/enrollments`
+- `POST /api/enrollments/{enrollmentId}/complete`
+- `GET /api/certificates`
+
+Prva verzija koristi in-memory skladiste. Sledeci korak je SQL Server + Entity Framework Core.

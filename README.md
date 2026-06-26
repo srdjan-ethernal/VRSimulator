@@ -38,6 +38,10 @@ dotnet run --project src\VRSimulator.Api\VRSimulator.Api.csproj
 Pocetne rute:
 
 - `GET /api/health`
+- `POST /api/auth/register`
+- `POST /api/auth/login`
+- `GET /api/auth/me`
+- `GET /api/companies`
 - `GET /api/scenarios`
 - `GET /api/courses`
 - `GET /api/workers`
@@ -46,4 +50,4 @@ Pocetne rute:
 - `POST /api/enrollments/{enrollmentId}/complete`
 - `GET /api/certificates`
 
-Prva verzija koristi in-memory skladiste. Sledeci korak je SQL Server + Entity Framework Core.
+Korisnik se registruje uz kompaniju. Prva verzija koristi in-memory skladiste i privremene Bearer tokene. Sledeci korak je SQL Server + Entity Framework Core, a zatim ASP.NET Core Identity ili Microsoft Entra ID prema tipu korisnika.

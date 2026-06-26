@@ -7,6 +7,7 @@ using VRSimulator.Api.Services;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddSingleton<ITrainingRepository, InMemoryTrainingRepository>();
+builder.Services.AddSingleton<IAuthService, InMemoryAuthService>();
 builder.Services.Configure<JsonOptions>(options =>
 {
     options.SerializerOptions.Converters.Add(new JsonStringEnumConverter());
@@ -27,6 +28,10 @@ app.MapGet("/api", () => Results.Ok(new
     endpoints = new[]
     {
         "GET /api/health",
+        "POST /api/auth/register",
+        "POST /api/auth/login",
+        "GET /api/auth/me",
+        "GET /api/companies",
         "GET /api/scenarios",
         "GET /api/courses",
         "GET /api/workers",
@@ -45,6 +50,41 @@ app.MapGet("/api/health", () => Results.Ok(new
     status = "ok",
     timestampUtc = DateTimeOffset.UtcNow
 }));
+
+app.MapPost("/api/auth/register", (RegisterUserRequest request, IAuthService authService) =>
+{
+    var result = authService.Register(request);
+    return result.Match(
+        auth => Results.Created($"/api/users/{auth.User.Id}", auth),
+        error => Results.BadRequest(new ProblemResponse(error)));
+});
+
+app.MapPost("/api/auth/login", (LoginRequest request, IAuthService authService) =>
+{
+    var result = authService.Login(request);
+    return result.Match(
+        auth => Results.Ok(auth),
+        error => Results.BadRequest(new ProblemResponse(error)));
+});
+
+app.MapGet("/api/auth/me", (HttpRequest request, IAuthService authService) =>
+{
+    var token = GetBearerToken(request);
+    if (string.IsNullOrWhiteSpace(token))
+    {
+        return Results.Unauthorized();
+    }
+
+    var result = authService.GetCurrentUser(token);
+    return result.Match(
+        user => Results.Ok(user),
+        _ => Results.Unauthorized());
+});
+
+app.MapGet("/api/companies", (IAuthService authService) =>
+{
+    return Results.Ok(authService.GetCompanies());
+});
 
 app.MapGet("/api/scenarios", (ITrainingRepository repository) =>
 {
@@ -118,3 +158,16 @@ app.MapGet("/api/certificates/{certificateId:guid}", (Guid certificateId, ITrain
 });
 
 app.Run();
+
+static string? GetBearerToken(HttpRequest request)
+{
+    var authorization = request.Headers.Authorization.ToString();
+    const string bearerPrefix = "Bearer ";
+
+    if (authorization.StartsWith(bearerPrefix, StringComparison.OrdinalIgnoreCase))
+    {
+        return authorization[bearerPrefix.Length..].Trim();
+    }
+
+    return null;
+}

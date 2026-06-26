@@ -27,10 +27,50 @@ Port moze biti drugaciji ako ga Visual Studio ili `launchSettings.json` dodele a
 
 ## Prvi API tok
 
-1. `GET /api/courses`
-2. `POST /api/workers`
-3. `POST /api/enrollments`
-4. `POST /api/enrollments/{enrollmentId}/complete`
-5. `GET /api/certificates`
+1. `POST /api/auth/register`
+2. `POST /api/auth/login`
+3. `GET /api/auth/me`
+4. `GET /api/courses`
+5. `POST /api/workers`
+6. `POST /api/enrollments`
+7. `POST /api/enrollments/{enrollmentId}/complete`
+8. `GET /api/certificates`
 
 Ako je rezultat kursa najmanje 80, backend automatski izdaje sertifikat koji vazi 12 meseci.
+
+## Auth rute
+
+### Registracija
+
+`POST /api/auth/register`
+
+```json
+{
+  "email": "admin@safetysim.test",
+  "password": "TestPass123",
+  "firstName": "Srdjan",
+  "lastName": "Admin",
+  "companyName": "Safety Sim Demo"
+}
+```
+
+Registracija kreira korisnika i kompaniju ako kompanija jos ne postoji. Prvi korisnik dobija ulogu `CompanyAdmin`.
+
+### Login
+
+`POST /api/auth/login`
+
+```json
+{
+  "email": "admin@safetysim.test",
+  "password": "TestPass123"
+}
+```
+
+Odgovor sadrzi privremeni `accessToken`. Za proveru profila koristi se:
+
+```text
+Authorization: Bearer <accessToken>
+```
+
+`GET /api/auth/me`

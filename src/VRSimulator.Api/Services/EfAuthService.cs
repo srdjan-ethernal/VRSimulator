@@ -109,6 +109,63 @@ public sealed class EfAuthService : IAuthService
         return Result<UserProfileResponse>.Success(ToProfile(session.User, session.User.Company));
     }
 
+    public IReadOnlyCollection<UserProfileResponse> GetUsersForCompany(Guid companyId)
+    {
+        return _dbContext.Users
+            .AsNoTracking()
+            .Include(user => user.Company)
+            .Where(user => user.CompanyId == companyId)
+            .OrderBy(user => user.LastName)
+            .ThenBy(user => user.FirstName)
+            .Select(user => ToProfile(user, user.Company!))
+            .ToList();
+    }
+
+    public Result<UserProfileResponse> CreateCompanyUser(Guid companyId, CreateCompanyUserRequest request)
+    {
+        var validationError = ValidateCompanyUser(request);
+        if (validationError is not null)
+        {
+            return Result<UserProfileResponse>.Failure(validationError);
+        }
+
+        if (request.Role == UserRole.CompanyAdmin)
+        {
+            return Result<UserProfileResponse>.Failure("Novi korisnik ne moze dobiti CompanyAdmin ulogu kroz ovu rutu.");
+        }
+
+        var company = _dbContext.Companies.SingleOrDefault(existingCompany => existingCompany.Id == companyId);
+        if (company is null)
+        {
+            return Result<UserProfileResponse>.Failure("Kompanija nije pronadjena.");
+        }
+
+        var normalizedEmail = NormalizeEmail(request.Email);
+        if (_dbContext.Users.Any(user => user.Email == normalizedEmail))
+        {
+            return Result<UserProfileResponse>.Failure("Korisnik sa ovom email adresom vec postoji.");
+        }
+
+        var password = HashPassword(request.Password);
+        var user = new UserEntity
+        {
+            Id = Guid.NewGuid(),
+            CompanyId = companyId,
+            Email = normalizedEmail,
+            FirstName = request.FirstName.Trim(),
+            LastName = request.LastName.Trim(),
+            Role = request.Role,
+            CreatedAt = DateTimeOffset.UtcNow,
+            PasswordHash = password.Hash,
+            PasswordSalt = password.Salt
+        };
+
+        _dbContext.Users.Add(user);
+        _dbContext.SaveChanges();
+
+        return Result<UserProfileResponse>.Success(ToProfile(user, company));
+    }
+
     public IReadOnlyCollection<CompanyResponse> GetCompanies()
     {
         return _dbContext.Companies
@@ -186,6 +243,29 @@ public sealed class EfAuthService : IAuthService
         return null;
     }
 
+    private static string? ValidateCompanyUser(CreateCompanyUserRequest request)
+    {
+        if (string.IsNullOrWhiteSpace(request.Email) ||
+            string.IsNullOrWhiteSpace(request.Password) ||
+            string.IsNullOrWhiteSpace(request.FirstName) ||
+            string.IsNullOrWhiteSpace(request.LastName))
+        {
+            return "Email, lozinka, ime i prezime su obavezni.";
+        }
+
+        if (!request.Email.Contains('@') || request.Email.Length > 254)
+        {
+            return "Email adresa nije ispravna.";
+        }
+
+        if (request.Password.Length < 8)
+        {
+            return "Lozinka mora imati najmanje 8 karaktera.";
+        }
+
+        return null;
+    }
+
     private static (byte[] Hash, byte[] Salt) HashPassword(string password)
     {
         var salt = RandomNumberGenerator.GetBytes(SaltSize);
@@ -237,4 +317,3 @@ public sealed class EfAuthService : IAuthService
         _dbContext.SaveChanges();
     }
 }
-

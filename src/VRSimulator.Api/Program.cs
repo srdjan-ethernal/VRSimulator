@@ -41,6 +41,8 @@ app.MapGet("/api", () => Results.Ok(new
         "POST /api/auth/register",
         "POST /api/auth/login",
         "GET /api/auth/me",
+        "GET /api/users",
+        "POST /api/users",
         "GET /api/companies",
         "GET /api/scenarios",
         "GET /api/courses",
@@ -88,6 +90,33 @@ app.MapGet("/api/auth/me", (HttpRequest request, IAuthService authService) =>
     var result = authService.GetCurrentUser(token);
     return result.Match(
         user => Results.Ok(user),
+        _ => Results.Unauthorized());
+});
+
+app.MapGet("/api/users", (HttpRequest request, IAuthService authService) =>
+{
+    var currentUser = ResolveCurrentUser(request, authService);
+    return currentUser.Match(
+        user => Results.Ok(authService.GetUsersForCompany(user.CompanyId)),
+        _ => Results.Unauthorized());
+});
+
+app.MapPost("/api/users", (CreateCompanyUserRequest request, HttpRequest httpRequest, IAuthService authService) =>
+{
+    var currentUser = ResolveCurrentUser(httpRequest, authService);
+    return currentUser.Match(
+        user =>
+        {
+            if (user.Role != UserRole.CompanyAdmin)
+            {
+                return Results.Forbid();
+            }
+
+            var result = authService.CreateCompanyUser(user.CompanyId, request);
+            return result.Match(
+                createdUser => Results.Created($"/api/users/{createdUser.Id}", createdUser),
+                error => Results.BadRequest(new ProblemResponse(error)));
+        },
         _ => Results.Unauthorized());
 });
 

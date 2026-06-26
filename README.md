@@ -43,6 +43,8 @@ Pocetne rute:
 - `POST /api/auth/register`
 - `POST /api/auth/login`
 - `GET /api/auth/me`
+- `GET /api/users`
+- `POST /api/users`
 - `GET /api/companies`
 - `GET /api/scenarios`
 - `GET /api/courses`

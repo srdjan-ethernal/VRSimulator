@@ -30,6 +30,7 @@ Korisnik uvek pripada jednoj kompaniji.
 
 Podaci koji su vezani za kompaniju:
 
+- korisnici kompanije
 - radnici
 - upisi na kurseve
 - rezultati obuke
@@ -83,11 +84,13 @@ Port moze biti drugaciji ako ga Visual Studio ili `launchSettings.json` dodele a
 1. `POST /api/auth/register`
 2. `POST /api/auth/login`
 3. `GET /api/auth/me`
-4. `GET /api/courses`
-5. `POST /api/workers`
-6. `POST /api/enrollments`
-7. `POST /api/enrollments/{enrollmentId}/complete`
-8. `GET /api/certificates`
+4. `GET /api/users`
+5. `POST /api/users`
+6. `GET /api/courses`
+7. `POST /api/workers`
+8. `POST /api/enrollments`
+9. `POST /api/enrollments/{enrollmentId}/complete`
+10. `GET /api/certificates`
 
 Ako je rezultat kursa najmanje 80, backend automatski izdaje sertifikat koji vazi 12 meseci.
 
@@ -127,6 +130,40 @@ Authorization: Bearer <accessToken>
 ```
 
 `GET /api/auth/me`
+
+### Korisnici kompanije
+
+`GET /api/users`
+
+Header:
+
+```text
+Authorization: Bearer <accessToken>
+```
+
+Vraca samo korisnike kompanije kojoj pripada ulogovani korisnik.
+
+`POST /api/users`
+
+Header:
+
+```text
+Authorization: Bearer <accessToken>
+```
+
+Body:
+
+```json
+{
+  "email": "instructor@safetysim.test",
+  "password": "TestPass123",
+  "firstName": "Ivan",
+  "lastName": "Instruktor",
+  "role": "Instructor"
+}
+```
+
+Samo `CompanyAdmin` moze dodati korisnika. Kroz ovu rutu mogu se dodati `Instructor` i `Employee` korisnici. `CompanyAdmin` se kreira registracijom kompanije.
 
 ### Kreiranje radnika u tenant-u
 

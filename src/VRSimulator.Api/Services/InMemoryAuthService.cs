@@ -113,6 +113,70 @@ public sealed class InMemoryAuthService : IAuthService
         }
     }
 
+    public IReadOnlyCollection<UserProfileResponse> GetUsersForCompany(Guid companyId)
+    {
+        lock (_lock)
+        {
+            var company = _companies.SingleOrDefault(existingCompany => existingCompany.Id == companyId);
+            if (company is null)
+            {
+                return Array.Empty<UserProfileResponse>();
+            }
+
+            return _users
+                .Where(user => user.CompanyId == companyId)
+                .OrderBy(user => user.LastName)
+                .ThenBy(user => user.FirstName)
+                .Select(user => ToProfile(user, company))
+                .ToList();
+        }
+    }
+
+    public Result<UserProfileResponse> CreateCompanyUser(Guid companyId, CreateCompanyUserRequest request)
+    {
+        var validationError = ValidateCompanyUser(request);
+        if (validationError is not null)
+        {
+            return Result<UserProfileResponse>.Failure(validationError);
+        }
+
+        if (request.Role == UserRole.CompanyAdmin)
+        {
+            return Result<UserProfileResponse>.Failure("Novi korisnik ne moze dobiti CompanyAdmin ulogu kroz ovu rutu.");
+        }
+
+        var normalizedEmail = NormalizeEmail(request.Email);
+
+        lock (_lock)
+        {
+            var company = _companies.SingleOrDefault(existingCompany => existingCompany.Id == companyId);
+            if (company is null)
+            {
+                return Result<UserProfileResponse>.Failure("Kompanija nije pronadjena.");
+            }
+
+            if (_users.Any(user => user.Email.Equals(normalizedEmail, StringComparison.OrdinalIgnoreCase)))
+            {
+                return Result<UserProfileResponse>.Failure("Korisnik sa ovom email adresom vec postoji.");
+            }
+
+            var password = HashPassword(request.Password);
+            var account = new UserAccount(
+                Guid.NewGuid(),
+                companyId,
+                normalizedEmail,
+                request.FirstName.Trim(),
+                request.LastName.Trim(),
+                request.Role,
+                DateTimeOffset.UtcNow);
+
+            var storedUser = new StoredUser(account, password.Hash, password.Salt);
+            _users.Add(storedUser);
+
+            return Result<UserProfileResponse>.Success(ToProfile(storedUser, company));
+        }
+    }
+
     public IReadOnlyCollection<CompanyResponse> GetCompanies()
     {
         lock (_lock)
@@ -173,6 +237,29 @@ public sealed class InMemoryAuthService : IAuthService
             string.IsNullOrWhiteSpace(request.CompanyName))
         {
             return "Email, lozinka, ime, prezime i kompanija su obavezni.";
+        }
+
+        if (!request.Email.Contains('@') || request.Email.Length > 254)
+        {
+            return "Email adresa nije ispravna.";
+        }
+
+        if (request.Password.Length < 8)
+        {
+            return "Lozinka mora imati najmanje 8 karaktera.";
+        }
+
+        return null;
+    }
+
+    private static string? ValidateCompanyUser(CreateCompanyUserRequest request)
+    {
+        if (string.IsNullOrWhiteSpace(request.Email) ||
+            string.IsNullOrWhiteSpace(request.Password) ||
+            string.IsNullOrWhiteSpace(request.FirstName) ||
+            string.IsNullOrWhiteSpace(request.LastName))
+        {
+            return "Email, lozinka, ime i prezime su obavezni.";
         }
 
         if (!request.Email.Contains('@') || request.Email.Length > 254)

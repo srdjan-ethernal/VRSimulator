@@ -10,6 +10,10 @@ public interface IAuthService
 
     Result<UserProfileResponse> GetCurrentUser(string accessToken);
 
+    IReadOnlyCollection<UserProfileResponse> GetUsersForCompany(Guid companyId);
+
+    Result<UserProfileResponse> CreateCompanyUser(Guid companyId, CreateCompanyUserRequest request);
+
     IReadOnlyCollection<CompanyResponse> GetCompanies();
 
     Result<CompanyResponse> GetCompany(Guid companyId);

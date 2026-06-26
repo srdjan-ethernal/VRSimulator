@@ -50,4 +50,4 @@ Pocetne rute:
 - `POST /api/enrollments/{enrollmentId}/complete`
 - `GET /api/certificates`
 
-Korisnik se registruje uz kompaniju. Prva verzija koristi in-memory skladiste i privremene Bearer tokene. Sledeci korak je SQL Server + Entity Framework Core, a zatim ASP.NET Core Identity ili Microsoft Entra ID prema tipu korisnika.
+Korisnik se registruje uz kompaniju. Radnici, upisi i sertifikati se citaju i menjaju samo u okviru kompanije ulogovanog korisnika preko Bearer tokena. Prva verzija koristi in-memory skladiste i privremene Bearer tokene. Sledeci korak je SQL Server + Entity Framework Core, a zatim ASP.NET Core Identity ili Microsoft Entra ID prema tipu korisnika.

@@ -123,6 +123,17 @@ public sealed class InMemoryAuthService : IAuthService
         }
     }
 
+    public Result<CompanyResponse> GetCompany(Guid companyId)
+    {
+        lock (_lock)
+        {
+            var company = _companies.SingleOrDefault(existingCompany => existingCompany.Id == companyId);
+            return company is null
+                ? Result<CompanyResponse>.Failure("Kompanija nije pronadjena.")
+                : Result<CompanyResponse>.Success(new CompanyResponse(company.Id, company.Name, company.CreatedAt));
+        }
+    }
+
     private AuthResponse CreateAuthResponse(StoredUser storedUser, Company company)
     {
         RemoveExpiredSessions();

@@ -11,6 +11,24 @@ ASP.NET Core backend za evidenciju VR obuka radnika.
 
 Planirana produkciona baza: SQL Server uz Entity Framework Core.
 
+## Multi-tenant pravilo
+
+Korisnik uvek pripada jednoj kompaniji.
+
+Podaci koji su vezani za kompaniju:
+
+- radnici
+- upisi na kurseve
+- rezultati obuke
+- sertifikati
+
+Ove rute zahtevaju `Authorization: Bearer <accessToken>` i automatski koriste `companyId` iz tokena. Klijent ne salje `companyId` u zahtevima za radnike ili upise.
+
+Globalni podaci:
+
+- scenariji
+- kursevi
+
 ## Pokretanje
 
 ```powershell
@@ -74,3 +92,26 @@ Authorization: Bearer <accessToken>
 ```
 
 `GET /api/auth/me`
+
+### Kreiranje radnika u tenant-u
+
+`POST /api/workers`
+
+Header:
+
+```text
+Authorization: Bearer <accessToken>
+```
+
+Body:
+
+```json
+{
+  "firstName": "Pera",
+  "lastName": "Peric",
+  "employeeNumber": "A-001",
+  "department": "Bezbednost"
+}
+```
+
+Kompanija radnika se uzima iz tokena ulogovanog korisnika.

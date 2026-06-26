@@ -11,5 +11,6 @@ public interface IAuthService
     Result<UserProfileResponse> GetCurrentUser(string accessToken);
 
     IReadOnlyCollection<CompanyResponse> GetCompanies();
-}
 
+    Result<CompanyResponse> GetCompany(Guid companyId);
+}

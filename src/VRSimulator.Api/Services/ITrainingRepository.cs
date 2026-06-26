@@ -9,20 +9,20 @@ public interface ITrainingRepository
 
     IReadOnlyCollection<Course> GetCourses();
 
-    IReadOnlyCollection<Worker> GetWorkers();
+    IReadOnlyCollection<Worker> GetWorkers(Guid companyId);
 
-    Worker CreateWorker(CreateWorkerRequest request);
+    Worker CreateWorker(Guid companyId, CreateWorkerRequest request);
 
-    IReadOnlyCollection<Enrollment> GetEnrollments();
+    IReadOnlyCollection<Enrollment> GetEnrollments(Guid companyId);
 
-    Result<Enrollment> CreateEnrollment(CreateEnrollmentRequest request);
+    Result<Enrollment> CreateEnrollment(Guid companyId, CreateEnrollmentRequest request);
 
-    Result<EnrollmentCompletionResponse> CompleteEnrollment(Guid enrollmentId, CompleteTrainingRequest request);
+    Result<EnrollmentCompletionResponse> CompleteEnrollment(Guid companyId, Guid enrollmentId, CompleteTrainingRequest request);
 
-    IReadOnlyCollection<Certificate> GetCertificates();
+    IReadOnlyCollection<Certificate> GetCertificates(Guid companyId);
 
-    IReadOnlyCollection<Certificate> GetCertificatesForWorker(Guid workerId);
+    IReadOnlyCollection<Certificate> GetCertificatesForWorker(Guid companyId, Guid workerId);
 
-    Certificate? GetCertificate(Guid certificateId);
+    Certificate? GetCertificate(Guid companyId, Guid certificateId);
 }
 

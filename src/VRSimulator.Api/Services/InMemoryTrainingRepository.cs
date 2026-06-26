@@ -16,30 +16,31 @@ public sealed class InMemoryTrainingRepository : ITrainingRepository
     {
         _scenarios = SeedData.CreateScenarios();
         _courses = SeedData.CreateCourses(_scenarios);
-        SeedDemoWorker();
     }
 
     public IReadOnlyCollection<TrainingScenario> GetScenarios() => _scenarios;
 
     public IReadOnlyCollection<Course> GetCourses() => _courses;
 
-    public IReadOnlyCollection<Worker> GetWorkers()
+    public IReadOnlyCollection<Worker> GetWorkers(Guid companyId)
     {
         lock (_lock)
         {
-            return _workers.ToList();
+            return _workers
+                .Where(worker => worker.CompanyId == companyId)
+                .ToList();
         }
     }
 
-    public Worker CreateWorker(CreateWorkerRequest request)
+    public Worker CreateWorker(Guid companyId, CreateWorkerRequest request)
     {
         var worker = new Worker(
             Guid.NewGuid(),
+            companyId,
             request.FirstName.Trim(),
             request.LastName.Trim(),
             request.EmployeeNumber.Trim(),
             request.Department.Trim(),
-            request.Company.Trim(),
             DateTimeOffset.UtcNow);
 
         lock (_lock)
@@ -50,19 +51,21 @@ public sealed class InMemoryTrainingRepository : ITrainingRepository
         return worker;
     }
 
-    public IReadOnlyCollection<Enrollment> GetEnrollments()
+    public IReadOnlyCollection<Enrollment> GetEnrollments(Guid companyId)
     {
         lock (_lock)
         {
-            return _enrollments.ToList();
+            return _enrollments
+                .Where(enrollment => WorkerBelongsToCompany(enrollment.WorkerId, companyId))
+                .ToList();
         }
     }
 
-    public Result<Enrollment> CreateEnrollment(CreateEnrollmentRequest request)
+    public Result<Enrollment> CreateEnrollment(Guid companyId, CreateEnrollmentRequest request)
     {
         lock (_lock)
         {
-            if (_workers.All(worker => worker.Id != request.WorkerId))
+            if (!WorkerBelongsToCompany(request.WorkerId, companyId))
             {
                 return Result<Enrollment>.Failure("Radnik nije pronadjen.");
             }
@@ -97,11 +100,14 @@ public sealed class InMemoryTrainingRepository : ITrainingRepository
         }
     }
 
-    public Result<EnrollmentCompletionResponse> CompleteEnrollment(Guid enrollmentId, CompleteTrainingRequest request)
+    public Result<EnrollmentCompletionResponse> CompleteEnrollment(Guid companyId, Guid enrollmentId, CompleteTrainingRequest request)
     {
         lock (_lock)
         {
-            var enrollmentIndex = _enrollments.FindIndex(enrollment => enrollment.Id == enrollmentId);
+            var enrollmentIndex = _enrollments.FindIndex(enrollment =>
+                enrollment.Id == enrollmentId &&
+                WorkerBelongsToCompany(enrollment.WorkerId, companyId));
+
             if (enrollmentIndex < 0)
             {
                 return Result<EnrollmentCompletionResponse>.Failure("Upis na kurs nije pronadjen.");
@@ -142,44 +148,44 @@ public sealed class InMemoryTrainingRepository : ITrainingRepository
         }
     }
 
-    public IReadOnlyCollection<Certificate> GetCertificates()
+    public IReadOnlyCollection<Certificate> GetCertificates(Guid companyId)
     {
         lock (_lock)
         {
-            return _certificates.ToList();
+            return _certificates
+                .Where(certificate => WorkerBelongsToCompany(certificate.WorkerId, companyId))
+                .ToList();
         }
     }
 
-    public IReadOnlyCollection<Certificate> GetCertificatesForWorker(Guid workerId)
+    public IReadOnlyCollection<Certificate> GetCertificatesForWorker(Guid companyId, Guid workerId)
     {
         lock (_lock)
         {
+            if (!WorkerBelongsToCompany(workerId, companyId))
+            {
+                return Array.Empty<Certificate>();
+            }
+
             return _certificates
                 .Where(certificate => certificate.WorkerId == workerId)
                 .ToList();
         }
     }
 
-    public Certificate? GetCertificate(Guid certificateId)
+    public Certificate? GetCertificate(Guid companyId, Guid certificateId)
     {
         lock (_lock)
         {
-            return _certificates.SingleOrDefault(certificate => certificate.Id == certificateId);
+            return _certificates.SingleOrDefault(certificate =>
+                certificate.Id == certificateId &&
+                WorkerBelongsToCompany(certificate.WorkerId, companyId));
         }
     }
 
-    private void SeedDemoWorker()
+    private bool WorkerBelongsToCompany(Guid workerId, Guid companyId)
     {
-        var worker = new Worker(
-            Guid.Parse("1a77fa98-3c51-45cb-86e7-092d20d631e9"),
-            "Pera",
-            "Peric",
-            "EMP-001",
-            "Bezbednost",
-            "Demo Kompanija",
-            DateTimeOffset.UtcNow);
-
-        _workers.Add(worker);
+        return _workers.Any(worker => worker.Id == workerId && worker.CompanyId == companyId);
     }
 
     private static string CreateCertificateNumber(string courseCode)

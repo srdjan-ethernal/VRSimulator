@@ -27,6 +27,8 @@ Tehnologije:
 
 - .NET 6
 - ASP.NET Core Minimal API
+- Entity Framework Core 6
+- SQL Server provider
 - Microsoft runtime stack
 
 Pokretanje:
@@ -50,4 +52,6 @@ Pocetne rute:
 - `POST /api/enrollments/{enrollmentId}/complete`
 - `GET /api/certificates`
 
-Korisnik se registruje uz kompaniju. Radnici, upisi i sertifikati se citaju i menjaju samo u okviru kompanije ulogovanog korisnika preko Bearer tokena. Prva verzija koristi in-memory skladiste i privremene Bearer tokene. Sledeci korak je SQL Server + Entity Framework Core, a zatim ASP.NET Core Identity ili Microsoft Entra ID prema tipu korisnika.
+Korisnik se registruje uz kompaniju. Radnici, upisi i sertifikati se citaju i menjaju samo u okviru kompanije ulogovanog korisnika preko Bearer tokena. Backend koristi SQL Server kroz Entity Framework Core. Sledeci korak je ASP.NET Core Identity ili Microsoft Entra ID prema tipu korisnika.
+
+Za lokalnu bazu instalirati SQL Server Express LocalDB ili podesiti `ConnectionStrings:TrainingDatabase` na postojeci SQL Server. Migracije su u `src/VRSimulator.Api/Persistence/Migrations`.

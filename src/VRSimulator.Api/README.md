@@ -7,9 +7,10 @@ ASP.NET Core backend za evidenciju VR obuka radnika.
 - .NET 6
 - ASP.NET Core Minimal API
 - Microsoft hosting/runtime stack
-- Privremeno in-memory skladiste za razvoj
+- Entity Framework Core 6
+- SQL Server provider
 
-Planirana produkciona baza: SQL Server uz Entity Framework Core.
+Aktivna baza: SQL Server uz Entity Framework Core.
 
 ## Multi-tenant pravilo
 
@@ -28,6 +29,28 @@ Globalni podaci:
 
 - scenariji
 - kursevi
+
+## Baza i migracije
+
+Podrazumevani connection string koristi SQL Server LocalDB:
+
+```json
+"TrainingDatabase": "Server=(localdb)\\MSSQLLocalDB;Database=VRSimulatorTraining;Trusted_Connection=True;MultipleActiveResultSets=true"
+```
+
+Ako LocalDB nije instaliran, instalirati SQL Server Express LocalDB ili promeniti `ConnectionStrings:TrainingDatabase` u `appsettings.Development.json`.
+
+Kreiranje / azuriranje baze:
+
+```powershell
+dotnet ef database update --project src\VRSimulator.Api\VRSimulator.Api.csproj --startup-project src\VRSimulator.Api\VRSimulator.Api.csproj
+```
+
+Migracije se nalaze u:
+
+```text
+src\VRSimulator.Api\Persistence\Migrations
+```
 
 ## Pokretanje
 

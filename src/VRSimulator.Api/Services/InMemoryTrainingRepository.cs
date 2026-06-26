@@ -32,14 +32,28 @@ public sealed class InMemoryTrainingRepository : ITrainingRepository
         }
     }
 
-    public Worker CreateWorker(Guid companyId, CreateWorkerRequest request)
+    public Result<Worker> CreateWorker(Guid companyId, CreateWorkerRequest request)
     {
+        var normalizedEmployeeNumber = request.EmployeeNumber.Trim();
+
+        lock (_lock)
+        {
+            var employeeNumberExists = _workers.Any(worker =>
+                worker.CompanyId == companyId &&
+                worker.EmployeeNumber == normalizedEmployeeNumber);
+
+            if (employeeNumberExists)
+            {
+                return Result<Worker>.Failure("Radnik sa ovim brojem zaposlenog vec postoji u kompaniji.");
+            }
+        }
+
         var worker = new Worker(
             Guid.NewGuid(),
             companyId,
             request.FirstName.Trim(),
             request.LastName.Trim(),
-            request.EmployeeNumber.Trim(),
+            normalizedEmployeeNumber,
             request.Department.Trim(),
             DateTimeOffset.UtcNow);
 
@@ -48,7 +62,7 @@ public sealed class InMemoryTrainingRepository : ITrainingRepository
             _workers.Add(worker);
         }
 
-        return worker;
+        return Result<Worker>.Success(worker);
     }
 
     public IReadOnlyCollection<Enrollment> GetEnrollments(Guid companyId)

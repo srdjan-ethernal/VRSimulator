@@ -4,6 +4,16 @@ namespace VRSimulator.Api.Services;
 
 public static class SeedData
 {
+    private static readonly IReadOnlyDictionary<string, Guid> CourseIds = new Dictionary<string, Guid>
+    {
+        ["fire-protection"] = Guid.Parse("c3d3b41f-3017-4861-9d09-dbf349b1df43"),
+        ["radioactive-materials"] = Guid.Parse("3a37e5bb-b46c-4d41-aeca-f5ad8a9c27e5"),
+        ["chemical-waste"] = Guid.Parse("1f331493-79d8-42c5-b3d0-8c0b11330f27"),
+        ["construction-waste"] = Guid.Parse("79c6aa17-f058-4329-9fd5-8ec279cc873d"),
+        ["electronic-waste"] = Guid.Parse("4cce62e1-7849-4a1e-93dd-796043ebd18c"),
+        ["biomedical-waste"] = Guid.Parse("30b016e2-cbe6-4fab-a6f5-6e3f47ee4cc8")
+    };
+
     public static List<TrainingScenario> CreateScenarios()
     {
         return new List<TrainingScenario>
@@ -69,7 +79,7 @@ public static class SeedData
     {
         return scenarios
             .Select(scenario => new Course(
-                Guid.NewGuid(),
+                CourseIds[scenario.Code],
                 scenario.Code,
                 scenario.NameSr,
                 scenario.NameEn,

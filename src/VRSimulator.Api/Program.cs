@@ -1,13 +1,22 @@
 using System.Text.Json.Serialization;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Http.Json;
 using VRSimulator.Api.Domain;
 using VRSimulator.Api.Models;
+using VRSimulator.Api.Persistence;
 using VRSimulator.Api.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddSingleton<ITrainingRepository, InMemoryTrainingRepository>();
-builder.Services.AddSingleton<IAuthService, InMemoryAuthService>();
+var connectionString = builder.Configuration.GetConnectionString("TrainingDatabase")
+    ?? "Server=(localdb)\\MSSQLLocalDB;Database=VRSimulatorTraining;Trusted_Connection=True;MultipleActiveResultSets=true";
+
+builder.Services.AddDbContext<TrainingDbContext>(options =>
+{
+    options.UseSqlServer(connectionString);
+});
+builder.Services.AddScoped<ITrainingRepository, EfTrainingRepository>();
+builder.Services.AddScoped<IAuthService, EfAuthService>();
 builder.Services.Configure<JsonOptions>(options =>
 {
     options.SerializerOptions.Converters.Add(new JsonStringEnumConverter());
@@ -117,12 +126,19 @@ app.MapPost("/api/workers", (CreateWorkerRequest request, HttpRequest httpReques
         return Results.BadRequest(new ProblemResponse("Ime i prezime radnika su obavezni."));
     }
 
+    if (string.IsNullOrWhiteSpace(request.EmployeeNumber))
+    {
+        return Results.BadRequest(new ProblemResponse("Broj zaposlenog je obavezan."));
+    }
+
     var currentUser = ResolveCurrentUser(httpRequest, authService);
     return currentUser.Match(
         user =>
         {
-            var worker = repository.CreateWorker(user.CompanyId, request);
-            return Results.Created($"/api/workers/{worker.Id}", worker);
+            var result = repository.CreateWorker(user.CompanyId, request);
+            return result.Match(
+                worker => Results.Created($"/api/workers/{worker.Id}", worker),
+                error => Results.BadRequest(new ProblemResponse(error)));
         },
         _ => Results.Unauthorized());
 });

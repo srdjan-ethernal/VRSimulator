@@ -11,7 +11,7 @@ public interface ITrainingRepository
 
     IReadOnlyCollection<Worker> GetWorkers(Guid companyId);
 
-    Worker CreateWorker(Guid companyId, CreateWorkerRequest request);
+    Result<Worker> CreateWorker(Guid companyId, CreateWorkerRequest request);
 
     IReadOnlyCollection<Enrollment> GetEnrollments(Guid companyId);
 

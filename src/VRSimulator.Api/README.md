@@ -12,6 +12,18 @@ ASP.NET Core backend za evidenciju VR obuka radnika.
 
 Aktivna baza: SQL Server uz Entity Framework Core.
 
+## Naming standard
+
+Backend klase, C# namespace-i, persistence entiteti i SQL tabela imena koriste engleski jezik.
+
+Primeri:
+
+- `Company`, `Worker`, `Course`, `TrainingScenario`, `Enrollment`, `Certificate`
+- `CompanyEntity`, `WorkerEntity`, `CourseEntity`
+- `Companies`, `Workers`, `Courses`, `TrainingScenarios`, `Enrollments`, `Certificates`
+
+Lokalizovan sadrzaj, kao sto su `NameSr`, `DescriptionSr` i korisnicke poruke, moze ostati na srpskom kada je namenjen prikazu korisniku.
+
 ## Multi-tenant pravilo
 
 Korisnik uvek pripada jednoj kompaniji.

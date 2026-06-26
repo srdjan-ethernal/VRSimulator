@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="sr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Safety Sim platforma za obuke</title>
+    <meta
+      name="description"
+      content="Pregled kompanijskih VR obuka, radnika, kurseva i sertifikata na Safety Sim platformi."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body data-page="platform">
+    <header class="site-header" data-header>
+      <a class="brand" href="index.html#top" aria-label="Pocetak" data-i18n-aria-label="brand.home">
+        <span class="brand-mark">VR</span>
+        <span class="brand-text">Safety Sim</span>
+      </a>
+
+      <nav class="main-nav" aria-label="Glavna navigacija" data-i18n-aria-label="nav.label">
+        <a href="index.html#scenariji" data-i18n="nav.scenarios">Scenariji</a>
+        <a href="platform.html" aria-current="page" data-i18n="nav.platform">Platforma</a>
+        <a href="pricing.html" data-i18n="nav.pricing">Cene</a>
+        <a href="certificates.html" data-i18n="nav.certificates">Sertifikati</a>
+        <a href="index.html#kontakt" data-i18n="nav.contact">Kontakt</a>
+      </nav>
+
+      <a class="header-action" href="login.html" data-i18n="nav.login">Prijava</a>
+
+      <div class="language-switch" aria-label="Izbor jezika" data-i18n-aria-label="language.label">
+        <button type="button" data-language-option="sr" aria-pressed="true">SR</button>
+        <button type="button" data-language-option="en" aria-pressed="false">EN</button>
+      </div>
+
+      <button class="nav-toggle" type="button" aria-label="Otvori navigaciju" data-i18n-aria-label="nav.open" data-nav-toggle>
+        <span></span>
+        <span></span>
+      </button>
+    </header>
+
+    <main id="top">
+      <section class="platform-shell" aria-labelledby="platform-title">
+        <div class="platform-topbar">
+          <div>
+            <p class="eyebrow" data-i18n="platform.eyebrow">Kompanijski portal</p>
+            <h1 id="platform-title" data-i18n="platform.title">Pregled obuka i sertifikata</h1>
+            <p data-i18n="platform.copy">
+              Centralno mesto za upravljanje VR kursevima, radnicima, statusima polaganja i vazecim sertifikatima.
+            </p>
+          </div>
+          <a class="button primary" href="login.html" data-i18n="platform.primaryAction">Otvori nalog</a>
+        </div>
+
+        <section class="dashboard-metrics" aria-label="Pregled statusa" data-i18n-aria-label="platform.metricsLabel">
+          <article>
+            <span data-i18n="platform.metricCoursesLabel">Aktivni kursevi</span>
+            <strong>6</strong>
+          </article>
+          <article>
+            <span data-i18n="platform.metricWorkersLabel">Radnici u obuci</span>
+            <strong>42</strong>
+          </article>
+          <article>
+            <span data-i18n="platform.metricCertificatesLabel">Vazeci sertifikati</span>
+            <strong>31</strong>
+          </article>
+          <article>
+            <span data-i18n="platform.metricScoreLabel">Prosecan rezultat</span>
+            <strong>87%</strong>
+          </article>
+        </section>
+
+        <div class="dashboard-grid">
+          <section class="dashboard-panel large-panel" aria-labelledby="courses-title">
+            <div class="panel-heading">
+              <div>
+                <span class="scenario-kicker" data-i18n="platform.coursesLabel">Kursevi</span>
+                <h2 id="courses-title" data-i18n="platform.coursesTitle">Dostupne VR obuke</h2>
+              </div>
+              <a href="certificates.html" data-i18n="platform.certificatesLink">Sertifikati</a>
+            </div>
+            <div class="course-list" data-platform-courses></div>
+          </section>
+
+          <aside class="dashboard-panel" aria-labelledby="workers-title">
+            <div class="panel-heading">
+              <div>
+                <span class="scenario-kicker" data-i18n="platform.workersLabel">Radnici</span>
+                <h2 id="workers-title" data-i18n="platform.workersTitle">Status obuke</h2>
+              </div>
+            </div>
+            <div class="worker-list" data-worker-list></div>
+          </aside>
+        </div>
+
+        <section class="dashboard-panel certificate-log" aria-labelledby="certificate-log-title">
+          <div class="panel-heading">
+            <div>
+              <span class="scenario-kicker" data-i18n="platform.recordsLabel">Evidencija</span>
+              <h2 id="certificate-log-title" data-i18n="platform.recordsTitle">Poslednji sertifikati</h2>
+            </div>
+          </div>
+          <div class="records-table" role="table" aria-label="Poslednji sertifikati" data-i18n-aria-label="platform.recordsTitle">
+            <div role="row" class="records-head">
+              <span role="columnheader" data-i18n="platform.recordWorker">Radnik</span>
+              <span role="columnheader" data-i18n="platform.recordCourse">Kurs</span>
+              <span role="columnheader" data-i18n="platform.recordDate">Datum</span>
+              <span role="columnheader" data-i18n="platform.recordValid">Vazi do</span>
+            </div>
+            <div data-certificate-records></div>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <span>Safety Sim</span>
+      <span data-i18n="footer.copy">Profesionalne VR simulacije za bezbednosne obuke.</span>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>

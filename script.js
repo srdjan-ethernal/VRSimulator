@@ -10,10 +10,12 @@
       open: "Otvori navigaciju",
       scenarios: "Scenariji",
       method: "Metodologija",
+      platform: "Platforma",
       pricing: "Cene",
       certificates: "Sertifikati",
       contact: "Kontakt",
       cta: "Zakazite razgovor",
+      login: "Prijava",
     },
     hero: {
       eyebrow: "VR obuke za visokorizicne procese",
@@ -88,6 +90,15 @@
         metaDescription:
           "Sertifikati za polaznike koji uspesno zavrse VR obuku, sa nazivom kursa, datumom izdavanja i rokom vazenja.",
       },
+      login: {
+        metaTitle: "Prijava na Safety Sim platformu",
+        metaDescription: "Prijava i registracija kompanije za Safety Sim platformu za VR obuke.",
+      },
+      platform: {
+        metaTitle: "Safety Sim platforma za obuke",
+        metaDescription:
+          "Pregled kompanijskih VR obuka, radnika, kurseva i sertifikata na Safety Sim platformi.",
+      },
     },
     pricing: {
       eyebrow: "Cenovnik",
@@ -155,6 +166,57 @@
       ctaTitle: "Sertifikate mozemo prilagoditi vasoj organizaciji",
       ctaCopy: "Dodaju se naziv firme, logo, tip kursa, rok vazenja i interni broj sertifikata.",
     },
+    auth: {
+      eyebrow: "Platforma za obuku",
+      title: "Prijava za kompanije i instruktore",
+      copy: "Korisnici se prijavljuju u okviru svoje kompanije, prate obuke radnika i cuvaju evidenciju sertifikata.",
+      panelLabel: "Prijava i registracija",
+      tabsLabel: "Izbor forme",
+      loginTab: "Prijava",
+      registerTab: "Registracija",
+      email: "Email",
+      password: "Lozinka",
+      firstName: "Ime",
+      lastName: "Prezime",
+      company: "Kompanija",
+      loginButton: "Prijavi se",
+      registerButton: "Kreiraj nalog",
+      adminLabel: "Administrator kompanije",
+      adminTitle: "Jedna kompanija, vise korisnika",
+      adminCopy:
+        "Administrator dodaje instruktore i radnike, dodeljuje kurseve i prati status obuke za celu organizaciju.",
+      workerLabel: "Radnici i evidencija",
+      workerTitle: "Obuke i sertifikati na jednom mestu",
+      workerCopy:
+        "Nakon zavrsene obuke, sistem priprema evidenciju rezultata i sertifikat za internu dokumentaciju.",
+    },
+    platform: {
+      eyebrow: "Kompanijski portal",
+      title: "Pregled obuka i sertifikata",
+      copy: "Centralno mesto za upravljanje VR kursevima, radnicima, statusima polaganja i vazecim sertifikatima.",
+      primaryAction: "Otvori nalog",
+      metricsLabel: "Pregled statusa",
+      metricCoursesLabel: "Aktivni kursevi",
+      metricWorkersLabel: "Radnici u obuci",
+      metricCertificatesLabel: "Vazeci sertifikati",
+      metricScoreLabel: "Prosecan rezultat",
+      coursesLabel: "Kursevi",
+      coursesTitle: "Dostupne VR obuke",
+      certificatesLink: "Sertifikati",
+      workersLabel: "Radnici",
+      workersTitle: "Status obuke",
+      recordsLabel: "Evidencija",
+      recordsTitle: "Poslednji sertifikati",
+      recordWorker: "Radnik",
+      recordCourse: "Kurs",
+      recordDate: "Datum",
+      recordValid: "Vazi do",
+      statusReady: "Spremno",
+      statusActive: "U toku",
+      statusCompleted: "Polozeno",
+      duration: "minuta",
+      score: "rezultat",
+    },
   },
   en: {
     metaTitle: "VR simulations for industrial safety",
@@ -167,10 +229,12 @@
       open: "Open navigation",
       scenarios: "Scenarios",
       method: "Methodology",
+      platform: "Platform",
       pricing: "Pricing",
       certificates: "Certificates",
       contact: "Contact",
       cta: "Schedule a call",
+      login: "Sign in",
     },
     hero: {
       eyebrow: "VR training for high-risk processes",
@@ -245,6 +309,15 @@
         metaDescription:
           "Certificates for trainees who successfully complete VR training, including course name, issue date, and validity period.",
       },
+      login: {
+        metaTitle: "Sign in to the Safety Sim platform",
+        metaDescription: "Company registration and sign in for the Safety Sim VR training platform.",
+      },
+      platform: {
+        metaTitle: "Safety Sim training platform",
+        metaDescription:
+          "Overview of company VR training, workers, courses, and certificates on the Safety Sim platform.",
+      },
     },
     pricing: {
       eyebrow: "Pricing",
@@ -311,6 +384,57 @@
       feature3Copy: "The format is suitable for internal documentation, HR records, and proof of completed training.",
       ctaTitle: "Certificates can be adapted to your organization",
       ctaCopy: "Company name, logo, course type, validity period, and internal certificate number can be added.",
+    },
+    auth: {
+      eyebrow: "Training platform",
+      title: "Sign in for companies and instructors",
+      copy: "Users sign in within their company, track worker training, and keep certificate records.",
+      panelLabel: "Sign in and registration",
+      tabsLabel: "Form selection",
+      loginTab: "Sign in",
+      registerTab: "Registration",
+      email: "Email",
+      password: "Password",
+      firstName: "First name",
+      lastName: "Last name",
+      company: "Company",
+      loginButton: "Sign in",
+      registerButton: "Create account",
+      adminLabel: "Company administrator",
+      adminTitle: "One company, multiple users",
+      adminCopy:
+        "The administrator adds instructors and workers, assigns courses, and tracks training status for the whole organization.",
+      workerLabel: "Workers and records",
+      workerTitle: "Training and certificates in one place",
+      workerCopy:
+        "After completed training, the system prepares result records and a certificate for internal documentation.",
+    },
+    platform: {
+      eyebrow: "Company portal",
+      title: "Training and certificate overview",
+      copy: "A central place to manage VR courses, workers, completion statuses, and valid certificates.",
+      primaryAction: "Open account",
+      metricsLabel: "Status overview",
+      metricCoursesLabel: "Active courses",
+      metricWorkersLabel: "Workers in training",
+      metricCertificatesLabel: "Valid certificates",
+      metricScoreLabel: "Average score",
+      coursesLabel: "Courses",
+      coursesTitle: "Available VR training",
+      certificatesLink: "Certificates",
+      workersLabel: "Workers",
+      workersTitle: "Training status",
+      recordsLabel: "Records",
+      recordsTitle: "Latest certificates",
+      recordWorker: "Worker",
+      recordCourse: "Course",
+      recordDate: "Date",
+      recordValid: "Valid until",
+      statusReady: "Ready",
+      statusActive: "Active",
+      statusCompleted: "Passed",
+      duration: "minutes",
+      score: "score",
     },
   },
 };
@@ -506,6 +630,50 @@ const languageButtons = document.querySelectorAll("[data-language-option]");
 const metaDescription = document.querySelector('meta[name="description"]');
 const scenarioCount = document.querySelector("[data-scenario-count]");
 const pageName = document.body.dataset.page || "home";
+const authTabs = document.querySelectorAll("[data-auth-tab]");
+const authPanels = document.querySelectorAll("[data-auth-panel]");
+const platformCourses = document.querySelector("[data-platform-courses]");
+const workerList = document.querySelector("[data-worker-list]");
+const certificateRecords = document.querySelector("[data-certificate-records]");
+
+const demoWorkers = [
+  {
+    name: "Pera Peric",
+    progress: 100,
+    courseCode: "fire-protection",
+  },
+  {
+    name: "Ana Jovanovic",
+    progress: 68,
+    courseCode: "chemical-waste",
+  },
+  {
+    name: "Milan Nikolic",
+    progress: 44,
+    courseCode: "biomedical-waste",
+  },
+];
+
+const demoCertificates = [
+  {
+    worker: "Pera Peric",
+    courseCode: "fire-protection",
+    issued: "12.06.2026.",
+    validUntil: "12.06.2027.",
+  },
+  {
+    worker: "Jelena Markovic",
+    courseCode: "electronic-waste",
+    issued: "05.06.2026.",
+    validUntil: "05.06.2027.",
+  },
+  {
+    worker: "Nikola Ilic",
+    courseCode: "construction-waste",
+    issued: "29.05.2026.",
+    validUntil: "29.05.2027.",
+  },
+];
 
 function getNestedValue(source, path) {
   return path.split(".").reduce((value, key) => value?.[key], source);
@@ -549,6 +717,69 @@ function renderScenarios(language) {
     .join("");
 }
 
+function getScenarioContentByCode(code, language) {
+  const scenario = scenarios.find((item) => item.content.sr.title && item.image.includes(code));
+  return scenario?.content[language];
+}
+
+function renderPlatform(language) {
+  if (!platformCourses || !workerList || !certificateRecords) {
+    return;
+  }
+
+  const dictionary = translations[language].platform;
+
+  platformCourses.innerHTML = scenarios
+    .map((scenario, index) => {
+      const content = scenario.content[language];
+      const status = index < 2 ? dictionary.statusActive : dictionary.statusReady;
+      const duration = index % 2 === 0 ? 35 : 40;
+
+      return `
+        <article class="course-item">
+          <img src="${scenario.image}" alt="${content.alt}" loading="lazy" />
+          <div>
+            <h3>${content.title}</h3>
+            <p>${duration} ${dictionary.duration} · ${content.label}</p>
+          </div>
+          <span class="status-pill">${status}</span>
+        </article>
+      `;
+    })
+    .join("");
+
+  workerList.innerHTML = demoWorkers
+    .map((worker) => {
+      const content = getScenarioContentByCode(worker.courseCode, language);
+      const status = worker.progress === 100 ? dictionary.statusCompleted : dictionary.statusActive;
+
+      return `
+        <article class="worker-item">
+          <h3>${worker.name}</h3>
+          <p>${content?.title || ""} · ${worker.progress}% ${dictionary.score}</p>
+          <div class="worker-progress" aria-hidden="true"><span style="width: ${worker.progress}%"></span></div>
+          <span class="status-pill">${status}</span>
+        </article>
+      `;
+    })
+    .join("");
+
+  certificateRecords.innerHTML = demoCertificates
+    .map((record) => {
+      const content = getScenarioContentByCode(record.courseCode, language);
+
+      return `
+        <div role="row" class="record-row">
+          <span role="cell">${record.worker}</span>
+          <span role="cell">${content?.title || ""}</span>
+          <span role="cell">${record.issued}</span>
+          <span role="cell">${record.validUntil}</span>
+        </div>
+      `;
+    })
+    .join("");
+}
+
 function applyTranslations(language) {
   const dictionary = translations[language];
   const pageMeta = dictionary.pages?.[pageName];
@@ -578,7 +809,29 @@ function applyTranslations(language) {
 
   localStorage.setItem("siteLanguage", language);
   renderScenarios(language);
+  renderPlatform(language);
 }
+
+authTabs.forEach((tab) => {
+  tab.addEventListener("click", () => {
+    const selectedPanel = tab.dataset.authTab;
+
+    authTabs.forEach((item) => {
+      item.setAttribute("aria-selected", String(item === tab));
+    });
+
+    authPanels.forEach((panel) => {
+      panel.classList.toggle("is-active", panel.dataset.authPanel === selectedPanel);
+    });
+  });
+});
+
+authPanels.forEach((form) => {
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+    window.location.href = "platform.html";
+  });
+});
 
 function updateHeaderState() {
   header.classList.toggle("is-scrolled", window.scrollY > 12);

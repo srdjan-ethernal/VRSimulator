@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="sr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Provera Safety Sim sertifikata</title>
+    <meta
+      name="description"
+      content="Javna provera vazenja Safety Sim sertifikata na osnovu broja sertifikata."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body data-page="verify">
+    <header class="site-header" data-header>
+      <a class="brand" href="index.html#top" aria-label="Pocetak" data-i18n-aria-label="brand.home">
+        <span class="brand-mark">VR</span>
+        <span class="brand-text">Safety Sim</span>
+      </a>
+
+      <nav class="main-nav" aria-label="Glavna navigacija" data-i18n-aria-label="nav.label">
+        <a href="index.html#scenariji" data-i18n="nav.scenarios">Scenariji</a>
+        <a href="platform.html" data-i18n="nav.platform">Platforma</a>
+        <a href="pricing.html" data-i18n="nav.pricing">Cene</a>
+        <a href="certificates.html" data-i18n="nav.certificates">Sertifikati</a>
+        <a href="verify.html" aria-current="page" data-i18n="nav.verify">Provera</a>
+      </nav>
+
+      <a class="header-action" href="login.html" data-i18n="nav.login">Prijava</a>
+
+      <div class="language-switch" aria-label="Izbor jezika" data-i18n-aria-label="language.label">
+        <button type="button" data-language-option="sr" aria-pressed="true">SR</button>
+        <button type="button" data-language-option="en" aria-pressed="false">EN</button>
+      </div>
+
+      <button class="nav-toggle" type="button" aria-label="Otvori navigaciju" data-i18n-aria-label="nav.open" data-nav-toggle>
+        <span></span>
+        <span></span>
+      </button>
+    </header>
+
+    <main id="top">
+      <section class="verify-hero" aria-labelledby="verify-title">
+        <div class="section-heading compact">
+          <p class="eyebrow" data-i18n="verify.eyebrow">Javna provera</p>
+          <h1 id="verify-title" data-i18n="verify.title">Provera vazenja sertifikata</h1>
+          <p data-i18n="verify.copy">
+            Unesite broj sertifikata sa diplome da proverite status, naziv kursa i period vazenja.
+          </p>
+        </div>
+
+        <form class="verify-form" data-verify-form>
+          <label>
+            <span data-i18n="verify.numberLabel">Broj sertifikata</span>
+            <input type="text" name="certificateNumber" placeholder="SS-260627-0001" required data-verify-number />
+          </label>
+          <button class="button primary" type="submit" data-i18n="verify.button">Proveri</button>
+        </form>
+
+        <article class="verify-result" data-verify-result>
+          <span class="scenario-kicker" data-verify-status data-i18n="verify.readyStatus">Spremno za proveru</span>
+          <h2 data-verify-heading data-i18n="verify.readyTitle">Unesite broj sertifikata</h2>
+          <p data-verify-copy data-i18n="verify.readyCopy">
+            Rezultat provere ce prikazati da li je sertifikat aktivan, istekao ili nije pronadjen.
+          </p>
+          <dl class="verify-details">
+            <div>
+              <dt data-i18n="verify.course">Kurs</dt>
+              <dd data-verify-course>-</dd>
+            </div>
+            <div>
+              <dt data-i18n="verify.issued">Datum izdavanja</dt>
+              <dd data-verify-issued>-</dd>
+            </div>
+            <div>
+              <dt data-i18n="verify.validUntil">Vazi do</dt>
+              <dd data-verify-valid>-</dd>
+            </div>
+          </dl>
+        </article>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <span>Safety Sim</span>
+      <span data-i18n="footer.copy">Profesionalne VR simulacije za bezbednosne obuke.</span>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>

@@ -145,6 +145,7 @@ public sealed class TrainingDbContext : DbContext
             entity.HasKey(worker => worker.Id);
             entity.Property(worker => worker.FirstName).HasMaxLength(100).IsRequired();
             entity.Property(worker => worker.LastName).HasMaxLength(100).IsRequired();
+            entity.Property(worker => worker.Email).HasMaxLength(200).IsRequired();
             entity.Property(worker => worker.EmployeeNumber).HasMaxLength(80).IsRequired();
             entity.Property(worker => worker.Department).HasMaxLength(160).IsRequired();
             entity.HasIndex(worker => new { worker.CompanyId, worker.EmployeeNumber }).IsUnique();
@@ -230,4 +231,3 @@ public sealed class TrainingDbContext : DbContext
             })));
     }
 }
-

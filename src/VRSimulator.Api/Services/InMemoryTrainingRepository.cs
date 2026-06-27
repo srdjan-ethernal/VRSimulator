@@ -32,6 +32,16 @@ public sealed class InMemoryTrainingRepository : ITrainingRepository
         }
     }
 
+    public Worker? GetWorker(Guid companyId, Guid workerId)
+    {
+        lock (_lock)
+        {
+            return _workers.SingleOrDefault(worker =>
+                worker.Id == workerId &&
+                worker.CompanyId == companyId);
+        }
+    }
+
     public Result<Worker> CreateWorker(Guid companyId, CreateWorkerRequest request)
     {
         var normalizedEmployeeNumber = request.EmployeeNumber.Trim();
@@ -53,6 +63,7 @@ public sealed class InMemoryTrainingRepository : ITrainingRepository
             companyId,
             request.FirstName.Trim(),
             request.LastName.Trim(),
+            request.Email?.Trim() ?? string.Empty,
             normalizedEmployeeNumber,
             request.Department.Trim(),
             DateTimeOffset.UtcNow);
@@ -194,6 +205,33 @@ public sealed class InMemoryTrainingRepository : ITrainingRepository
             return _certificates.SingleOrDefault(certificate =>
                 certificate.Id == certificateId &&
                 WorkerBelongsToCompany(certificate.WorkerId, companyId));
+        }
+    }
+
+    public CertificateVerificationResponse? VerifyCertificate(string certificateNumber)
+    {
+        lock (_lock)
+        {
+            var certificate = _certificates.SingleOrDefault(existingCertificate =>
+                existingCertificate.CertificateNumber == certificateNumber.Trim());
+            if (certificate is null)
+            {
+                return null;
+            }
+
+            var course = _courses.SingleOrDefault(existingCourse => existingCourse.Id == certificate.CourseId);
+            if (course is null)
+            {
+                return null;
+            }
+
+            return new CertificateVerificationResponse(
+                certificate.CertificateNumber,
+                course.NameSr,
+                course.NameEn,
+                certificate.IssuedAt,
+                certificate.ValidUntil,
+                certificate.Status);
         }
     }
 

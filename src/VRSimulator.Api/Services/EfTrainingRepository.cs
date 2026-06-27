@@ -45,6 +45,17 @@ public sealed class EfTrainingRepository : ITrainingRepository
             .ToList();
     }
 
+    public Worker? GetWorker(Guid companyId, Guid workerId)
+    {
+        var worker = _dbContext.Workers
+            .AsNoTracking()
+            .SingleOrDefault(existingWorker =>
+                existingWorker.Id == workerId &&
+                existingWorker.CompanyId == companyId);
+
+        return worker is null ? null : ToDomain(worker);
+    }
+
     public Result<Worker> CreateWorker(Guid companyId, CreateWorkerRequest request)
     {
         var normalizedEmployeeNumber = request.EmployeeNumber.Trim();
@@ -64,6 +75,7 @@ public sealed class EfTrainingRepository : ITrainingRepository
             CompanyId = companyId,
             FirstName = request.FirstName.Trim(),
             LastName = request.LastName.Trim(),
+            Email = request.Email?.Trim() ?? string.Empty,
             EmployeeNumber = normalizedEmployeeNumber,
             Department = request.Department.Trim(),
             CreatedAt = DateTimeOffset.UtcNow
@@ -217,6 +229,28 @@ public sealed class EfTrainingRepository : ITrainingRepository
         return certificate is null ? null : ToDomain(certificate);
     }
 
+    public CertificateVerificationResponse? VerifyCertificate(string certificateNumber)
+    {
+        var normalizedNumber = certificateNumber.Trim();
+        var certificate = _dbContext.Certificates
+            .AsNoTracking()
+            .Include(existingCertificate => existingCertificate.Course)
+            .SingleOrDefault(existingCertificate => existingCertificate.CertificateNumber == normalizedNumber);
+
+        if (certificate?.Course is null)
+        {
+            return null;
+        }
+
+        return new CertificateVerificationResponse(
+            certificate.CertificateNumber,
+            certificate.Course.NameSr,
+            certificate.Course.NameEn,
+            certificate.IssuedAt,
+            certificate.ValidUntil,
+            certificate.Status);
+    }
+
     private static TrainingScenario ToDomain(TrainingScenarioEntity scenario)
     {
         return new TrainingScenario(
@@ -251,6 +285,7 @@ public sealed class EfTrainingRepository : ITrainingRepository
             worker.CompanyId,
             worker.FirstName,
             worker.LastName,
+            worker.Email,
             worker.EmployeeNumber,
             worker.Department,
             worker.CreatedAt);

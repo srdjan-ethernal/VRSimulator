@@ -13,6 +13,7 @@
       platform: "Platforma",
       pricing: "Cene",
       certificates: "Sertifikati",
+      verify: "Provera",
       contact: "Kontakt",
       cta: "Zakazite razgovor",
       login: "Prijava",
@@ -99,6 +100,10 @@
         metaDescription:
           "Pregled kompanijskih VR obuka, radnika, kurseva i sertifikata na Safety Sim platformi.",
       },
+      verify: {
+        metaTitle: "Provera Safety Sim sertifikata",
+        metaDescription: "Javna provera vazenja Safety Sim sertifikata na osnovu broja sertifikata.",
+      },
     },
     pricing: {
       eyebrow: "Cenovnik",
@@ -165,6 +170,47 @@
       feature3Copy: "Format je pogodan za internu dokumentaciju, HR evidenciju i dokaz o zavrsenoj obuci.",
       ctaTitle: "Sertifikate mozemo prilagoditi vasoj organizaciji",
       ctaCopy: "Dodaju se naziv firme, logo, tip kursa, rok vazenja i interni broj sertifikata.",
+      generatorEyebrow: "Generator diplome",
+      generatorTitle: "Napravite diplomu za polaznika",
+      generatorCopy:
+        "Unesite podatke polaznika, izaberite kurs i datum. Diploma se automatski priprema za preuzimanje.",
+      fullNameLabel: "Ime i prezime",
+      courseLabel: "Kurs",
+      issueDateLabel: "Datum izdavanja",
+      validityLabel: "Period vazenja",
+      validity12: "12 meseci",
+      validity24: "24 meseca",
+      validity36: "36 meseci",
+      generateButton: "Kreiraj diplomu",
+      downloadButton: "Preuzmi SVG",
+      printButton: "PDF / stampanje",
+      certificateKicker: "SERTIFIKAT",
+      certificateHeading: "O POLOZENOM KURSU",
+      certificateAwarded: "Ovim se potvrdjuje da je",
+      certificateCompleted: "uspesno zavrsio/la VR kurs",
+      certificateIssueLabel: "DATUM IZDAVANJA",
+      certificateValidLabel: "VAZI DO",
+      certificateNumberLabel: "BROJ SERTIFIKATA",
+      downloadFileName: "safety-sim-diploma",
+    },
+    verify: {
+      eyebrow: "Javna provera",
+      title: "Provera vazenja sertifikata",
+      copy: "Unesite broj sertifikata sa diplome da proverite status, naziv kursa i period vazenja.",
+      numberLabel: "Broj sertifikata",
+      button: "Proveri",
+      readyStatus: "Spremno za proveru",
+      readyTitle: "Unesite broj sertifikata",
+      readyCopy: "Rezultat provere ce prikazati da li je sertifikat aktivan, istekao ili nije pronadjen.",
+      activeStatus: "Aktivan sertifikat",
+      activeTitle: "Sertifikat je validan",
+      activeCopy: "Broj sertifikata je pronadjen i sertifikat je trenutno aktivan.",
+      missingStatus: "Nije pronadjeno",
+      missingTitle: "Sertifikat nije pronadjen",
+      missingCopy: "Proverite broj sertifikata ili kontaktirajte izdavaoca.",
+      course: "Kurs",
+      issued: "Datum izdavanja",
+      validUntil: "Vazi do",
     },
     auth: {
       eyebrow: "Platforma za obuku",
@@ -181,6 +227,11 @@
       company: "Kompanija",
       loginButton: "Prijavi se",
       registerButton: "Kreiraj nalog",
+      working: "Povezivanje sa platformom...",
+      loginSuccess: "Uspesno ste prijavljeni.",
+      registerSuccess: "Nalog je kreiran i prijavljeni ste.",
+      apiUnavailable:
+        "API trenutno nije dostupan. Proverite da li je backend pokrenut na http://localhost:5222.",
       adminLabel: "Administrator kompanije",
       adminTitle: "Jedna kompanija, vise korisnika",
       adminCopy:
@@ -195,11 +246,38 @@
       title: "Pregled obuka i sertifikata",
       copy: "Centralno mesto za upravljanje VR kursevima, radnicima, statusima polaganja i vazecim sertifikatima.",
       primaryAction: "Otvori nalog",
+      logout: "Odjava",
+      demoSession: "Prikazan je demo pregled dok se ne prijavite.",
+      liveSession: "Prijavljeni ste kao {name} iz kompanije {company}.",
+      apiFallback: "API nije dostupan, prikazan je demo pregled.",
       metricsLabel: "Pregled statusa",
       metricCoursesLabel: "Aktivni kursevi",
       metricWorkersLabel: "Radnici u obuci",
       metricCertificatesLabel: "Vazeci sertifikati",
       metricScoreLabel: "Prosecan rezultat",
+      notificationsLabel: "Obavestenja",
+      notificationsTitle: "Sta zahteva paznju",
+      notificationNoneTitle: "Nema hitnih stavki",
+      notificationNoneCopy: "Svi dostupni podaci trenutno izgledaju uredno.",
+      notificationExpiringTitle: "Sertifikat uskoro istice",
+      notificationExpiringCopy: "{worker} - {course}, vazi do {date}.",
+      notificationFailedTitle: "Obuka nije polozena",
+      notificationFailedCopy: "{worker} - {course}, rezultat {score}.",
+      notificationUnassignedTitle: "Radnik bez obuke",
+      notificationUnassignedCopy: "{worker} jos nema dodeljenu obuku.",
+      notificationAction: "Pripremi podsetnik",
+      reminderPrepared: "Podsetnik je pripremljen za sledeci korak email slanja.",
+      reminderSent: "Podsetnik je poslat.",
+      reminderSending: "Slanje podsetnika...",
+      reminderNoEmail: "Dodajte email adresu radnika pre slanja podsetnika.",
+      reminderFallback: "Email servis nije konfigurisan, otvoren je email klijent.",
+      reportsLabel: "Izvestaji",
+      reportsTitle: "Export evidencije",
+      exportWorkers: "Radnici CSV",
+      exportEnrollments: "Obuke CSV",
+      exportCertificates: "Sertifikati CSV",
+      exportReady: "CSV izvestaj je pripremljen.",
+      exportEmpty: "Nema podataka za export.",
       coursesLabel: "Kursevi",
       coursesTitle: "Dostupne VR obuke",
       certificatesLink: "Sertifikati",
@@ -211,6 +289,45 @@
       recordCourse: "Kurs",
       recordDate: "Datum",
       recordValid: "Vazi do",
+      validityMonthsShort: "meseci vazi",
+      workerFirstName: "Ime",
+      workerLastName: "Prezime",
+      workerEmail: "Email",
+      workerEmployeeNumber: "Broj zaposlenog",
+      workerDepartment: "Odeljenje",
+      addWorker: "Dodaj radnika",
+      addWorkerLoginRequired: "Prijavite se da biste dodali radnika.",
+      addWorkerSuccess: "Radnik je dodat.",
+      addWorkerWorking: "Dodavanje radnika...",
+      workerSearch: "Pretraga radnika",
+      importWorkers: "Import CSV",
+      importWorkersSuccess: "Importovano radnika: {count}.",
+      importWorkersEmpty: "CSV fajl ne sadrzi radnike za import.",
+      importWorkersHint: "CSV kolone: firstName,lastName,email,employeeNumber,department",
+      assignWorker: "Radnik",
+      assignCourse: "Kurs",
+      assignTraining: "Dodeli obuku",
+      assignTrainingLoginRequired: "Prijavite se da biste dodelili obuku.",
+      assignTrainingWorking: "Dodeljivanje obuke...",
+      assignTrainingSuccess: "Obuka je dodeljena.",
+      enrollmentsLabel: "Obuke",
+      enrollmentsTitle: "Dodeljene obuke",
+      enrollmentStatus: "Status",
+      enrollmentScore: "Rezultat",
+      enrollmentEmpty: "Nema dodeljenih obuka.",
+      completeEnrollment: "Obuka",
+      completeScore: "Rezultat",
+      completeDuration: "Trajanje u minutima",
+      completeTraining: "Zavrsi obuku",
+      completeTrainingLoginRequired: "Prijavite se da biste evidentirali polaganje.",
+      completeTrainingWorking: "Evidentiranje rezultata...",
+      completeTrainingPassed: "Obuka je polozena i sertifikat je kreiran.",
+      completeTrainingFailed: "Obuka je zavrsena bez kreiranja sertifikata.",
+      completeTrainingEmpty: "Nema dodeljenih obuka za zavrsetak.",
+      statusEnrolled: "Dodeljeno",
+      statusInProgress: "U toku",
+      statusPassed: "Polozeno",
+      statusFailed: "Nije polozeno",
       statusReady: "Spremno",
       statusActive: "U toku",
       statusCompleted: "Polozeno",
@@ -232,6 +349,7 @@
       platform: "Platform",
       pricing: "Pricing",
       certificates: "Certificates",
+      verify: "Verify",
       contact: "Contact",
       cta: "Schedule a call",
       login: "Sign in",
@@ -318,6 +436,10 @@
         metaDescription:
           "Overview of company VR training, workers, courses, and certificates on the Safety Sim platform.",
       },
+      verify: {
+        metaTitle: "Safety Sim certificate verification",
+        metaDescription: "Public Safety Sim certificate validity check by certificate number.",
+      },
     },
     pricing: {
       eyebrow: "Pricing",
@@ -384,6 +506,47 @@
       feature3Copy: "The format is suitable for internal documentation, HR records, and proof of completed training.",
       ctaTitle: "Certificates can be adapted to your organization",
       ctaCopy: "Company name, logo, course type, validity period, and internal certificate number can be added.",
+      generatorEyebrow: "Certificate generator",
+      generatorTitle: "Create a certificate for a trainee",
+      generatorCopy:
+        "Enter the trainee details, select a course and date. The certificate is automatically prepared for download.",
+      fullNameLabel: "Full name",
+      courseLabel: "Course",
+      issueDateLabel: "Issue date",
+      validityLabel: "Validity period",
+      validity12: "12 months",
+      validity24: "24 months",
+      validity36: "36 months",
+      generateButton: "Create certificate",
+      downloadButton: "Download SVG",
+      printButton: "PDF / print",
+      certificateKicker: "CERTIFICATE",
+      certificateHeading: "OF COURSE COMPLETION",
+      certificateAwarded: "This certifies that",
+      certificateCompleted: "has successfully completed the VR course",
+      certificateIssueLabel: "ISSUE DATE",
+      certificateValidLabel: "VALID UNTIL",
+      certificateNumberLabel: "CERTIFICATE NUMBER",
+      downloadFileName: "safety-sim-certificate",
+    },
+    verify: {
+      eyebrow: "Public verification",
+      title: "Certificate validity check",
+      copy: "Enter the certificate number from the diploma to check the status, course name, and validity period.",
+      numberLabel: "Certificate number",
+      button: "Verify",
+      readyStatus: "Ready to verify",
+      readyTitle: "Enter certificate number",
+      readyCopy: "The verification result will show whether the certificate is active, expired, or not found.",
+      activeStatus: "Active certificate",
+      activeTitle: "Certificate is valid",
+      activeCopy: "The certificate number was found and the certificate is currently active.",
+      missingStatus: "Not found",
+      missingTitle: "Certificate was not found",
+      missingCopy: "Check the certificate number or contact the issuer.",
+      course: "Course",
+      issued: "Issue date",
+      validUntil: "Valid until",
     },
     auth: {
       eyebrow: "Training platform",
@@ -400,6 +563,10 @@
       company: "Company",
       loginButton: "Sign in",
       registerButton: "Create account",
+      working: "Connecting to the platform...",
+      loginSuccess: "You are signed in.",
+      registerSuccess: "The account has been created and you are signed in.",
+      apiUnavailable: "The API is currently unavailable. Check that the backend is running on http://localhost:5222.",
       adminLabel: "Company administrator",
       adminTitle: "One company, multiple users",
       adminCopy:
@@ -414,11 +581,38 @@
       title: "Training and certificate overview",
       copy: "A central place to manage VR courses, workers, completion statuses, and valid certificates.",
       primaryAction: "Open account",
+      logout: "Sign out",
+      demoSession: "A demo overview is shown until you sign in.",
+      liveSession: "Signed in as {name} from {company}.",
+      apiFallback: "The API is unavailable, so a demo overview is shown.",
       metricsLabel: "Status overview",
       metricCoursesLabel: "Active courses",
       metricWorkersLabel: "Workers in training",
       metricCertificatesLabel: "Valid certificates",
       metricScoreLabel: "Average score",
+      notificationsLabel: "Notifications",
+      notificationsTitle: "Items needing attention",
+      notificationNoneTitle: "No urgent items",
+      notificationNoneCopy: "All available data currently looks orderly.",
+      notificationExpiringTitle: "Certificate expires soon",
+      notificationExpiringCopy: "{worker} - {course}, valid until {date}.",
+      notificationFailedTitle: "Training was not passed",
+      notificationFailedCopy: "{worker} - {course}, score {score}.",
+      notificationUnassignedTitle: "Worker without training",
+      notificationUnassignedCopy: "{worker} has no assigned training yet.",
+      notificationAction: "Prepare reminder",
+      reminderPrepared: "The reminder is prepared for the next email-sending step.",
+      reminderSent: "The reminder has been sent.",
+      reminderSending: "Sending reminder...",
+      reminderNoEmail: "Add the worker email address before sending a reminder.",
+      reminderFallback: "The email service is not configured, so the email client was opened.",
+      reportsLabel: "Reports",
+      reportsTitle: "Record export",
+      exportWorkers: "Workers CSV",
+      exportEnrollments: "Training CSV",
+      exportCertificates: "Certificates CSV",
+      exportReady: "The CSV report has been prepared.",
+      exportEmpty: "There is no data to export.",
       coursesLabel: "Courses",
       coursesTitle: "Available VR training",
       certificatesLink: "Certificates",
@@ -430,6 +624,45 @@
       recordCourse: "Course",
       recordDate: "Date",
       recordValid: "Valid until",
+      validityMonthsShort: "months valid",
+      workerFirstName: "First name",
+      workerLastName: "Last name",
+      workerEmail: "Email",
+      workerEmployeeNumber: "Employee number",
+      workerDepartment: "Department",
+      addWorker: "Add worker",
+      addWorkerLoginRequired: "Sign in to add a worker.",
+      addWorkerSuccess: "The worker has been added.",
+      addWorkerWorking: "Adding worker...",
+      workerSearch: "Worker search",
+      importWorkers: "CSV import",
+      importWorkersSuccess: "Imported workers: {count}.",
+      importWorkersEmpty: "The CSV file does not contain workers to import.",
+      importWorkersHint: "CSV columns: firstName,lastName,email,employeeNumber,department",
+      assignWorker: "Worker",
+      assignCourse: "Course",
+      assignTraining: "Assign training",
+      assignTrainingLoginRequired: "Sign in to assign training.",
+      assignTrainingWorking: "Assigning training...",
+      assignTrainingSuccess: "Training has been assigned.",
+      enrollmentsLabel: "Training",
+      enrollmentsTitle: "Assigned training",
+      enrollmentStatus: "Status",
+      enrollmentScore: "Score",
+      enrollmentEmpty: "No assigned training.",
+      completeEnrollment: "Training",
+      completeScore: "Score",
+      completeDuration: "Duration in minutes",
+      completeTraining: "Complete training",
+      completeTrainingLoginRequired: "Sign in to record training completion.",
+      completeTrainingWorking: "Recording result...",
+      completeTrainingPassed: "Training passed and a certificate was created.",
+      completeTrainingFailed: "Training completed without creating a certificate.",
+      completeTrainingEmpty: "There is no assigned training to complete.",
+      statusEnrolled: "Enrolled",
+      statusInProgress: "In progress",
+      statusPassed: "Passed",
+      statusFailed: "Failed",
       statusReady: "Ready",
       statusActive: "Active",
       statusCompleted: "Passed",
@@ -635,6 +868,50 @@ const authPanels = document.querySelectorAll("[data-auth-panel]");
 const platformCourses = document.querySelector("[data-platform-courses]");
 const workerList = document.querySelector("[data-worker-list]");
 const certificateRecords = document.querySelector("[data-certificate-records]");
+const platformSession = document.querySelector("[data-platform-session]");
+const platformLoginLink = document.querySelector("[data-platform-login-link]");
+const platformLogoutButton = document.querySelector("[data-platform-logout]");
+const platformMetrics = document.querySelectorAll("[data-platform-metric]");
+const notificationList = document.querySelector("[data-notification-list]");
+const workerForm = document.querySelector("[data-worker-form]");
+const workerMessage = document.querySelector("[data-worker-message]");
+const workerSearchInput = document.querySelector("[data-worker-search]");
+const workerImportInput = document.querySelector("[data-worker-import]");
+const enrollmentForm = document.querySelector("[data-enrollment-form]");
+const enrollmentWorkerSelect = document.querySelector("[data-enrollment-worker]");
+const enrollmentCourseSelect = document.querySelector("[data-enrollment-course]");
+const enrollmentMessage = document.querySelector("[data-enrollment-message]");
+const enrollmentRecords = document.querySelector("[data-enrollment-records]");
+const completionForm = document.querySelector("[data-completion-form]");
+const completionEnrollmentSelect = document.querySelector("[data-completion-enrollment]");
+const completionMessage = document.querySelector("[data-completion-message]");
+const reportButtons = document.querySelectorAll("[data-report-export]");
+const reportMessage = document.querySelector("[data-report-message]");
+const certificateForm = document.querySelector("[data-certificate-form]");
+const certificateNameInput = document.querySelector("[data-certificate-name]");
+const certificateCourseInput = document.querySelector("[data-certificate-course]");
+const certificateDateInput = document.querySelector("[data-certificate-date]");
+const certificateValidityInput = document.querySelector("[data-certificate-validity]");
+const certificateDownloadButton = document.querySelector("[data-certificate-download]");
+const certificatePrintButton = document.querySelector("[data-certificate-print]");
+const generatedCertificate = document.querySelector("[data-generated-certificate]");
+const verifyForm = document.querySelector("[data-verify-form]");
+const verifyNumberInput = document.querySelector("[data-verify-number]");
+const verifyStatus = document.querySelector("[data-verify-status]");
+const verifyHeading = document.querySelector("[data-verify-heading]");
+const verifyCopy = document.querySelector("[data-verify-copy]");
+const verifyCourse = document.querySelector("[data-verify-course]");
+const verifyIssued = document.querySelector("[data-verify-issued]");
+const verifyValid = document.querySelector("[data-verify-valid]");
+let currentLanguage = "sr";
+let platformDataLoadedFromApi = false;
+let currentPlatformData = null;
+let workerSearchTerm = "";
+const apiBaseUrl =
+  window.SAFETY_SIM_API_BASE_URL ||
+  localStorage.getItem("safetySimApiBaseUrl") ||
+  "http://localhost:5222";
+const authStorageKey = "safetySimAuth";
 
 const demoWorkers = [
   {
@@ -677,6 +954,112 @@ const demoCertificates = [
 
 function getNestedValue(source, path) {
   return path.split(".").reduce((value, key) => value?.[key], source);
+}
+
+function getField(source, camelName, pascalName = camelName.charAt(0).toUpperCase() + camelName.slice(1)) {
+  return source?.[camelName] ?? source?.[pascalName];
+}
+
+function getStoredAuth() {
+  try {
+    const savedAuth = localStorage.getItem(authStorageKey);
+    return savedAuth ? JSON.parse(savedAuth) : null;
+  } catch {
+    localStorage.removeItem(authStorageKey);
+    return null;
+  }
+}
+
+function saveAuth(auth) {
+  localStorage.setItem(authStorageKey, JSON.stringify(auth));
+}
+
+function clearAuth() {
+  localStorage.removeItem(authStorageKey);
+}
+
+function getAccessToken() {
+  return getField(getStoredAuth(), "accessToken");
+}
+
+async function apiRequest(path, options = {}) {
+  const headers = {
+    Accept: "application/json",
+    ...(options.body ? { "Content-Type": "application/json" } : {}),
+    ...(options.auth && getAccessToken() ? { Authorization: `Bearer ${getAccessToken()}` } : {}),
+  };
+
+  try {
+    const response = await fetch(`${apiBaseUrl}${path}`, {
+      method: options.method || "GET",
+      headers,
+      body: options.body ? JSON.stringify(options.body) : undefined,
+    });
+    const payload = response.status === 204 ? null : await response.json().catch(() => null);
+
+    if (!response.ok) {
+      return {
+        ok: false,
+        status: response.status,
+        error: getField(payload, "message") || getField(payload, "error") || "Request failed.",
+      };
+    }
+
+    return { ok: true, data: payload };
+  } catch {
+    return { ok: false, error: translations[currentLanguage].auth.apiUnavailable };
+  }
+}
+
+function setAuthMessage(message, tone = "") {
+  const messageElement = document.querySelector("[data-auth-message]");
+  if (!messageElement) {
+    return;
+  }
+
+  messageElement.textContent = message;
+  messageElement.classList.toggle("is-error", tone === "error");
+  messageElement.classList.toggle("is-success", tone === "success");
+}
+
+function setWorkerMessage(message, tone = "") {
+  if (!workerMessage) {
+    return;
+  }
+
+  workerMessage.textContent = message;
+  workerMessage.classList.toggle("is-error", tone === "error");
+  workerMessage.classList.toggle("is-success", tone === "success");
+}
+
+function setEnrollmentMessage(message, tone = "") {
+  if (!enrollmentMessage) {
+    return;
+  }
+
+  enrollmentMessage.textContent = message;
+  enrollmentMessage.classList.toggle("is-error", tone === "error");
+  enrollmentMessage.classList.toggle("is-success", tone === "success");
+}
+
+function setCompletionMessage(message, tone = "") {
+  if (!completionMessage) {
+    return;
+  }
+
+  completionMessage.textContent = message;
+  completionMessage.classList.toggle("is-error", tone === "error");
+  completionMessage.classList.toggle("is-success", tone === "success");
+}
+
+function setReportMessage(message, tone = "") {
+  if (!reportMessage) {
+    return;
+  }
+
+  reportMessage.textContent = message;
+  reportMessage.classList.toggle("is-error", tone === "error");
+  reportMessage.classList.toggle("is-success", tone === "success");
 }
 
 function getInitialLanguage() {
@@ -722,25 +1105,453 @@ function getScenarioContentByCode(code, language) {
   return scenario?.content[language];
 }
 
-function renderPlatform(language) {
+function getScenarioByCode(code) {
+  return scenarios.find((item) => item.image.includes(code));
+}
+
+function getCourseTitle(course, language) {
+  if (course?.content) {
+    return course.content[language].title;
+  }
+
+  return language === "sr"
+    ? getField(course, "nameSr") || getField(course, "nameEn")
+    : getField(course, "nameEn") || getField(course, "nameSr");
+}
+
+function getCourseLabel(course, language) {
+  if (course?.content) {
+    return course.content[language].label;
+  }
+
+  const passScore = getField(course, "passScore");
+  return passScore ? `${passScore}% ${translations[language].platform.score}` : translations[language].platform.coursesLabel;
+}
+
+function getCourseImage(course) {
+  if (course?.image) {
+    return course.image;
+  }
+
+  const scenario = getScenarioByCode(getField(course, "code"));
+  return scenario?.image || "assets/hero-vr-training.png";
+}
+
+function getCourseAlt(course, language) {
+  if (course?.content) {
+    return course.content[language].alt;
+  }
+
+  return getCourseTitle(course, language);
+}
+
+function formatShortDate(value, language) {
+  if (!value) {
+    return "-";
+  }
+
+  return formatCertificateDate(new Date(value), language);
+}
+
+function setPlatformMetric(metricName, value) {
+  const metric = Array.from(platformMetrics).find((item) => item.dataset.platformMetric === metricName);
+  if (metric) {
+    metric.textContent = String(value);
+  }
+}
+
+function getAverageScore(enrollments) {
+  const scoredEnrollments = enrollments
+    .map((enrollment) => getField(enrollment, "score"))
+    .filter((score) => Number.isFinite(Number(score)));
+
+  if (!scoredEnrollments.length) {
+    return "0%";
+  }
+
+  const average = scoredEnrollments.reduce((total, score) => total + Number(score), 0) / scoredEnrollments.length;
+  return `${Math.round(average)}%`;
+}
+
+function getCourseById(courseMap, courseId) {
+  return courseMap.get(String(courseId));
+}
+
+function buildNotifications({ workers, courses, certificates, enrollments, language, workerMap, courseMap }) {
+  const dictionary = translations[language].platform;
+  const now = new Date();
+  const soon = new Date(now);
+  soon.setDate(soon.getDate() + 30);
+  const notifications = [];
+  const assignedWorkerIds = new Set(enrollments.map((enrollment) => String(getField(enrollment, "workerId"))));
+
+  certificates.forEach((certificate) => {
+    if ("courseCode" in certificate) {
+      return;
+    }
+
+    const validUntil = new Date(getField(certificate, "validUntil"));
+    if (validUntil > now && validUntil <= soon) {
+      const worker = workerMap.get(String(getField(certificate, "workerId")));
+      const course = getCourseById(courseMap, getField(certificate, "courseId"));
+      const workerName = getWorkerName(worker);
+      const courseTitle = getCourseTitle(course, language) || "-";
+      const validDate = formatShortDate(validUntil, language);
+      notifications.push({
+        tone: "warning",
+        title: dictionary.notificationExpiringTitle,
+        copy: dictionary.notificationExpiringCopy
+          .replace("{worker}", workerName)
+          .replace("{course}", courseTitle)
+          .replace("{date}", validDate),
+        workerId: getField(worker, "id"),
+        email: getField(worker, "email"),
+        emailSubject: dictionary.notificationExpiringTitle,
+        emailBody: `${workerName}, ${dictionary.notificationExpiringCopy
+          .replace("{worker}", workerName)
+          .replace("{course}", courseTitle)
+          .replace("{date}", validDate)}`,
+      });
+    }
+  });
+
+  enrollments.forEach((enrollment) => {
+    const status = String(getField(enrollment, "status") || "").toLowerCase();
+    if (status === "failed") {
+      const worker = workerMap.get(String(getField(enrollment, "workerId")));
+      const course = getCourseById(courseMap, getField(enrollment, "courseId"));
+      const workerName = getWorkerName(worker);
+      const courseTitle = getCourseTitle(course, language) || "-";
+      const score = `${getField(enrollment, "score") ?? "-"}%`;
+      notifications.push({
+        tone: "danger",
+        title: dictionary.notificationFailedTitle,
+        copy: dictionary.notificationFailedCopy
+          .replace("{worker}", workerName)
+          .replace("{course}", courseTitle)
+          .replace("{score}", score),
+        workerId: getField(worker, "id"),
+        email: getField(worker, "email"),
+        emailSubject: dictionary.notificationFailedTitle,
+        emailBody: `${workerName}, ${dictionary.notificationFailedCopy
+          .replace("{worker}", workerName)
+          .replace("{course}", courseTitle)
+          .replace("{score}", score)}`,
+      });
+    }
+  });
+
+  workers
+    .filter((worker) => !("progress" in worker))
+    .filter((worker) => !assignedWorkerIds.has(String(getField(worker, "id"))))
+    .slice(0, 3)
+    .forEach((worker) => {
+      const workerName = getWorkerName(worker);
+      notifications.push({
+        tone: "",
+        title: dictionary.notificationUnassignedTitle,
+        copy: dictionary.notificationUnassignedCopy.replace("{worker}", workerName),
+        workerId: getField(worker, "id"),
+        email: getField(worker, "email"),
+        emailSubject: dictionary.notificationUnassignedTitle,
+        emailBody: dictionary.notificationUnassignedCopy.replace("{worker}", workerName),
+      });
+    });
+
+  if (!notifications.length) {
+    return [
+      {
+        tone: "",
+        title: dictionary.notificationNoneTitle,
+        copy: dictionary.notificationNoneCopy,
+      },
+    ];
+  }
+
+  return notifications.slice(0, 6);
+}
+
+function escapeAttribute(value) {
+  return String(value || "")
+    .replaceAll("&", "&amp;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;");
+}
+
+function escapeCsvCell(value) {
+  const text = String(value ?? "");
+  return /[",\r\n]/.test(text) ? `"${text.replaceAll('"', '""')}"` : text;
+}
+
+function downloadCsv(fileName, rows) {
+  if (!rows.length) {
+    setReportMessage(translations[currentLanguage].platform.exportEmpty, "error");
+    return;
+  }
+
+  const csv = rows.map((row) => row.map(escapeCsvCell).join(",")).join("\r\n");
+  const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = fileName;
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  URL.revokeObjectURL(url);
+  setReportMessage(translations[currentLanguage].platform.exportReady, "success");
+}
+
+function getReportData() {
+  const data = currentPlatformData || {
+    courses: scenarios,
+    workers: demoWorkers,
+    certificates: demoCertificates,
+    enrollments: [],
+  };
+  const courseMap = new Map((data.courses || []).map((course) => [String(getField(course, "id")), course]));
+  const workerMap = new Map((data.workers || []).map((worker) => [String(getField(worker, "id")), worker]));
+
+  return {
+    ...data,
+    courseMap,
+    workerMap,
+  };
+}
+
+function exportWorkersReport() {
+  const data = getReportData();
+  const rows = [
+    ["First name", "Last name", "Email", "Employee number", "Department"],
+    ...(data.workers || []).map((worker) => {
+      const isDemoWorker = "name" in worker;
+      const [firstName, ...lastNameParts] = isDemoWorker ? worker.name.split(" ") : [];
+
+      return [
+        isDemoWorker ? firstName : getField(worker, "firstName"),
+        isDemoWorker ? lastNameParts.join(" ") : getField(worker, "lastName"),
+        getField(worker, "email") || "",
+        getField(worker, "employeeNumber") || "",
+        getField(worker, "department") || "",
+      ];
+    }),
+  ];
+
+  downloadCsv("safety-sim-workers.csv", rows);
+}
+
+function exportEnrollmentsReport() {
+  const data = getReportData();
+  const rows = [
+    ["Worker", "Course", "Status", "Score", "Duration minutes", "Enrolled at", "Completed at"],
+    ...(data.enrollments || []).map((enrollment) => {
+      const worker = data.workerMap.get(String(getField(enrollment, "workerId")));
+      const course = data.courseMap.get(String(getField(enrollment, "courseId")));
+
+      return [
+        getWorkerName(worker),
+        getCourseTitle(course, currentLanguage) || "",
+        getEnrollmentStatusLabel(getField(enrollment, "status"), currentLanguage),
+        getField(enrollment, "score") ?? "",
+        getField(enrollment, "durationMinutes") ?? "",
+        formatShortDate(getField(enrollment, "enrolledAt"), currentLanguage),
+        formatShortDate(getField(enrollment, "completedAt"), currentLanguage),
+      ];
+    }),
+  ];
+
+  downloadCsv("safety-sim-training.csv", rows);
+}
+
+function exportCertificatesReport() {
+  const data = getReportData();
+  const rows = [
+    ["Certificate number", "Worker", "Course", "Issued at", "Valid until", "Status"],
+    ...(data.certificates || []).map((certificate) => {
+      const isDemoCertificate = "courseCode" in certificate;
+      const worker = data.workerMap.get(String(getField(certificate, "workerId")));
+      const course = data.courseMap.get(String(getField(certificate, "courseId")));
+
+      return [
+        getField(certificate, "certificateNumber") || "",
+        isDemoCertificate ? certificate.worker : getWorkerName(worker),
+        isDemoCertificate
+          ? getScenarioContentByCode(certificate.courseCode, currentLanguage)?.title
+          : getCourseTitle(course, currentLanguage),
+        isDemoCertificate ? certificate.issued : formatShortDate(getField(certificate, "issuedAt"), currentLanguage),
+        isDemoCertificate ? certificate.validUntil : formatShortDate(getField(certificate, "validUntil"), currentLanguage),
+        getField(certificate, "status") || "Active",
+      ];
+    }),
+  ];
+
+  downloadCsv("safety-sim-certificates.csv", rows);
+}
+
+function renderNotifications(notifications, language) {
+  if (!notificationList) {
+    return;
+  }
+
+  notificationList.innerHTML = notifications
+    .map(
+      (notification) => `
+        <article class="notification-item ${notification.tone ? `is-${notification.tone}` : ""}">
+          <h3>${notification.title}</h3>
+          <p>${notification.copy}</p>
+          <button
+            type="button"
+            data-reminder-action
+            data-reminder-worker-id="${escapeAttribute(notification.workerId)}"
+            data-reminder-email="${escapeAttribute(notification.email)}"
+            data-reminder-subject="${escapeAttribute(notification.emailSubject || notification.title)}"
+            data-reminder-body="${escapeAttribute(notification.emailBody || notification.copy)}"
+          >${translations[language].platform.notificationAction}</button>
+        </article>
+      `,
+    )
+    .join("");
+}
+
+function setPlatformSession(message, signedIn = false) {
+  if (platformSession) {
+    platformSession.textContent = message;
+  }
+
+  if (platformLoginLink) {
+    platformLoginLink.hidden = signedIn;
+  }
+
+  if (platformLogoutButton) {
+    platformLogoutButton.hidden = !signedIn;
+  }
+}
+
+function getWorkerName(worker) {
+  if (!worker) {
+    return "-";
+  }
+
+  if ("name" in worker) {
+    return worker.name;
+  }
+
+  return `${getField(worker, "firstName") || ""} ${getField(worker, "lastName") || ""}`.trim() || "-";
+}
+
+function getWorkerDetail(worker, language) {
+  if ("progress" in worker) {
+    const content = getScenarioContentByCode(worker.courseCode, language);
+    return `${content?.title || ""} · ${worker.progress}% ${translations[language].platform.score}`;
+  }
+
+  const email = getField(worker, "email");
+  return `${getField(worker, "department") || "-"} · ${getField(worker, "employeeNumber") || ""}${email ? ` · ${email}` : ""}`;
+}
+
+function getEnrollmentStatusLabel(status, language) {
+  const normalized = String(status || "Enrolled").toLowerCase();
+  const dictionary = translations[language].platform;
+
+  if (normalized === "inprogress") {
+    return dictionary.statusInProgress;
+  }
+
+  if (normalized === "passed") {
+    return dictionary.statusPassed;
+  }
+
+  if (normalized === "failed") {
+    return dictionary.statusFailed;
+  }
+
+  return dictionary.statusEnrolled;
+}
+
+function renderEnrollmentSelectors(workers, courses, language) {
+  if (!enrollmentWorkerSelect || !enrollmentCourseSelect) {
+    return;
+  }
+
+  enrollmentWorkerSelect.innerHTML = workers
+    .filter((worker) => !("progress" in worker))
+    .map((worker) => `<option value="${getField(worker, "id")}">${getWorkerName(worker)}</option>`)
+    .join("");
+
+  enrollmentCourseSelect.innerHTML = courses
+    .filter((course) => !course.content)
+    .map((course) => `<option value="${getField(course, "id")}">${getCourseTitle(course, language)}</option>`)
+    .join("");
+}
+
+function renderCompletionSelector(enrollments, workerMap, courseMap, language) {
+  if (!completionEnrollmentSelect) {
+    return;
+  }
+
+  const completableEnrollments = enrollments.filter((enrollment) => {
+    const status = String(getField(enrollment, "status") || "").toLowerCase();
+    return status !== "passed" && status !== "failed";
+  });
+
+  completionEnrollmentSelect.innerHTML = completableEnrollments
+    .map((enrollment) => {
+      const worker = workerMap.get(String(getField(enrollment, "workerId")));
+      const course = courseMap.get(String(getField(enrollment, "courseId")));
+      return `<option value="${getField(enrollment, "id")}">${getWorkerName(worker)} - ${getCourseTitle(course, language)}</option>`;
+    })
+    .join("");
+}
+
+function renderPlatform(language, apiData = null) {
   if (!platformCourses || !workerList || !certificateRecords) {
     return;
   }
 
   const dictionary = translations[language].platform;
+  const courses = apiData?.courses?.length ? apiData.courses : scenarios;
+  const workers = apiData?.workers?.length ? apiData.workers : demoWorkers;
+  const certificates = apiData?.certificates?.length ? apiData.certificates : demoCertificates;
+  const enrollments = apiData?.enrollments || [];
+  const courseMap = new Map((apiData?.courses || []).map((course) => [String(getField(course, "id")), course]));
+  const workerMap = new Map((apiData?.workers || []).map((worker) => [String(getField(worker, "id")), worker]));
+  const filteredWorkers = workers.filter((worker) => {
+    const haystack = `${getWorkerName(worker)} ${getWorkerDetail(worker, language)}`.toLowerCase();
+    return haystack.includes(workerSearchTerm.toLowerCase());
+  });
 
-  platformCourses.innerHTML = scenarios
-    .map((scenario, index) => {
-      const content = scenario.content[language];
+  setPlatformMetric("courses", courses.length);
+  setPlatformMetric("workers", workers.length);
+  setPlatformMetric("certificates", certificates.length);
+  setPlatformMetric("score", getAverageScore(enrollments));
+  renderEnrollmentSelectors(workers, courses, language);
+  renderCompletionSelector(enrollments, workerMap, courseMap, language);
+  renderNotifications(
+    buildNotifications({
+      workers,
+      courses,
+      certificates,
+      enrollments,
+      language,
+      workerMap,
+      courseMap,
+    }),
+    language,
+  );
+
+  platformCourses.innerHTML = courses
+    .map((course, index) => {
       const status = index < 2 ? dictionary.statusActive : dictionary.statusReady;
-      const duration = index % 2 === 0 ? 35 : 40;
+      const duration = getField(course, "validityMonths") ? getField(course, "validityMonths") : index % 2 === 0 ? 35 : 40;
+      const durationLabel = getField(course, "validityMonths") ? dictionary.validityMonthsShort : dictionary.duration;
 
       return `
         <article class="course-item">
-          <img src="${scenario.image}" alt="${content.alt}" loading="lazy" />
+          <img src="${getCourseImage(course)}" alt="${getCourseAlt(course, language)}" loading="lazy" />
           <div>
-            <h3>${content.title}</h3>
-            <p>${duration} ${dictionary.duration} · ${content.label}</p>
+            <h3>${getCourseTitle(course, language)}</h3>
+            <p>${duration} ${durationLabel} · ${getCourseLabel(course, language)}</p>
           </div>
           <span class="status-pill">${status}</span>
         </article>
@@ -748,41 +1559,403 @@ function renderPlatform(language) {
     })
     .join("");
 
-  workerList.innerHTML = demoWorkers
+  workerList.innerHTML = filteredWorkers
     .map((worker) => {
-      const content = getScenarioContentByCode(worker.courseCode, language);
-      const status = worker.progress === 100 ? dictionary.statusCompleted : dictionary.statusActive;
+      const isDemoWorker = "progress" in worker;
+      const progress = isDemoWorker ? worker.progress : 0;
+      const status = progress === 100 ? dictionary.statusCompleted : isDemoWorker ? dictionary.statusActive : dictionary.statusReady;
 
       return `
         <article class="worker-item">
-          <h3>${worker.name}</h3>
-          <p>${content?.title || ""} · ${worker.progress}% ${dictionary.score}</p>
-          <div class="worker-progress" aria-hidden="true"><span style="width: ${worker.progress}%"></span></div>
+          <h3>${getWorkerName(worker)}</h3>
+          <p>${getWorkerDetail(worker, language)}</p>
+          <div class="worker-progress" aria-hidden="true"><span style="width: ${progress}%"></span></div>
           <span class="status-pill">${status}</span>
         </article>
       `;
     })
     .join("");
 
-  certificateRecords.innerHTML = demoCertificates
+  certificateRecords.innerHTML = certificates
     .map((record) => {
-      const content = getScenarioContentByCode(record.courseCode, language);
+      const isDemoCertificate = "courseCode" in record;
+      const worker = workerMap.get(String(getField(record, "workerId")));
+      const course = courseMap.get(String(getField(record, "courseId")));
+      const workerName = isDemoCertificate
+        ? record.worker
+        : `${getField(worker, "firstName") || ""} ${getField(worker, "lastName") || ""}`.trim() || "-";
+      const courseTitle = isDemoCertificate
+        ? getScenarioContentByCode(record.courseCode, language)?.title
+        : getCourseTitle(course, language) || "-";
+      const issued = isDemoCertificate ? record.issued : formatShortDate(getField(record, "issuedAt"), language);
+      const validUntil = isDemoCertificate ? record.validUntil : formatShortDate(getField(record, "validUntil"), language);
 
       return `
         <div role="row" class="record-row">
-          <span role="cell">${record.worker}</span>
-          <span role="cell">${content?.title || ""}</span>
-          <span role="cell">${record.issued}</span>
-          <span role="cell">${record.validUntil}</span>
+          <span role="cell">${workerName}</span>
+          <span role="cell">${courseTitle || ""}</span>
+          <span role="cell">${issued}</span>
+          <span role="cell">${validUntil}</span>
         </div>
       `;
     })
     .join("");
+
+  if (enrollmentRecords) {
+    enrollmentRecords.innerHTML = enrollments.length
+      ? enrollments
+          .map((enrollment) => {
+            const worker = workerMap.get(String(getField(enrollment, "workerId")));
+            const course = courseMap.get(String(getField(enrollment, "courseId")));
+            const score = getField(enrollment, "score");
+
+            return `
+              <div role="row" class="record-row enrollment-row">
+                <span role="cell">${getWorkerName(worker)}</span>
+                <span role="cell">${getCourseTitle(course, language) || "-"}</span>
+                <span role="cell">${getEnrollmentStatusLabel(getField(enrollment, "status"), language)}</span>
+                <span role="cell">${score ?? "-"}</span>
+              </div>
+            `;
+          })
+          .join("")
+      : `<div role="row" class="record-row enrollment-row"><span role="cell">${dictionary.enrollmentEmpty}</span><span role="cell">-</span><span role="cell">-</span><span role="cell">-</span></div>`;
+  }
+}
+
+async function loadPlatformData(language) {
+  if (!platformCourses || !workerList || !certificateRecords) {
+    return;
+  }
+
+  const auth = getStoredAuth();
+  if (!auth) {
+    platformDataLoadedFromApi = false;
+    currentPlatformData = null;
+    setPlatformSession(translations[language].platform.demoSession, false);
+    renderPlatform(language);
+    return;
+  }
+
+  const [profileResult, coursesResult, workersResult, certificatesResult, enrollmentsResult] = await Promise.all([
+    apiRequest("/api/auth/me", { auth: true }),
+    apiRequest("/api/courses"),
+    apiRequest("/api/workers", { auth: true }),
+    apiRequest("/api/certificates", { auth: true }),
+    apiRequest("/api/enrollments", { auth: true }),
+  ]);
+
+  if (!profileResult.ok) {
+    clearAuth();
+    platformDataLoadedFromApi = false;
+    currentPlatformData = null;
+    setPlatformSession(translations[language].platform.apiFallback, false);
+    renderPlatform(language);
+    return;
+  }
+
+  const user = profileResult.data;
+  const fullName = `${getField(user, "firstName") || ""} ${getField(user, "lastName") || ""}`.trim();
+  const companyName = getField(user, "companyName") || "-";
+  const liveSession = translations[language].platform.liveSession
+    .replace("{name}", fullName || getField(user, "email") || "-")
+    .replace("{company}", companyName);
+
+  if (!coursesResult.ok || !workersResult.ok || !certificatesResult.ok || !enrollmentsResult.ok) {
+    platformDataLoadedFromApi = false;
+    currentPlatformData = null;
+    setPlatformSession(translations[language].platform.apiFallback, true);
+    renderPlatform(language);
+    return;
+  }
+
+  platformDataLoadedFromApi = true;
+  setPlatformSession(liveSession, true);
+  currentPlatformData = {
+    courses: coursesResult.data || [],
+    workers: workersResult.data || [],
+    certificates: certificatesResult.data || [],
+    enrollments: enrollmentsResult.data || [],
+  };
+  renderPlatform(language, {
+    ...currentPlatformData,
+  });
+}
+
+function parseCsvRows(text) {
+  return text
+    .split(/\r?\n/)
+    .map((line) => line.trim())
+    .filter(Boolean)
+    .map((line) => line.split(",").map((cell) => cell.trim().replace(/^"|"$/g, "")));
+}
+
+function mapCsvWorkers(text) {
+  const rows = parseCsvRows(text);
+  if (!rows.length) {
+    return [];
+  }
+
+  const hasHeader = rows[0].some((cell) => /first|ime|employee|broj|department|odeljenje/i.test(cell));
+  const header = hasHeader ? rows[0].map((cell) => cell.toLowerCase()) : [];
+  const dataRows = hasHeader ? rows.slice(1) : rows;
+
+  return dataRows
+    .map((row) => {
+      if (hasHeader) {
+        const findCell = (...names) => {
+          const index = header.findIndex((cell) => names.some((name) => cell.includes(name)));
+          return index >= 0 ? row[index] : "";
+        };
+
+        return {
+          firstName: findCell("firstname", "first name", "ime"),
+          lastName: findCell("lastname", "last name", "prezime"),
+          email: findCell("email", "mail"),
+          employeeNumber: findCell("employeenumber", "employee number", "broj"),
+          department: findCell("department", "odeljenje") || "-",
+        };
+      }
+
+      const [firstName, lastName, third, fourth, fifth] = row;
+      const hasEmailColumn = third?.includes("@");
+
+      return {
+        firstName,
+        lastName,
+        email: hasEmailColumn ? third : "",
+        employeeNumber: hasEmailColumn ? fourth : third,
+        department: (hasEmailColumn ? fifth : fourth) || "-",
+      };
+    })
+    .filter((worker) => worker.firstName && worker.lastName && worker.employeeNumber);
+}
+
+function formatCertificateDate(date, language) {
+  return new Intl.DateTimeFormat(language === "sr" ? "sr-RS" : "en-GB", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+  }).format(date);
+}
+
+function createCertificateNumber(fullName, issueDate) {
+  const source = `${fullName.trim().toLowerCase()}-${issueDate}`;
+  let hash = 0;
+
+  for (let index = 0; index < source.length; index += 1) {
+    hash = (hash * 31 + source.charCodeAt(index)) % 10000;
+  }
+
+  const compactDate = issueDate.replaceAll("-", "").slice(2);
+  return `SS-${compactDate}-${String(hash).padStart(4, "0")}`;
+}
+
+function setCertificateText(selector, value) {
+  const element = generatedCertificate?.querySelector(selector);
+  if (element) {
+    element.textContent = value;
+  }
+}
+
+function getVerificationUrl(certificateNumber) {
+  const baseUrl = `${window.location.origin}${window.location.pathname.replace(/[^/]*$/, "verify.html")}`;
+  return `${baseUrl}?certificate=${encodeURIComponent(certificateNumber)}`;
+}
+
+function getQrCodeUrl(value) {
+  return `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(value)}`;
+}
+
+function updateCertificateNameSize(name) {
+  const nameElement = generatedCertificate?.querySelector("[data-certificate-preview-name]");
+  if (!nameElement) {
+    return;
+  }
+
+  const length = name.length;
+  const fontSize = length > 34 ? 36 : length > 26 ? 43 : length > 20 ? 49 : 54;
+  nameElement.setAttribute("font-size", String(fontSize));
+}
+
+function updateCertificateCourseSize(course) {
+  const courseElement = generatedCertificate?.querySelector("[data-certificate-preview-course]");
+  if (!courseElement) {
+    return;
+  }
+
+  const length = course.length;
+  const fontSize = length > 42 ? 22 : length > 32 ? 26 : 31;
+  courseElement.setAttribute("font-size", String(fontSize));
+}
+
+function updateCertificate(language = currentLanguage) {
+  if (!generatedCertificate || !certificateForm) {
+    return;
+  }
+
+  currentLanguage = language;
+  const dictionary = translations[language].certificates;
+  const fullName = certificateNameInput.value.trim() || (language === "sr" ? "Ime i prezime" : "Full name");
+  const courseCode = certificateCourseInput.value;
+  const course = getScenarioContentByCode(courseCode, language)?.title || "";
+  const issueValue = certificateDateInput.value;
+  const issueDate = issueValue ? new Date(`${issueValue}T12:00:00`) : new Date();
+  const validUntil = new Date(issueDate);
+  validUntil.setMonth(validUntil.getMonth() + Number(certificateValidityInput.value || 12));
+
+  document.querySelectorAll("[data-course-option]").forEach((option) => {
+    option.textContent = getScenarioContentByCode(option.dataset.courseOption, language)?.title || option.textContent;
+  });
+
+  setCertificateText("[data-certificate-kicker]", dictionary.certificateKicker);
+  setCertificateText("[data-certificate-heading]", dictionary.certificateHeading);
+  setCertificateText("[data-certificate-awarded]", dictionary.certificateAwarded);
+  setCertificateText("[data-certificate-completed]", dictionary.certificateCompleted);
+  setCertificateText("[data-certificate-issue-label]", dictionary.certificateIssueLabel);
+  setCertificateText("[data-certificate-valid-label]", dictionary.certificateValidLabel);
+  setCertificateText("[data-certificate-number-label]", dictionary.certificateNumberLabel);
+  setCertificateText("[data-certificate-preview-name]", fullName);
+  setCertificateText("[data-certificate-preview-course]", course);
+  setCertificateText("[data-certificate-preview-date]", formatCertificateDate(issueDate, language));
+  setCertificateText("[data-certificate-preview-valid]", formatCertificateDate(validUntil, language));
+  const certificateNumber = createCertificateNumber(fullName, issueValue);
+  const verificationUrl = getVerificationUrl(certificateNumber);
+  setCertificateText("[data-certificate-preview-number]", certificateNumber);
+  setCertificateText("[data-certificate-preview-link]", verificationUrl);
+  const qrImage = generatedCertificate.querySelector("[data-certificate-qr]");
+  if (qrImage) {
+    qrImage.setAttribute("href", getQrCodeUrl(verificationUrl));
+  }
+  updateCertificateNameSize(fullName);
+  updateCertificateCourseSize(course);
+}
+
+function downloadCertificate() {
+  if (!generatedCertificate) {
+    return;
+  }
+
+  updateCertificate(currentLanguage);
+  const serializer = new XMLSerializer();
+  const svgMarkup = serializer.serializeToString(generatedCertificate);
+  const blob = new Blob([svgMarkup], { type: "image/svg+xml;charset=utf-8" });
+  const downloadUrl = URL.createObjectURL(blob);
+  const safeName = certificateNameInput.value
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
+  const link = document.createElement("a");
+
+  link.href = downloadUrl;
+  link.download = `${translations[currentLanguage].certificates.downloadFileName}-${safeName || "certificate"}.svg`;
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  URL.revokeObjectURL(downloadUrl);
+}
+
+function printCertificate() {
+  if (!generatedCertificate) {
+    return;
+  }
+
+  updateCertificate(currentLanguage);
+  const serializer = new XMLSerializer();
+  const svgMarkup = serializer.serializeToString(generatedCertificate);
+  const printWindow = window.open("", "_blank", "noopener,noreferrer");
+  if (!printWindow) {
+    return;
+  }
+
+  printWindow.document.write(`
+    <!doctype html>
+    <html>
+      <head>
+        <title>Safety Sim certificate</title>
+        <style>
+          @page { size: A4 landscape; margin: 10mm; }
+          body { margin: 0; background: #ffffff; }
+          svg { width: 100%; height: auto; display: block; }
+        </style>
+      </head>
+      <body>${svgMarkup}</body>
+    </html>
+  `);
+  printWindow.document.close();
+  printWindow.focus();
+  printWindow.print();
+}
+
+function getDemoVerification(certificateNumber) {
+  const normalized = certificateNumber.trim().toUpperCase();
+  if (!normalized || !normalized.startsWith("SS-")) {
+    return null;
+  }
+
+  return {
+    certificateNumber: normalized,
+    courseTitleSr: "Protivpozarna zastita",
+    courseTitleEn: "Fire protection",
+    issuedAt: "2026-06-27T00:00:00Z",
+    validUntil: "2027-06-27T00:00:00Z",
+    status: "Active",
+  };
+}
+
+function renderVerificationResult(result, language) {
+  const dictionary = translations[language].verify;
+  const found = Boolean(result);
+
+  if (verifyStatus) {
+    verifyStatus.textContent = found ? dictionary.activeStatus : dictionary.missingStatus;
+  }
+
+  if (verifyHeading) {
+    verifyHeading.textContent = found ? dictionary.activeTitle : dictionary.missingTitle;
+  }
+
+  if (verifyCopy) {
+    verifyCopy.textContent = found ? dictionary.activeCopy : dictionary.missingCopy;
+  }
+
+  if (verifyCourse) {
+    verifyCourse.textContent = found
+      ? language === "sr"
+        ? getField(result, "courseTitleSr") || getField(result, "courseTitleEn")
+        : getField(result, "courseTitleEn") || getField(result, "courseTitleSr")
+      : "-";
+  }
+
+  if (verifyIssued) {
+    verifyIssued.textContent = found ? formatShortDate(getField(result, "issuedAt"), language) : "-";
+  }
+
+  if (verifyValid) {
+    verifyValid.textContent = found ? formatShortDate(getField(result, "validUntil"), language) : "-";
+  }
+}
+
+async function verifyCertificate(certificateNumber) {
+  if (!verifyForm) {
+    return;
+  }
+
+  const number = certificateNumber.trim();
+  if (!number) {
+    renderVerificationResult(null, currentLanguage);
+    return;
+  }
+
+  const apiResult = await apiRequest(`/api/certificates/verify/${encodeURIComponent(number)}`);
+  renderVerificationResult(apiResult.ok ? apiResult.data : getDemoVerification(number), currentLanguage);
 }
 
 function applyTranslations(language) {
   const dictionary = translations[language];
   const pageMeta = dictionary.pages?.[pageName];
+  currentLanguage = language;
 
   document.documentElement.lang = language;
   document.title = pageMeta?.metaTitle || dictionary.metaTitle;
@@ -809,7 +1982,11 @@ function applyTranslations(language) {
 
   localStorage.setItem("siteLanguage", language);
   renderScenarios(language);
-  renderPlatform(language);
+  loadPlatformData(language);
+  updateCertificate(language);
+  if (verifyNumberInput?.value) {
+    verifyCertificate(verifyNumberInput.value);
+  }
 }
 
 authTabs.forEach((tab) => {
@@ -827,11 +2004,332 @@ authTabs.forEach((tab) => {
 });
 
 authPanels.forEach((form) => {
-  form.addEventListener("submit", (event) => {
+  form.addEventListener("submit", async (event) => {
     event.preventDefault();
+
+    const formData = new FormData(form);
+    const isRegisterForm = form.dataset.authPanel === "register";
+    const dictionary = translations[currentLanguage].auth;
+    const submitButton = form.querySelector('button[type="submit"]');
+    const endpoint = isRegisterForm ? "/api/auth/register" : "/api/auth/login";
+    const body = isRegisterForm
+      ? {
+          email: formData.get("email")?.toString().trim(),
+          password: formData.get("password")?.toString(),
+          firstName: formData.get("firstName")?.toString().trim(),
+          lastName: formData.get("lastName")?.toString().trim(),
+          companyName: formData.get("companyName")?.toString().trim(),
+        }
+      : {
+          email: formData.get("email")?.toString().trim(),
+          password: formData.get("password")?.toString(),
+        };
+
+    setAuthMessage(dictionary.working);
+    submitButton.disabled = true;
+
+    const result = await apiRequest(endpoint, {
+      method: "POST",
+      body,
+    });
+
+    submitButton.disabled = false;
+
+    if (!result.ok) {
+      setAuthMessage(result.error || dictionary.apiUnavailable, "error");
+      return;
+    }
+
+    saveAuth(result.data);
+    setAuthMessage(isRegisterForm ? dictionary.registerSuccess : dictionary.loginSuccess, "success");
     window.location.href = "platform.html";
   });
 });
+
+platformLogoutButton?.addEventListener("click", () => {
+  clearAuth();
+  platformDataLoadedFromApi = false;
+  currentPlatformData = null;
+  setWorkerMessage("");
+  setEnrollmentMessage("");
+  setCompletionMessage("");
+  loadPlatformData(currentLanguage);
+});
+
+workerForm?.addEventListener("submit", async (event) => {
+  event.preventDefault();
+
+  if (!getAccessToken() || !platformDataLoadedFromApi) {
+    setWorkerMessage(translations[currentLanguage].platform.addWorkerLoginRequired, "error");
+    return;
+  }
+
+  const formData = new FormData(workerForm);
+  const submitButton = workerForm.querySelector('button[type="submit"]');
+  const request = {
+    firstName: formData.get("firstName")?.toString().trim(),
+    lastName: formData.get("lastName")?.toString().trim(),
+    email: formData.get("email")?.toString().trim(),
+    employeeNumber: formData.get("employeeNumber")?.toString().trim(),
+    department: formData.get("department")?.toString().trim() || "-",
+  };
+
+  setWorkerMessage(translations[currentLanguage].platform.addWorkerWorking);
+  submitButton.disabled = true;
+
+  const result = await apiRequest("/api/workers", {
+    method: "POST",
+    auth: true,
+    body: request,
+  });
+
+  submitButton.disabled = false;
+
+  if (!result.ok) {
+    setWorkerMessage(result.error, "error");
+    return;
+  }
+
+  workerForm.reset();
+  setWorkerMessage(translations[currentLanguage].platform.addWorkerSuccess, "success");
+  loadPlatformData(currentLanguage);
+});
+
+workerSearchInput?.addEventListener("input", () => {
+  workerSearchTerm = workerSearchInput.value.trim();
+  renderPlatform(currentLanguage, currentPlatformData);
+});
+
+workerImportInput?.addEventListener("change", async () => {
+  const file = workerImportInput.files?.[0];
+  if (!file) {
+    return;
+  }
+
+  if (!getAccessToken() || !platformDataLoadedFromApi) {
+    setWorkerMessage(translations[currentLanguage].platform.addWorkerLoginRequired, "error");
+    workerImportInput.value = "";
+    return;
+  }
+
+  const workers = mapCsvWorkers(await file.text());
+  if (!workers.length) {
+    setWorkerMessage(translations[currentLanguage].platform.importWorkersEmpty, "error");
+    workerImportInput.value = "";
+    return;
+  }
+
+  setWorkerMessage(translations[currentLanguage].platform.addWorkerWorking);
+  workerImportInput.disabled = true;
+
+  let importedCount = 0;
+  let lastError = "";
+  for (const worker of workers) {
+    const result = await apiRequest("/api/workers", {
+      method: "POST",
+      auth: true,
+      body: worker,
+    });
+
+    if (result.ok) {
+      importedCount += 1;
+    } else {
+      lastError = result.error;
+    }
+  }
+
+  workerImportInput.disabled = false;
+  workerImportInput.value = "";
+
+  if (importedCount > 0) {
+    setWorkerMessage(
+      translations[currentLanguage].platform.importWorkersSuccess.replace("{count}", String(importedCount)),
+      "success",
+    );
+    loadPlatformData(currentLanguage);
+    return;
+  }
+
+  setWorkerMessage(lastError || translations[currentLanguage].platform.importWorkersEmpty, "error");
+});
+
+enrollmentForm?.addEventListener("submit", async (event) => {
+  event.preventDefault();
+
+  if (!getAccessToken() || !platformDataLoadedFromApi) {
+    setEnrollmentMessage(translations[currentLanguage].platform.assignTrainingLoginRequired, "error");
+    return;
+  }
+
+  const formData = new FormData(enrollmentForm);
+  const submitButton = enrollmentForm.querySelector('button[type="submit"]');
+  const request = {
+    workerId: formData.get("workerId")?.toString(),
+    courseId: formData.get("courseId")?.toString(),
+  };
+
+  setEnrollmentMessage(translations[currentLanguage].platform.assignTrainingWorking);
+  submitButton.disabled = true;
+
+  const result = await apiRequest("/api/enrollments", {
+    method: "POST",
+    auth: true,
+    body: request,
+  });
+
+  submitButton.disabled = false;
+
+  if (!result.ok) {
+    setEnrollmentMessage(result.error, "error");
+    return;
+  }
+
+  setEnrollmentMessage(translations[currentLanguage].platform.assignTrainingSuccess, "success");
+  loadPlatformData(currentLanguage);
+});
+
+function openReminderMailClient(email, subject, body) {
+  window.location.href = `mailto:${email}?subject=${encodeURIComponent(subject || "")}&body=${encodeURIComponent(body || "")}`;
+}
+
+notificationList?.addEventListener("click", async (event) => {
+  const actionButton = event.target.closest("[data-reminder-action]");
+  if (!actionButton) {
+    return;
+  }
+
+  const email = actionButton.dataset.reminderEmail;
+  const subject = actionButton.dataset.reminderSubject || "";
+  const body = actionButton.dataset.reminderBody || "";
+  if (!email) {
+    actionButton.textContent = translations[currentLanguage].platform.reminderNoEmail;
+    actionButton.disabled = true;
+    return;
+  }
+
+  actionButton.textContent = translations[currentLanguage].platform.reminderSending;
+  actionButton.disabled = true;
+
+  const workerId = actionButton.dataset.reminderWorkerId;
+  if (workerId && getAccessToken() && platformDataLoadedFromApi) {
+    const result = await apiRequest("/api/notifications/reminders", {
+      method: "POST",
+      auth: true,
+      body: {
+        workerId,
+        subject,
+        message: body,
+      },
+    });
+
+    if (result.ok) {
+      actionButton.textContent = translations[currentLanguage].platform.reminderSent;
+      return;
+    }
+  }
+
+  openReminderMailClient(email, subject, body);
+  actionButton.textContent = translations[currentLanguage].platform.reminderFallback;
+});
+
+reportButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    const reportType = button.dataset.reportExport;
+
+    if (reportType === "workers") {
+      exportWorkersReport();
+      return;
+    }
+
+    if (reportType === "enrollments") {
+      exportEnrollmentsReport();
+      return;
+    }
+
+    exportCertificatesReport();
+  });
+});
+
+completionForm?.addEventListener("submit", async (event) => {
+  event.preventDefault();
+
+  if (!getAccessToken() || !platformDataLoadedFromApi) {
+    setCompletionMessage(translations[currentLanguage].platform.completeTrainingLoginRequired, "error");
+    return;
+  }
+
+  const formData = new FormData(completionForm);
+  const enrollmentId = formData.get("enrollmentId")?.toString();
+  const submitButton = completionForm.querySelector('button[type="submit"]');
+
+  if (!enrollmentId) {
+    setCompletionMessage(translations[currentLanguage].platform.completeTrainingEmpty, "error");
+    return;
+  }
+
+  const request = {
+    score: Number(formData.get("score")),
+    durationMinutes: Number(formData.get("durationMinutes")),
+  };
+
+  setCompletionMessage(translations[currentLanguage].platform.completeTrainingWorking);
+  submitButton.disabled = true;
+
+  const result = await apiRequest(`/api/enrollments/${enrollmentId}/complete`, {
+    method: "POST",
+    auth: true,
+    body: request,
+  });
+
+  submitButton.disabled = false;
+
+  if (!result.ok) {
+    setCompletionMessage(result.error, "error");
+    return;
+  }
+
+  const certificate = getField(result.data, "certificate");
+  setCompletionMessage(
+    certificate
+      ? translations[currentLanguage].platform.completeTrainingPassed
+      : translations[currentLanguage].platform.completeTrainingFailed,
+    certificate ? "success" : "",
+  );
+  loadPlatformData(currentLanguage);
+});
+
+if (certificateDateInput && !certificateDateInput.value) {
+  const today = new Date();
+  const localDate = new Date(today.getTime() - today.getTimezoneOffset() * 60000);
+  certificateDateInput.value = localDate.toISOString().slice(0, 10);
+}
+
+certificateForm?.addEventListener("submit", (event) => {
+  event.preventDefault();
+  updateCertificate(currentLanguage);
+});
+
+[certificateNameInput, certificateCourseInput, certificateDateInput, certificateValidityInput]
+  .filter(Boolean)
+  .forEach((field) => {
+    field.addEventListener("input", () => updateCertificate(currentLanguage));
+    field.addEventListener("change", () => updateCertificate(currentLanguage));
+  });
+
+certificateDownloadButton?.addEventListener("click", downloadCertificate);
+certificatePrintButton?.addEventListener("click", printCertificate);
+
+verifyForm?.addEventListener("submit", (event) => {
+  event.preventDefault();
+  verifyCertificate(verifyNumberInput.value);
+});
+
+if (verifyNumberInput) {
+  const certificateFromUrl = new URLSearchParams(window.location.search).get("certificate");
+  if (certificateFromUrl) {
+    verifyNumberInput.value = certificateFromUrl;
+  }
+}
 
 function updateHeaderState() {
   header.classList.toggle("is-scrolled", window.scrollY > 12);

@@ -28,6 +28,7 @@
         <a href="platform.html" aria-current="page" data-i18n="nav.platform">Platforma</a>
         <a href="pricing.html" data-i18n="nav.pricing">Cene</a>
         <a href="certificates.html" data-i18n="nav.certificates">Sertifikati</a>
+        <a href="verify.html" data-i18n="nav.verify">Provera</a>
         <a href="index.html#kontakt" data-i18n="nav.contact">Kontakt</a>
       </nav>
 
@@ -53,27 +54,64 @@
             <p data-i18n="platform.copy">
               Centralno mesto za upravljanje VR kursevima, radnicima, statusima polaganja i vazecim sertifikatima.
             </p>
+            <p class="platform-session" data-platform-session data-i18n="platform.demoSession">
+              Prikazan je demo pregled dok se ne prijavite.
+            </p>
           </div>
-          <a class="button primary" href="login.html" data-i18n="platform.primaryAction">Otvori nalog</a>
+          <div class="platform-actions">
+            <a class="button primary" href="login.html" data-platform-login-link data-i18n="platform.primaryAction">Otvori nalog</a>
+            <button class="button secondary" type="button" hidden data-platform-logout data-i18n="platform.logout">Odjava</button>
+          </div>
         </div>
 
         <section class="dashboard-metrics" aria-label="Pregled statusa" data-i18n-aria-label="platform.metricsLabel">
           <article>
             <span data-i18n="platform.metricCoursesLabel">Aktivni kursevi</span>
-            <strong>6</strong>
+            <strong data-platform-metric="courses">6</strong>
           </article>
           <article>
             <span data-i18n="platform.metricWorkersLabel">Radnici u obuci</span>
-            <strong>42</strong>
+            <strong data-platform-metric="workers">42</strong>
           </article>
           <article>
             <span data-i18n="platform.metricCertificatesLabel">Vazeci sertifikati</span>
-            <strong>31</strong>
+            <strong data-platform-metric="certificates">31</strong>
           </article>
           <article>
             <span data-i18n="platform.metricScoreLabel">Prosecan rezultat</span>
-            <strong>87%</strong>
+            <strong data-platform-metric="score">87%</strong>
           </article>
+        </section>
+
+        <section class="dashboard-panel notification-panel" aria-labelledby="notifications-title">
+          <div class="panel-heading">
+            <div>
+              <span class="scenario-kicker" data-i18n="platform.notificationsLabel">Obavestenja</span>
+              <h2 id="notifications-title" data-i18n="platform.notificationsTitle">Sta zahteva paznju</h2>
+            </div>
+          </div>
+          <div class="notification-list" data-notification-list></div>
+        </section>
+
+        <section class="dashboard-panel reports-panel" aria-labelledby="reports-title">
+          <div class="panel-heading">
+            <div>
+              <span class="scenario-kicker" data-i18n="platform.reportsLabel">Izvestaji</span>
+              <h2 id="reports-title" data-i18n="platform.reportsTitle">Export evidencije</h2>
+            </div>
+          </div>
+          <div class="report-actions">
+            <button class="button secondary" type="button" data-report-export="workers" data-i18n="platform.exportWorkers">
+              Radnici CSV
+            </button>
+            <button class="button secondary" type="button" data-report-export="enrollments" data-i18n="platform.exportEnrollments">
+              Obuke CSV
+            </button>
+            <button class="button secondary" type="button" data-report-export="certificates" data-i18n="platform.exportCertificates">
+              Sertifikati CSV
+            </button>
+          </div>
+          <p class="auth-message" data-report-message></p>
         </section>
 
         <div class="dashboard-grid">
@@ -86,6 +124,20 @@
               <a href="certificates.html" data-i18n="platform.certificatesLink">Sertifikati</a>
             </div>
             <div class="course-list" data-platform-courses></div>
+            <form class="assignment-form" data-enrollment-form>
+              <div class="form-grid">
+                <label>
+                  <span data-i18n="platform.assignWorker">Radnik</span>
+                  <select name="workerId" required data-enrollment-worker></select>
+                </label>
+                <label>
+                  <span data-i18n="platform.assignCourse">Kurs</span>
+                  <select name="courseId" required data-enrollment-course></select>
+                </label>
+              </div>
+              <button class="button primary" type="submit" data-i18n="platform.assignTraining">Dodeli obuku</button>
+              <p class="auth-message" data-enrollment-message></p>
+            </form>
           </section>
 
           <aside class="dashboard-panel" aria-labelledby="workers-title">
@@ -95,9 +147,79 @@
                 <h2 id="workers-title" data-i18n="platform.workersTitle">Status obuke</h2>
               </div>
             </div>
+            <div class="worker-tools">
+              <label>
+                <span data-i18n="platform.workerSearch">Pretraga radnika</span>
+                <input type="search" data-worker-search />
+              </label>
+              <label>
+                <span data-i18n="platform.importWorkers">Import CSV</span>
+                <input type="file" accept=".csv,text/csv" data-worker-import />
+              </label>
+            </div>
             <div class="worker-list" data-worker-list></div>
+            <form class="worker-form" data-worker-form>
+              <label>
+                <span data-i18n="platform.workerFirstName">Ime</span>
+                <input type="text" name="firstName" required />
+              </label>
+              <label>
+                <span data-i18n="platform.workerLastName">Prezime</span>
+                <input type="text" name="lastName" required />
+              </label>
+              <label>
+                <span data-i18n="platform.workerEmail">Email</span>
+                <input type="email" name="email" required />
+              </label>
+              <label>
+                <span data-i18n="platform.workerEmployeeNumber">Broj zaposlenog</span>
+                <input type="text" name="employeeNumber" required />
+              </label>
+              <label>
+                <span data-i18n="platform.workerDepartment">Odeljenje</span>
+                <input type="text" name="department" />
+              </label>
+              <button class="button primary" type="submit" data-i18n="platform.addWorker">Dodaj radnika</button>
+              <p class="auth-message" data-worker-message></p>
+            </form>
           </aside>
         </div>
+
+        <section class="dashboard-panel enrollment-log" aria-labelledby="enrollment-log-title">
+          <div class="panel-heading">
+            <div>
+              <span class="scenario-kicker" data-i18n="platform.enrollmentsLabel">Obuke</span>
+              <h2 id="enrollment-log-title" data-i18n="platform.enrollmentsTitle">Dodeljene obuke</h2>
+            </div>
+          </div>
+          <div class="records-table" role="table" aria-label="Dodeljene obuke" data-i18n-aria-label="platform.enrollmentsTitle">
+            <div role="row" class="records-head enrollment-head">
+              <span role="columnheader" data-i18n="platform.recordWorker">Radnik</span>
+              <span role="columnheader" data-i18n="platform.recordCourse">Kurs</span>
+              <span role="columnheader" data-i18n="platform.enrollmentStatus">Status</span>
+              <span role="columnheader" data-i18n="platform.enrollmentScore">Rezultat</span>
+            </div>
+            <div data-enrollment-records></div>
+          </div>
+          <form class="completion-form" data-completion-form>
+            <div class="form-grid">
+              <label>
+                <span data-i18n="platform.completeEnrollment">Obuka</span>
+                <select name="enrollmentId" required data-completion-enrollment></select>
+              </label>
+              <label>
+                <span data-i18n="platform.completeScore">Rezultat</span>
+                <input type="number" name="score" min="0" max="100" value="85" required />
+              </label>
+            </div>
+            <label>
+              <span data-i18n="platform.completeDuration">Trajanje u minutima</span>
+              <input type="number" name="durationMinutes" min="1" value="35" required />
+            </label>
+            <button class="button primary" type="submit" data-i18n="platform.completeTraining">Zavrsi obuku</button>
+            <p class="auth-message" data-completion-message></p>
+          </form>
+        </section>
 
         <section class="dashboard-panel certificate-log" aria-labelledby="certificate-log-title">
           <div class="panel-heading">

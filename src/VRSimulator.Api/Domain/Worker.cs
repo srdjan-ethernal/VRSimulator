@@ -5,6 +5,7 @@ public sealed record Worker(
     Guid CompanyId,
     string FirstName,
     string LastName,
+    string Email,
     string EmployeeNumber,
     string Department,
     DateTimeOffset CreatedAt);

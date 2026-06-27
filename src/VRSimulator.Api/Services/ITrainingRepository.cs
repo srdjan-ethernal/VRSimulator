@@ -11,6 +11,8 @@ public interface ITrainingRepository
 
     IReadOnlyCollection<Worker> GetWorkers(Guid companyId);
 
+    Worker? GetWorker(Guid companyId, Guid workerId);
+
     Result<Worker> CreateWorker(Guid companyId, CreateWorkerRequest request);
 
     IReadOnlyCollection<Enrollment> GetEnrollments(Guid companyId);
@@ -24,5 +26,7 @@ public interface ITrainingRepository
     IReadOnlyCollection<Certificate> GetCertificatesForWorker(Guid companyId, Guid workerId);
 
     Certificate? GetCertificate(Guid companyId, Guid certificateId);
+
+    CertificateVerificationResponse? VerifyCertificate(string certificateNumber);
 }
 

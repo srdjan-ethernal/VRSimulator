@@ -10,19 +10,35 @@ var builder = WebApplication.CreateBuilder(args);
 
 var connectionString = builder.Configuration.GetConnectionString("TrainingDatabase")
     ?? "Server=(localdb)\\MSSQLLocalDB;Database=VRSimulatorTraining;Trusted_Connection=True;MultipleActiveResultSets=true";
+var allowedOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>()
+    ?? Array.Empty<string>();
+const string frontendCorsPolicy = "Frontend";
 
 builder.Services.AddDbContext<TrainingDbContext>(options =>
 {
     options.UseSqlServer(connectionString);
 });
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(frontendCorsPolicy, policy =>
+    {
+        policy
+            .WithOrigins(allowedOrigins)
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});
 builder.Services.AddScoped<ITrainingRepository, EfTrainingRepository>();
 builder.Services.AddScoped<IAuthService, EfAuthService>();
+builder.Services.AddScoped<IEmailNotificationService, SmtpEmailNotificationService>();
 builder.Services.Configure<JsonOptions>(options =>
 {
     options.SerializerOptions.Converters.Add(new JsonStringEnumConverter());
 });
 
 var app = builder.Build();
+
+app.UseCors(frontendCorsPolicy);
 
 app.MapGet("/", () => Results.Ok(new
 {
@@ -52,8 +68,10 @@ app.MapGet("/api", () => Results.Ok(new
         "GET /api/enrollments",
         "POST /api/enrollments/{enrollmentId}/complete",
         "GET /api/certificates",
+        "GET /api/certificates/verify/{certificateNumber}",
         "GET /api/workers/{workerId}/certificates",
-        "GET /api/certificates/{certificateId}"
+        "GET /api/certificates/{certificateId}",
+        "POST /api/notifications/reminders"
     }
 }));
 
@@ -160,6 +178,11 @@ app.MapPost("/api/workers", (CreateWorkerRequest request, HttpRequest httpReques
         return Results.BadRequest(new ProblemResponse("Broj zaposlenog je obavezan."));
     }
 
+    if (!string.IsNullOrWhiteSpace(request.Email) && !request.Email.Contains('@'))
+    {
+        return Results.BadRequest(new ProblemResponse("Email radnika nije ispravan."));
+    }
+
     var currentUser = ResolveCurrentUser(httpRequest, authService);
     return currentUser.Match(
         user =>
@@ -226,6 +249,12 @@ app.MapGet("/api/certificates", (HttpRequest request, IAuthService authService, 
         _ => Results.Unauthorized());
 });
 
+app.MapGet("/api/certificates/verify/{certificateNumber}", (string certificateNumber, ITrainingRepository repository) =>
+{
+    var certificate = repository.VerifyCertificate(certificateNumber);
+    return certificate is null ? Results.NotFound() : Results.Ok(certificate);
+});
+
 app.MapGet("/api/workers/{workerId:guid}/certificates", (Guid workerId, HttpRequest request, IAuthService authService, ITrainingRepository repository) =>
 {
     var currentUser = ResolveCurrentUser(request, authService);
@@ -242,6 +271,36 @@ app.MapGet("/api/certificates/{certificateId:guid}", (Guid certificateId, HttpRe
         {
             var certificate = repository.GetCertificate(user.CompanyId, certificateId);
             return certificate is null ? Results.NotFound() : Results.Ok(certificate);
+        },
+        _ => Results.Unauthorized());
+});
+
+app.MapPost("/api/notifications/reminders", (
+    SendReminderRequest request,
+    HttpRequest httpRequest,
+    IAuthService authService,
+    ITrainingRepository repository,
+    IEmailNotificationService emailService) =>
+{
+    if (string.IsNullOrWhiteSpace(request.Subject) || string.IsNullOrWhiteSpace(request.Message))
+    {
+        return Results.BadRequest(new ProblemResponse("Naslov i poruka su obavezni."));
+    }
+
+    var currentUser = ResolveCurrentUser(httpRequest, authService);
+    return currentUser.Match(
+        user =>
+        {
+            var worker = repository.GetWorker(user.CompanyId, request.WorkerId);
+            if (worker is null)
+            {
+                return Results.NotFound();
+            }
+
+            var result = emailService.SendReminder(worker, request.Subject, request.Message);
+            return result.Match(
+                reminder => Results.Ok(reminder),
+                error => Results.BadRequest(new ProblemResponse(error)));
         },
         _ => Results.Unauthorized());
 });

@@ -10,6 +10,8 @@ public sealed class WorkerEntity
 
     public string LastName { get; set; } = string.Empty;
 
+    public string Email { get; set; } = string.Empty;
+
     public string EmployeeNumber { get; set; } = string.Empty;
 
     public string Department { get; set; } = string.Empty;
@@ -22,4 +24,3 @@ public sealed class WorkerEntity
 
     public List<CertificateEntity> Certificates { get; set; } = new();
 }
-

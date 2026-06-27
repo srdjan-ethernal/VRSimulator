@@ -846,6 +846,13 @@ h1 {
     var(--page);
 }
 
+.worker-shell {
+  padding: 136px clamp(20px, 5vw, 64px) 72px;
+  background:
+    linear-gradient(180deg, rgba(238, 245, 244, 0.9), rgba(247, 249, 251, 0)),
+    var(--page);
+}
+
 .app-hero {
   display: grid;
   grid-template-columns: minmax(0, 0.9fr) minmax(420px, 0.85fr);
@@ -1043,6 +1050,12 @@ h1 {
   margin-bottom: 22px;
 }
 
+.worker-portal-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  gap: 22px;
+}
+
 .notification-panel {
   margin-bottom: 22px;
   box-shadow: none;
@@ -1156,6 +1169,48 @@ h1 {
   border: 1px solid var(--line);
   border-radius: var(--radius);
   background: #fbfdfe;
+}
+
+.course-item.is-worker-course p {
+  max-width: 760px;
+}
+
+.worker-course-actions,
+.worker-complete-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.worker-complete-form label {
+  display: grid;
+  gap: 4px;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.worker-complete-form input {
+  width: 76px;
+  min-height: 34px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--ink);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 800;
+  padding: 0 10px;
+}
+
+.worker-course-actions button:disabled,
+.worker-complete-form input:disabled,
+.worker-complete-form button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
 }
 
 .course-item img {
@@ -1340,6 +1395,11 @@ h1 {
   font-weight: 700;
 }
 
+.record-row a {
+  color: var(--teal-dark);
+  font-weight: 800;
+}
+
 .enrollment-head,
 .enrollment-row {
   grid-template-columns: 1fr 1.2fr 0.7fr 0.5fr;
@@ -1487,6 +1547,7 @@ h1 {
   .platform-topbar,
   .dashboard-metrics,
   .dashboard-grid,
+  .worker-portal-grid,
   .notification-list,
   .report-actions,
   .pricing-rate,
@@ -1527,7 +1588,8 @@ h1 {
   }
 
   .app-hero,
-  .platform-shell {
+  .platform-shell,
+  .worker-shell {
     padding: 112px 18px 48px;
   }
 
@@ -1581,6 +1643,25 @@ h1 {
   .course-item .status-pill {
     grid-column: 1 / -1;
     width: 100%;
+  }
+
+  .worker-course-actions {
+    grid-column: 1 / -1;
+    justify-content: stretch;
+  }
+
+  .worker-complete-form {
+    display: grid;
+    width: 100%;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .worker-complete-form input {
+    width: 100%;
+  }
+
+  .worker-complete-form button {
+    grid-column: 1 / -1;
   }
 
   .records-head {

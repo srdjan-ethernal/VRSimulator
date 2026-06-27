@@ -71,7 +71,10 @@ app.MapGet("/api", () => Results.Ok(new
         "GET /api/certificates/verify/{certificateNumber}",
         "GET /api/workers/{workerId}/certificates",
         "GET /api/certificates/{certificateId}",
-        "POST /api/notifications/reminders"
+        "POST /api/notifications/reminders",
+        "GET /api/worker-portal/me",
+        "POST /api/worker-portal/enrollments/{enrollmentId}/start",
+        "POST /api/worker-portal/enrollments/{enrollmentId}/complete"
     }
 }));
 
@@ -300,6 +303,95 @@ app.MapPost("/api/notifications/reminders", (
             var result = emailService.SendReminder(worker, request.Subject, request.Message);
             return result.Match(
                 reminder => Results.Ok(reminder),
+                error => Results.BadRequest(new ProblemResponse(error)));
+        },
+        _ => Results.Unauthorized());
+});
+
+app.MapGet("/api/worker-portal/me", (HttpRequest request, IAuthService authService, ITrainingRepository repository) =>
+{
+    var currentUser = ResolveCurrentUser(request, authService);
+    return currentUser.Match(
+        user =>
+        {
+            var worker = repository.GetWorkerByEmail(user.CompanyId, user.Email);
+            if (worker is null)
+            {
+                return Results.NotFound(new ProblemResponse("Radnik sa email adresom prijavljenog korisnika nije pronadjen."));
+            }
+
+            var courses = repository.GetCourses();
+            var enrollments = repository.GetEnrollments(user.CompanyId)
+                .Where(enrollment => enrollment.WorkerId == worker.Id)
+                .ToList();
+            var certificates = repository.GetCertificatesForWorker(user.CompanyId, worker.Id);
+
+            return Results.Ok(new WorkerPortalResponse(worker, courses, enrollments, certificates));
+        },
+        _ => Results.Unauthorized());
+});
+
+app.MapPost("/api/worker-portal/enrollments/{enrollmentId:guid}/start", (
+    Guid enrollmentId,
+    HttpRequest request,
+    IAuthService authService,
+    ITrainingRepository repository) =>
+{
+    var currentUser = ResolveCurrentUser(request, authService);
+    return currentUser.Match(
+        user =>
+        {
+            var worker = repository.GetWorkerByEmail(user.CompanyId, user.Email);
+            if (worker is null)
+            {
+                return Results.NotFound(new ProblemResponse("Radnik sa email adresom prijavljenog korisnika nije pronadjen."));
+            }
+
+            var result = repository.StartEnrollment(user.CompanyId, worker.Id, enrollmentId);
+            return result.Match(
+                enrollment => Results.Ok(enrollment),
+                error => Results.BadRequest(new ProblemResponse(error)));
+        },
+        _ => Results.Unauthorized());
+});
+
+app.MapPost("/api/worker-portal/enrollments/{enrollmentId:guid}/complete", (
+    Guid enrollmentId,
+    CompleteTrainingRequest request,
+    HttpRequest httpRequest,
+    IAuthService authService,
+    ITrainingRepository repository) =>
+{
+    if (request.Score < 0 || request.Score > 100)
+    {
+        return Results.BadRequest(new ProblemResponse("Rezultat mora biti izmedju 0 i 100."));
+    }
+
+    if (request.DurationMinutes <= 0)
+    {
+        return Results.BadRequest(new ProblemResponse("Trajanje obuke mora biti vece od 0."));
+    }
+
+    var currentUser = ResolveCurrentUser(httpRequest, authService);
+    return currentUser.Match(
+        user =>
+        {
+            var worker = repository.GetWorkerByEmail(user.CompanyId, user.Email);
+            if (worker is null)
+            {
+                return Results.NotFound(new ProblemResponse("Radnik sa email adresom prijavljenog korisnika nije pronadjen."));
+            }
+
+            var ownsEnrollment = repository.GetEnrollments(user.CompanyId)
+                .Any(enrollment => enrollment.Id == enrollmentId && enrollment.WorkerId == worker.Id);
+            if (!ownsEnrollment)
+            {
+                return Results.NotFound(new ProblemResponse("Upis na kurs nije pronadjen za prijavljenog radnika."));
+            }
+
+            var result = repository.CompleteEnrollment(user.CompanyId, enrollmentId, request);
+            return result.Match(
+                completion => Results.Ok(completion),
                 error => Results.BadRequest(new ProblemResponse(error)));
         },
         _ => Results.Unauthorized());

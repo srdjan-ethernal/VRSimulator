@@ -11,6 +11,7 @@
       scenarios: "Scenariji",
       method: "Metodologija",
       platform: "Platforma",
+      workerPortal: "Moj portal",
       pricing: "Cene",
       certificates: "Sertifikati",
       verify: "Provera",
@@ -99,6 +100,10 @@
         metaTitle: "Safety Sim platforma za obuke",
         metaDescription:
           "Pregled kompanijskih VR obuka, radnika, kurseva i sertifikata na Safety Sim platformi.",
+      },
+      worker: {
+        metaTitle: "Moj Safety Sim portal",
+        metaDescription: "Radnicki portal za pregled dodeljenih VR obuka, rezultata i sertifikata.",
       },
       verify: {
         metaTitle: "Provera Safety Sim sertifikata",
@@ -334,6 +339,39 @@
       duration: "minuta",
       score: "rezultat",
     },
+    workerPortal: {
+      eyebrow: "Radnicki portal",
+      title: "Moje obuke i sertifikati",
+      copy: "Pregled dodeljenih VR obuka, rezultata, vazecih sertifikata i sledecih koraka.",
+      loginPrompt: "Prijavite se email adresom koja je evidentirana kod vase kompanije.",
+      loginButton: "Prijava",
+      metricsLabel: "Pregled radnika",
+      assignedMetric: "Dodeljene obuke",
+      passedMetric: "Polozeno",
+      certificatesMetric: "Sertifikati",
+      trainingLabel: "Obuke",
+      trainingTitle: "Moje dodeljene obuke",
+      certificatesLabel: "Sertifikati",
+      certificatesTitle: "Moji sertifikati",
+      verify: "Provera",
+      noTraining: "Trenutno nemate dodeljene obuke.",
+      noCertificates: "Trenutno nemate izdatih sertifikata.",
+      linkedWorker: "Prijavljeni ste kao {name}.",
+      missingWorker: "Nije pronadjen worker zapis sa email adresom prijavljenog korisnika.",
+      apiFallback: "API nije dostupan, prikazan je demo radnicki portal.",
+      startTraining: "Pokreni obuku",
+      startWorking: "Pokretanje obuke...",
+      startSuccess: "Obuka je pokrenuta.",
+      completeScore: "Rezultat",
+      completeDuration: "Min",
+      completeTraining: "Zavrsi",
+      completeWorking: "Evidentiranje rezultata...",
+      completePassed: "Obuka je zavrsena i sertifikat je kreiran.",
+      completeFailed: "Obuka je zavrsena bez kreiranja sertifikata.",
+      loginRequired: "Prijavite se da biste koristili radnicki portal.",
+      actionUnavailable: "Akcija je dostupna kada je portal povezan sa backendom.",
+      downloadCertificate: "Proveri",
+    },
   },
   en: {
     metaTitle: "VR simulations for industrial safety",
@@ -347,6 +385,7 @@
       scenarios: "Scenarios",
       method: "Methodology",
       platform: "Platform",
+      workerPortal: "My portal",
       pricing: "Pricing",
       certificates: "Certificates",
       verify: "Verify",
@@ -435,6 +474,10 @@
         metaTitle: "Safety Sim training platform",
         metaDescription:
           "Overview of company VR training, workers, courses, and certificates on the Safety Sim platform.",
+      },
+      worker: {
+        metaTitle: "My Safety Sim portal",
+        metaDescription: "Worker portal for assigned VR training, results, and certificates.",
       },
       verify: {
         metaTitle: "Safety Sim certificate verification",
@@ -668,6 +711,39 @@
       statusCompleted: "Passed",
       duration: "minutes",
       score: "score",
+    },
+    workerPortal: {
+      eyebrow: "Worker portal",
+      title: "My training and certificates",
+      copy: "A personal overview of assigned VR training, results, valid certificates, and next steps.",
+      loginPrompt: "Sign in with the email address recorded by your company.",
+      loginButton: "Sign in",
+      metricsLabel: "Worker overview",
+      assignedMetric: "Assigned training",
+      passedMetric: "Passed",
+      certificatesMetric: "Certificates",
+      trainingLabel: "Training",
+      trainingTitle: "My assigned training",
+      certificatesLabel: "Certificates",
+      certificatesTitle: "My certificates",
+      verify: "Verify",
+      noTraining: "You do not currently have assigned training.",
+      noCertificates: "You do not currently have issued certificates.",
+      linkedWorker: "Signed in as {name}.",
+      missingWorker: "No worker record was found for the signed-in email address.",
+      apiFallback: "The API is unavailable, so a demo worker portal is shown.",
+      startTraining: "Start training",
+      startWorking: "Starting training...",
+      startSuccess: "Training has been started.",
+      completeScore: "Score",
+      completeDuration: "Min",
+      completeTraining: "Complete",
+      completeWorking: "Recording result...",
+      completePassed: "Training has been completed and a certificate was created.",
+      completeFailed: "Training has been completed without creating a certificate.",
+      loginRequired: "Sign in to use the worker portal.",
+      actionUnavailable: "This action is available when the portal is connected to the backend.",
+      downloadCertificate: "Verify",
     },
   },
 };
@@ -903,6 +979,10 @@ const verifyCopy = document.querySelector("[data-verify-copy]");
 const verifyCourse = document.querySelector("[data-verify-course]");
 const verifyIssued = document.querySelector("[data-verify-issued]");
 const verifyValid = document.querySelector("[data-verify-valid]");
+const workerPortalMessage = document.querySelector("[data-worker-portal-message]");
+const workerPortalMetrics = document.querySelectorAll("[data-worker-metric]");
+const workerPortalEnrollments = document.querySelector("[data-worker-enrollments]");
+const workerPortalCertificates = document.querySelector("[data-worker-certificates]");
 let currentLanguage = "sr";
 let platformDataLoadedFromApi = false;
 let currentPlatformData = null;
@@ -1623,6 +1703,247 @@ function renderPlatform(language, apiData = null) {
   }
 }
 
+function setWorkerPortalMetric(metricName, value) {
+  const metric = Array.from(workerPortalMetrics).find((item) => item.dataset.workerMetric === metricName);
+  if (metric) {
+    metric.textContent = String(value);
+  }
+}
+
+function getDemoWorkerPortalData() {
+  const demoWorker = {
+    firstName: "Pera",
+    lastName: "Peric",
+    email: "pera.peric@example.com",
+    employeeNumber: "EMP-001",
+    department: "Bezbednost",
+  };
+  const demoCourses = scenarios.slice(0, 3).map((scenario, index) => ({
+    id: scenario.content.en.title.toLowerCase().replaceAll(" ", "-"),
+    code: scenario.image.replace("assets/", "").replace("-vr.png", ""),
+    content: scenario.content,
+    image: scenario.image,
+    validityMonths: 12,
+    passScore: 75,
+    demoDuration: index === 0 ? 35 : 40,
+  }));
+
+  return {
+    worker: demoWorker,
+    courses: demoCourses,
+    enrollments: [
+      {
+        id: "demo-enrollment-fire",
+        courseId: demoCourses[0].id,
+        status: "Passed",
+        score: 92,
+        durationMinutes: 34,
+        completedAt: "2026-06-27T00:00:00Z",
+      },
+      {
+        id: "demo-enrollment-chemical",
+        courseId: demoCourses[1].id,
+        status: "InProgress",
+        score: null,
+        durationMinutes: 0,
+        completedAt: null,
+      },
+      {
+        id: "demo-enrollment-radioactive",
+        courseId: demoCourses[2].id,
+        status: "Enrolled",
+        score: null,
+        durationMinutes: 0,
+        completedAt: null,
+      },
+    ],
+    certificates: [
+      {
+        courseId: demoCourses[0].id,
+        certificateNumber: "SS-DEMO-2026-001",
+        issuedAt: "2026-06-27T00:00:00Z",
+        validUntil: "2027-06-27T00:00:00Z",
+        status: "Active",
+      },
+    ],
+  };
+}
+
+function findCourseForRecord(courses, courseId) {
+  return courses.find((course) => String(getField(course, "id")) === String(courseId));
+}
+
+function setWorkerPortalMessage(message) {
+  if (workerPortalMessage) {
+    workerPortalMessage.textContent = message;
+  }
+}
+
+function renderWorkerPortal(language, apiData = null, message = "") {
+  if (!workerPortalEnrollments || !workerPortalCertificates) {
+    return;
+  }
+
+  const dictionary = translations[language].workerPortal;
+  const data = apiData || getDemoWorkerPortalData();
+  const isLive = Boolean(apiData);
+  const worker = data.worker;
+  const courses = data.courses || [];
+  const enrollments = data.enrollments || [];
+  const certificates = data.certificates || [];
+  const passedCount = enrollments.filter((enrollment) => String(getField(enrollment, "status")).toLowerCase() === "passed")
+    .length;
+
+  setWorkerPortalMetric("enrollments", enrollments.length);
+  setWorkerPortalMetric("passed", passedCount);
+  setWorkerPortalMetric("certificates", certificates.length);
+  setWorkerPortalMessage(message || dictionary.linkedWorker.replace("{name}", getWorkerName(worker)));
+
+  workerPortalEnrollments.innerHTML = enrollments.length
+    ? enrollments
+        .map((enrollment) => {
+          const course = findCourseForRecord(courses, getField(enrollment, "courseId"));
+          const score = getField(enrollment, "score");
+          const duration = getField(enrollment, "durationMinutes") || getField(course, "demoDuration") || 35;
+          const status = getEnrollmentStatusLabel(getField(enrollment, "status"), language);
+          const enrollmentId = getField(enrollment, "id");
+          const normalizedStatus = String(getField(enrollment, "status") || "").toLowerCase();
+          const canStart = normalizedStatus === "enrolled";
+          const canComplete = normalizedStatus === "enrolled" || normalizedStatus === "inprogress";
+          const actionMarkup = canComplete
+            ? `
+              <div class="worker-course-actions">
+                ${
+                  canStart
+                    ? `<button class="status-pill" type="button" data-worker-start-enrollment="${escapeAttribute(enrollmentId)}" ${isLive ? "" : "disabled"}>${dictionary.startTraining}</button>`
+                    : ""
+                }
+                <form class="worker-complete-form" data-worker-complete-form data-worker-enrollment-id="${escapeAttribute(enrollmentId)}">
+                  <label>
+                    <span>${dictionary.completeScore}</span>
+                    <input type="number" name="score" min="0" max="100" value="90" ${isLive ? "" : "disabled"} />
+                  </label>
+                  <label>
+                    <span>${dictionary.completeDuration}</span>
+                    <input type="number" name="durationMinutes" min="1" value="${duration}" ${isLive ? "" : "disabled"} />
+                  </label>
+                  <button class="status-pill" type="submit" ${isLive ? "" : "disabled"}>${dictionary.completeTraining}</button>
+                </form>
+              </div>
+            `
+            : `<span class="status-pill">${status}</span>`;
+
+          return `
+            <article class="course-item is-worker-course">
+              <img src="${getCourseImage(course)}" alt="${getCourseAlt(course, language)}" loading="lazy" />
+              <div>
+                <h3>${getCourseTitle(course, language) || "-"}</h3>
+                <p>${status} · ${score ?? "-"}% ${translations[language].platform.score} · ${duration} ${translations[language].platform.duration}</p>
+              </div>
+              ${actionMarkup}
+            </article>
+          `;
+        })
+        .join("")
+    : `<article class="worker-item"><h3>${dictionary.noTraining}</h3><p>${dictionary.loginPrompt}</p></article>`;
+
+  workerPortalCertificates.innerHTML = certificates.length
+    ? certificates
+        .map((certificate) => {
+          const course = findCourseForRecord(courses, getField(certificate, "courseId"));
+          const certificateNumber = getField(certificate, "certificateNumber");
+          const verificationHref = certificateNumber
+            ? `verify.html?certificate=${encodeURIComponent(certificateNumber)}`
+            : "verify.html";
+
+          return `
+            <div role="row" class="record-row">
+              <span role="cell">${getCourseTitle(course, language) || "-"}</span>
+              <span role="cell">${formatShortDate(getField(certificate, "issuedAt"), language)}</span>
+              <span role="cell">${formatShortDate(getField(certificate, "validUntil"), language)}</span>
+              <span role="cell"><a href="${verificationHref}">${dictionary.downloadCertificate}</a></span>
+            </div>
+          `;
+        })
+        .join("")
+    : `<div role="row" class="record-row"><span role="cell">${dictionary.noCertificates}</span><span role="cell">-</span><span role="cell">-</span><span role="cell">-</span></div>`;
+}
+
+async function loadWorkerPortalData(language) {
+  if (!workerPortalEnrollments || !workerPortalCertificates) {
+    return;
+  }
+
+  const auth = getStoredAuth();
+  if (!auth) {
+    renderWorkerPortal(language, null, translations[language].workerPortal.loginPrompt);
+    return;
+  }
+
+  const result = await apiRequest("/api/worker-portal/me", { auth: true });
+  if (!result.ok) {
+    const fallbackMessage =
+      result.status === 404
+        ? translations[language].workerPortal.missingWorker
+        : translations[language].workerPortal.apiFallback;
+    renderWorkerPortal(language, null, fallbackMessage);
+    return;
+  }
+
+  renderWorkerPortal(language, result.data);
+}
+
+async function startWorkerPortalEnrollment(enrollmentId) {
+  if (!getAccessToken()) {
+    setWorkerPortalMessage(translations[currentLanguage].workerPortal.loginRequired);
+    return;
+  }
+
+  setWorkerPortalMessage(translations[currentLanguage].workerPortal.startWorking);
+  const result = await apiRequest(`/api/worker-portal/enrollments/${encodeURIComponent(enrollmentId)}/start`, {
+    method: "POST",
+    auth: true,
+  });
+
+  if (!result.ok) {
+    setWorkerPortalMessage(result.error || translations[currentLanguage].workerPortal.actionUnavailable);
+    return;
+  }
+
+  setWorkerPortalMessage(translations[currentLanguage].workerPortal.startSuccess);
+  loadWorkerPortalData(currentLanguage);
+}
+
+async function completeWorkerPortalEnrollment(enrollmentId, score, durationMinutes) {
+  if (!getAccessToken()) {
+    setWorkerPortalMessage(translations[currentLanguage].workerPortal.loginRequired);
+    return;
+  }
+
+  setWorkerPortalMessage(translations[currentLanguage].workerPortal.completeWorking);
+  const result = await apiRequest(`/api/worker-portal/enrollments/${encodeURIComponent(enrollmentId)}/complete`, {
+    method: "POST",
+    auth: true,
+    body: {
+      score,
+      durationMinutes,
+    },
+  });
+
+  if (!result.ok) {
+    setWorkerPortalMessage(result.error || translations[currentLanguage].workerPortal.actionUnavailable);
+    return;
+  }
+
+  const certificate = getField(result.data, "certificate");
+  setWorkerPortalMessage(
+    certificate
+      ? translations[currentLanguage].workerPortal.completePassed
+      : translations[currentLanguage].workerPortal.completeFailed,
+  );
+  loadWorkerPortalData(currentLanguage);
+}
+
 async function loadPlatformData(language) {
   if (!platformCourses || !workerList || !certificateRecords) {
     return;
@@ -1983,6 +2304,7 @@ function applyTranslations(language) {
   localStorage.setItem("siteLanguage", language);
   renderScenarios(language);
   loadPlatformData(language);
+  loadWorkerPortalData(language);
   updateCertificate(language);
   if (verifyNumberInput?.value) {
     verifyCertificate(verifyNumberInput.value);
@@ -2054,6 +2376,35 @@ platformLogoutButton?.addEventListener("click", () => {
   setEnrollmentMessage("");
   setCompletionMessage("");
   loadPlatformData(currentLanguage);
+});
+
+document.addEventListener("click", (event) => {
+  const startButton = event.target.closest("[data-worker-start-enrollment]");
+  if (!startButton) {
+    return;
+  }
+
+  const enrollmentId = startButton.dataset.workerStartEnrollment;
+  if (enrollmentId) {
+    startWorkerPortalEnrollment(enrollmentId);
+  }
+});
+
+document.addEventListener("submit", (event) => {
+  const form = event.target.closest("[data-worker-complete-form]");
+  if (!form) {
+    return;
+  }
+
+  event.preventDefault();
+  const enrollmentId = form.dataset.workerEnrollmentId;
+  const formData = new FormData(form);
+  const score = Number(formData.get("score"));
+  const durationMinutes = Number(formData.get("durationMinutes"));
+
+  if (enrollmentId) {
+    completeWorkerPortalEnrollment(enrollmentId, score, durationMinutes);
+  }
 });
 
 workerForm?.addEventListener("submit", async (event) => {

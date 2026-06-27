@@ -42,6 +42,16 @@ public sealed class InMemoryTrainingRepository : ITrainingRepository
         }
     }
 
+    public Worker? GetWorkerByEmail(Guid companyId, string email)
+    {
+        lock (_lock)
+        {
+            return _workers.SingleOrDefault(worker =>
+                worker.CompanyId == companyId &&
+                string.Equals(worker.Email, email.Trim(), StringComparison.OrdinalIgnoreCase));
+        }
+    }
+
     public Result<Worker> CreateWorker(Guid companyId, CreateWorkerRequest request)
     {
         var normalizedEmployeeNumber = request.EmployeeNumber.Trim();
@@ -125,6 +135,37 @@ public sealed class InMemoryTrainingRepository : ITrainingRepository
         }
     }
 
+    public Result<Enrollment> StartEnrollment(Guid companyId, Guid workerId, Guid enrollmentId)
+    {
+        lock (_lock)
+        {
+            if (!WorkerBelongsToCompany(workerId, companyId))
+            {
+                return Result<Enrollment>.Failure("Radnik nije pronadjen.");
+            }
+
+            var enrollmentIndex = _enrollments.FindIndex(enrollment =>
+                enrollment.Id == enrollmentId &&
+                enrollment.WorkerId == workerId);
+
+            if (enrollmentIndex < 0)
+            {
+                return Result<Enrollment>.Failure("Upis na kurs nije pronadjen.");
+            }
+
+            var enrollment = _enrollments[enrollmentIndex];
+            if (enrollment.Status is EnrollmentStatus.Passed or EnrollmentStatus.Failed)
+            {
+                return Result<Enrollment>.Failure("Zavrsena obuka ne moze ponovo da se pokrene.");
+            }
+
+            var startedEnrollment = enrollment with { Status = EnrollmentStatus.InProgress };
+            _enrollments[enrollmentIndex] = startedEnrollment;
+
+            return Result<Enrollment>.Success(startedEnrollment);
+        }
+    }
+
     public Result<EnrollmentCompletionResponse> CompleteEnrollment(Guid companyId, Guid enrollmentId, CompleteTrainingRequest request)
     {
         lock (_lock)
@@ -139,6 +180,11 @@ public sealed class InMemoryTrainingRepository : ITrainingRepository
             }
 
             var enrollment = _enrollments[enrollmentIndex];
+            if (enrollment.Status is EnrollmentStatus.Passed or EnrollmentStatus.Failed)
+            {
+                return Result<EnrollmentCompletionResponse>.Failure("Obuka je vec zavrsena.");
+            }
+
             var course = _courses.Single(course => course.Id == enrollment.CourseId);
             var passed = request.Score >= course.PassScore;
 

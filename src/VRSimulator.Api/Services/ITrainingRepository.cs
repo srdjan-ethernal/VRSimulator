@@ -13,11 +13,15 @@ public interface ITrainingRepository
 
     Worker? GetWorker(Guid companyId, Guid workerId);
 
+    Worker? GetWorkerByEmail(Guid companyId, string email);
+
     Result<Worker> CreateWorker(Guid companyId, CreateWorkerRequest request);
 
     IReadOnlyCollection<Enrollment> GetEnrollments(Guid companyId);
 
     Result<Enrollment> CreateEnrollment(Guid companyId, CreateEnrollmentRequest request);
+
+    Result<Enrollment> StartEnrollment(Guid companyId, Guid workerId, Guid enrollmentId);
 
     Result<EnrollmentCompletionResponse> CompleteEnrollment(Guid companyId, Guid enrollmentId, CompleteTrainingRequest request);
 

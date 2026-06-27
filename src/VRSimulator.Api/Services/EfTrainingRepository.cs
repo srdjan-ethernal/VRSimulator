@@ -56,6 +56,18 @@ public sealed class EfTrainingRepository : ITrainingRepository
         return worker is null ? null : ToDomain(worker);
     }
 
+    public Worker? GetWorkerByEmail(Guid companyId, string email)
+    {
+        var normalizedEmail = email.Trim().ToLowerInvariant();
+        var worker = _dbContext.Workers
+            .AsNoTracking()
+            .SingleOrDefault(existingWorker =>
+                existingWorker.CompanyId == companyId &&
+                existingWorker.Email.ToLower() == normalizedEmail);
+
+        return worker is null ? null : ToDomain(worker);
+    }
+
     public Result<Worker> CreateWorker(Guid companyId, CreateWorkerRequest request)
     {
         var normalizedEmployeeNumber = request.EmployeeNumber.Trim();
@@ -140,6 +152,32 @@ public sealed class EfTrainingRepository : ITrainingRepository
         return Result<Enrollment>.Success(ToDomain(enrollment));
     }
 
+    public Result<Enrollment> StartEnrollment(Guid companyId, Guid workerId, Guid enrollmentId)
+    {
+        var enrollment = _dbContext.Enrollments
+            .Include(existingEnrollment => existingEnrollment.Worker)
+            .SingleOrDefault(existingEnrollment =>
+                existingEnrollment.Id == enrollmentId &&
+                existingEnrollment.WorkerId == workerId &&
+                existingEnrollment.Worker != null &&
+                existingEnrollment.Worker.CompanyId == companyId);
+
+        if (enrollment is null)
+        {
+            return Result<Enrollment>.Failure("Upis na kurs nije pronadjen.");
+        }
+
+        if (enrollment.Status is EnrollmentStatus.Passed or EnrollmentStatus.Failed)
+        {
+            return Result<Enrollment>.Failure("Zavrsena obuka ne moze ponovo da se pokrene.");
+        }
+
+        enrollment.Status = EnrollmentStatus.InProgress;
+        _dbContext.SaveChanges();
+
+        return Result<Enrollment>.Success(ToDomain(enrollment));
+    }
+
     public Result<EnrollmentCompletionResponse> CompleteEnrollment(Guid companyId, Guid enrollmentId, CompleteTrainingRequest request)
     {
         var enrollment = _dbContext.Enrollments
@@ -152,6 +190,11 @@ public sealed class EfTrainingRepository : ITrainingRepository
         if (enrollment is null)
         {
             return Result<EnrollmentCompletionResponse>.Failure("Upis na kurs nije pronadjen.");
+        }
+
+        if (enrollment.Status is EnrollmentStatus.Passed or EnrollmentStatus.Failed)
+        {
+            return Result<EnrollmentCompletionResponse>.Failure("Obuka je vec zavrsena.");
         }
 
         var course = _dbContext.Courses.Single(course => course.Id == enrollment.CourseId);

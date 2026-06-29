@@ -8,22 +8,45 @@ using VRSimulator.Api.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var connectionString = builder.Configuration.GetConnectionString("TrainingDatabase")
-    ?? "Server=(localdb)\\MSSQLLocalDB;Database=VRSimulatorTraining;Trusted_Connection=True;MultipleActiveResultSets=true";
+var databaseProvider = builder.Configuration["Database:Provider"] ?? "SqlServer";
+var autoCreateDatabase = builder.Configuration.GetValue<bool>("Database:EnsureCreated");
+var connectionString = builder.Configuration.GetConnectionString("TrainingDatabase");
 var allowedOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>()
     ?? Array.Empty<string>();
+var allowAnyOrigin = builder.Configuration.GetValue<bool>("Cors:AllowAnyOrigin");
 const string frontendCorsPolicy = "Frontend";
 
 builder.Services.AddDbContext<TrainingDbContext>(options =>
 {
-    options.UseSqlServer(connectionString);
+    if (databaseProvider.Equals("PostgreSql", StringComparison.OrdinalIgnoreCase)
+        || databaseProvider.Equals("Postgres", StringComparison.OrdinalIgnoreCase))
+    {
+        if (string.IsNullOrWhiteSpace(connectionString))
+        {
+            throw new InvalidOperationException("ConnectionStrings:TrainingDatabase is required when Database:Provider is PostgreSql.");
+        }
+
+        options.UseNpgsql(connectionString);
+        return;
+    }
+
+    options.UseSqlServer(connectionString
+        ?? "Server=(localdb)\\MSSQLLocalDB;Database=VRSimulatorTraining;Trusted_Connection=True;MultipleActiveResultSets=true");
 });
 builder.Services.AddCors(options =>
 {
     options.AddPolicy(frontendCorsPolicy, policy =>
     {
+        if (allowAnyOrigin)
+        {
+            policy.AllowAnyOrigin();
+        }
+        else
+        {
+            policy.WithOrigins(allowedOrigins);
+        }
+
         policy
-            .WithOrigins(allowedOrigins)
             .AllowAnyHeader()
             .AllowAnyMethod();
     });
@@ -38,7 +61,16 @@ builder.Services.Configure<JsonOptions>(options =>
 
 var app = builder.Build();
 
+if (autoCreateDatabase)
+{
+    using var scope = app.Services.CreateScope();
+    var dbContext = scope.ServiceProvider.GetRequiredService<TrainingDbContext>();
+    dbContext.Database.EnsureCreated();
+}
+
 app.UseCors(frontendCorsPolicy);
+app.UseDefaultFiles();
+app.UseStaticFiles();
 
 app.MapGet("/", () => Results.Ok(new
 {

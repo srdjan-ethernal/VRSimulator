@@ -987,10 +987,15 @@ let currentLanguage = "sr";
 let platformDataLoadedFromApi = false;
 let currentPlatformData = null;
 let workerSearchTerm = "";
+const defaultApiBaseUrl =
+  window.location.protocol.startsWith("http") &&
+  !["localhost", "127.0.0.1"].includes(window.location.hostname)
+    ? window.location.origin
+    : "http://localhost:5222";
 const apiBaseUrl =
   window.SAFETY_SIM_API_BASE_URL ||
   localStorage.getItem("safetySimApiBaseUrl") ||
-  "http://localhost:5222";
+  defaultApiBaseUrl;
 const authStorageKey = "safetySimAuth";
 
 const demoWorkers = [

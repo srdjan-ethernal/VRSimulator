@@ -22,7 +22,7 @@ public static class DemoAccountSeeder
             return;
         }
 
-        dbContext.Database.EnsureCreated();
+        dbContext.Database.Migrate();
 
         var email = NormalizeEmail(configuration["DemoAccount:Email"] ?? DefaultEmail);
         if (dbContext.Users.AsNoTracking().Any(user => user.Email == email))

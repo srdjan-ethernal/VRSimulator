@@ -154,6 +154,33 @@ app.MapGet("/api/health", () => Results.Ok(new
     timestampUtc = DateTimeOffset.UtcNow
 }));
 
+app.MapGet("/api/diagnostics/database", (TrainingDbContext dbContext) =>
+{
+    try
+    {
+        var canConnect = dbContext.Database.CanConnect();
+        return Results.Ok(new
+        {
+            status = canConnect ? "ok" : "unavailable",
+            provider = databaseProvider,
+            source = connectionStringSource,
+            canConnect,
+            pendingMigrations = dbContext.Database.GetPendingMigrations().Count()
+        });
+    }
+    catch (Exception exception)
+    {
+        return Results.Json(new
+        {
+            status = "error",
+            provider = databaseProvider,
+            source = connectionStringSource,
+            errorType = exception.GetType().Name,
+            message = exception.Message
+        }, statusCode: StatusCodes.Status503ServiceUnavailable);
+    }
+});
+
 app.MapPost("/api/auth/register", (RegisterUserRequest request, IAuthService authService) =>
 {
     var result = authService.Register(request);

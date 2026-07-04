@@ -10,7 +10,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 var databaseProvider = builder.Configuration["Database:Provider"] ?? "SqlServer";
 var autoCreateDatabase = builder.Configuration.GetValue<bool>("Database:EnsureCreated");
-var connectionString = NormalizeConnectionString(builder.Configuration.GetConnectionString("TrainingDatabase"));
+var connectionString = NormalizeConnectionString(
+    builder.Configuration["AZURE_SQL_CONNECTION_STRING"] ??
+    builder.Configuration.GetConnectionString("TrainingDatabase") ??
+    builder.Configuration["ConnectionStrings__TrainingDatabase"]);
 var allowedOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>()
     ?? Array.Empty<string>();
 var allowAnyOrigin = builder.Configuration.GetValue<bool>("Cors:AllowAnyOrigin");
@@ -30,8 +33,14 @@ builder.Services.AddDbContext<TrainingDbContext>(options =>
         return;
     }
 
-    options.UseSqlServer(connectionString
-        ?? "Server=(localdb)\\MSSQLLocalDB;Database=VRSimulatorTraining;Trusted_Connection=True;MultipleActiveResultSets=true");
+    var sqlServerConnectionString = connectionString
+        ?? "Server=(localdb)\\MSSQLLocalDB;Database=VRSimulatorTraining;Trusted_Connection=True;MultipleActiveResultSets=true";
+    if (!sqlServerConnectionString.Contains("Server=", StringComparison.OrdinalIgnoreCase))
+    {
+        throw new InvalidOperationException("SQL Server connection string must include a 'Server=' segment. Check the AZURE_SQL_CONNECTION_STRING or ConnectionStrings__TrainingDatabase secret value.");
+    }
+
+    options.UseSqlServer(sqlServerConnectionString);
 });
 builder.Services.AddCors(options =>
 {

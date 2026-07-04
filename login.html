@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="sr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Prijava na Safety Sim platformu</title>
+    <meta
+      name="description"
+      content="Prijava i registracija kompanije za Safety Sim platformu za VR obuke."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body data-page="login">
+    <header class="site-header" data-header>
+      <a class="brand" href="index.html#top" aria-label="Pocetak" data-i18n-aria-label="brand.home">
+        <span class="brand-mark">VR</span>
+        <span class="brand-text">Safety Sim</span>
+      </a>
+
+      <nav class="main-nav" aria-label="Glavna navigacija" data-i18n-aria-label="nav.label">
+        <a href="index.html#scenariji" data-i18n="nav.scenarios">Scenariji</a>
+        <a href="platform.html" data-i18n="nav.platform">Platforma</a>
+        <a href="worker.html" data-i18n="nav.workerPortal">Moj portal</a>
+        <a href="pricing.html" data-i18n="nav.pricing">Cene</a>
+        <a href="certificates.html" data-i18n="nav.certificates">Sertifikati</a>
+        <a href="verify.html" data-i18n="nav.verify">Provera</a>
+        <a href="index.html#kontakt" data-i18n="nav.contact">Kontakt</a>
+      </nav>
+
+      <a class="header-action" href="login.html" aria-current="page" data-i18n="nav.login">Prijava</a>
+
+      <div class="language-switch" aria-label="Izbor jezika" data-i18n-aria-label="language.label">
+        <button type="button" data-language-option="sr" aria-pressed="true">SR</button>
+        <button type="button" data-language-option="en" aria-pressed="false">EN</button>
+      </div>
+
+      <button class="nav-toggle" type="button" aria-label="Otvori navigaciju" data-i18n-aria-label="nav.open" data-nav-toggle>
+        <span></span>
+        <span></span>
+      </button>
+    </header>
+
+    <main id="top">
+      <section class="app-hero" aria-labelledby="login-title">
+        <div class="app-hero-copy">
+          <p class="eyebrow" data-i18n="auth.eyebrow">Platforma za obuku</p>
+          <h1 id="login-title" data-i18n="auth.title">Prijava za kompanije i instruktore</h1>
+          <p data-i18n="auth.copy">
+            Korisnici se prijavljuju u okviru svoje kompanije, prate obuke radnika i cuvaju evidenciju sertifikata.
+          </p>
+        </div>
+
+        <section class="auth-panel" aria-label="Prijava i registracija" data-i18n-aria-label="auth.panelLabel">
+          <div class="auth-tabs" role="tablist" aria-label="Izbor forme" data-i18n-aria-label="auth.tabsLabel">
+            <button type="button" role="tab" aria-selected="true" data-auth-tab="login" data-i18n="auth.loginTab">Prijava</button>
+            <button type="button" role="tab" aria-selected="false" data-auth-tab="register" data-i18n="auth.registerTab">Registracija</button>
+          </div>
+
+          <form class="auth-form is-active" data-auth-panel="login" autocomplete="off">
+            <label>
+              <span data-i18n="auth.email">Email</span>
+              <input type="email" name="email" autocomplete="off" />
+            </label>
+            <label>
+              <span data-i18n="auth.password">Lozinka</span>
+              <input type="password" name="password" autocomplete="new-password" minlength="5" />
+            </label>
+            <button class="button primary" type="submit" data-i18n="auth.loginButton">Prijavi se</button>
+          </form>
+
+          <form class="auth-form" data-auth-panel="register" autocomplete="off">
+            <div class="form-grid">
+              <label>
+                <span data-i18n="auth.firstName">Ime</span>
+                <input type="text" name="firstName" autocomplete="off" />
+              </label>
+              <label>
+                <span data-i18n="auth.lastName">Prezime</span>
+                <input type="text" name="lastName" autocomplete="off" />
+              </label>
+            </div>
+            <label>
+              <span data-i18n="auth.company">Kompanija</span>
+              <input type="text" name="companyName" autocomplete="off" />
+            </label>
+            <label>
+              <span data-i18n="auth.email">Email</span>
+              <input type="email" name="email" autocomplete="off" />
+            </label>
+            <label>
+              <span data-i18n="auth.password">Lozinka</span>
+              <input type="password" name="password" autocomplete="new-password" minlength="5" />
+            </label>
+            <button class="button primary" type="submit" data-i18n="auth.registerButton">Kreiraj nalog</button>
+          </form>
+
+          <p class="auth-message" data-auth-message></p>
+        </section>
+      </section>
+
+      <section class="section light-section">
+        <div class="auth-support-grid">
+          <article>
+            <span class="scenario-kicker" data-i18n="auth.adminLabel">Administrator kompanije</span>
+            <h2 data-i18n="auth.adminTitle">Jedna kompanija, vise korisnika</h2>
+            <p data-i18n="auth.adminCopy">
+              Administrator dodaje instruktore i radnike, dodeljuje kurseve i prati status obuke za celu organizaciju.
+            </p>
+          </article>
+          <article>
+            <span class="scenario-kicker" data-i18n="auth.workerLabel">Radnici i evidencija</span>
+            <h2 data-i18n="auth.workerTitle">Obuke i sertifikati na jednom mestu</h2>
+            <p data-i18n="auth.workerCopy">
+              Nakon zavrsene obuke, sistem priprema evidenciju rezultata i sertifikat za internu dokumentaciju.
+            </p>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <span>Safety Sim</span>
+      <span data-i18n="footer.copy">Profesionalne VR simulacije za bezbednosne obuke.</span>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>

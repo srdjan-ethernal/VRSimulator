@@ -1,0 +1,9 @@
+.git
+.vs
+bin
+obj
+**/bin
+**/obj
+VRSimulator-site.zip
+.server.err.log
+.server.out.log

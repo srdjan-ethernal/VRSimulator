@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1131" viewBox="0 0 1600 1131" role="img" aria-labelledby="title desc">
+  <title id="title">Sertifikat za Peru Perica</title>
+  <desc id="desc">Primer sertifikata za polozen kurs protivpozarne zastite, izdat 24.06.2026. sa vazenjem 12 meseci.</desc>
+  <rect width="1600" height="1131" fill="#f5f8f9"/>
+  <rect x="72" y="72" width="1456" height="987" rx="22" fill="#ffffff" stroke="#d8e3e6" stroke-width="4"/>
+  <rect x="104" y="104" width="1392" height="923" rx="14" fill="none" stroke="#0f766e" stroke-width="5"/>
+  <rect x="132" y="132" width="1336" height="867" rx="10" fill="none" stroke="#e3b04b" stroke-width="2"/>
+
+  <circle cx="800" cy="218" r="68" fill="#17202a"/>
+  <text x="800" y="207" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="800" fill="#ffffff">VR</text>
+  <text x="800" y="242" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="20" font-weight="700" fill="#c8e8e4">SAFETY SIM</text>
+
+  <text x="800" y="354" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="34" font-weight="800" fill="#0f766e" letter-spacing="4">SERTIFIKAT</text>
+  <text x="800" y="424" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="82" font-weight="800" fill="#17202a">Pera Peric</text>
+  <text x="800" y="486" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="30" font-weight="600" fill="#61707c">je uspesno polozio kurs</text>
+  <text x="800" y="560" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="54" font-weight="800" fill="#17202a">Kurs Protivpozarne Zastite</text>
+
+  <line x1="300" y1="640" x2="1300" y2="640" stroke="#dce5e8" stroke-width="3"/>
+
+  <g font-family="Inter, Arial, sans-serif">
+    <rect x="238" y="698" width="330" height="132" rx="8" fill="#f7f9fb" stroke="#dce5e8"/>
+    <text x="403" y="752" text-anchor="middle" font-size="20" font-weight="800" fill="#0f766e">DATUM IZDAVANJA</text>
+    <text x="403" y="795" text-anchor="middle" font-size="30" font-weight="800" fill="#17202a">24.06.2026.</text>
+
+    <rect x="635" y="698" width="330" height="132" rx="8" fill="#f7f9fb" stroke="#dce5e8"/>
+    <text x="800" y="752" text-anchor="middle" font-size="20" font-weight="800" fill="#0f766e">VAZENJE</text>
+    <text x="800" y="795" text-anchor="middle" font-size="30" font-weight="800" fill="#17202a">12 meseci</text>
+
+    <rect x="1032" y="698" width="330" height="132" rx="8" fill="#f7f9fb" stroke="#dce5e8"/>
+    <text x="1197" y="752" text-anchor="middle" font-size="20" font-weight="800" fill="#0f766e">VAZI DO</text>
+    <text x="1197" y="795" text-anchor="middle" font-size="30" font-weight="800" fill="#17202a">24.06.2027.</text>
+  </g>
+
+  <g font-family="Inter, Arial, sans-serif" fill="#61707c">
+    <text x="300" y="924" font-size="22" font-weight="700">Broj sertifikata: SS-FP-2026-001</text>
+    <text x="300" y="957" font-size="18">Ovaj sertifikat potvrdjuje uspesno zavrsenu VR obuku prema internom programu kursa.</text>
+  </g>
+
+  <g font-family="Inter, Arial, sans-serif">
+    <line x1="1030" y1="912" x2="1320" y2="912" stroke="#17202a" stroke-width="2"/>
+    <text x="1175" y="948" text-anchor="middle" font-size="20" font-weight="700" fill="#17202a">Ovlasceni instruktor</text>
+    <text x="1175" y="978" text-anchor="middle" font-size="16" fill="#61707c">Safety Sim</text>
+  </g>
+</svg>

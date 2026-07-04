@@ -62,14 +62,14 @@
             <button type="button" role="tab" aria-selected="false" data-auth-tab="register" data-i18n="auth.registerTab">Registracija</button>
           </div>
 
-          <form class="auth-form is-active" data-auth-panel="login">
+          <form class="auth-form is-active" data-auth-panel="login" autocomplete="off">
             <label>
               <span data-i18n="auth.email">Email</span>
-              <input type="email" name="email" autocomplete="email" placeholder="pera@firma.com" />
+              <input type="email" name="email" autocomplete="off" placeholder="pera@firma.com" />
             </label>
             <label>
               <span data-i18n="auth.password">Lozinka</span>
-              <input type="password" name="password" autocomplete="current-password" placeholder="••••••••" />
+              <input type="password" name="password" autocomplete="new-password" placeholder="••••••••" />
             </label>
             <button class="button primary" type="submit" data-i18n="auth.loginButton">Prijavi se</button>
           </form>

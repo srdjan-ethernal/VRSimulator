@@ -94,6 +94,19 @@ if (autoCreateDatabase)
     }
 }
 
+using (var scope = app.Services.CreateScope())
+{
+    try
+    {
+        var dbContext = scope.ServiceProvider.GetRequiredService<TrainingDbContext>();
+        DemoAccountSeeder.EnsureDemoAccount(dbContext, app.Configuration);
+    }
+    catch (Exception exception)
+    {
+        Console.WriteLine($"Demo account seed skipped: {exception.GetType().Name}: {exception.Message}");
+    }
+}
+
 app.UseCors(frontendCorsPolicy);
 app.UseDefaultFiles();
 app.UseStaticFiles();

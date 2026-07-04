@@ -10,10 +10,18 @@ var builder = WebApplication.CreateBuilder(args);
 
 var databaseProvider = builder.Configuration["Database:Provider"] ?? "SqlServer";
 var autoCreateDatabase = builder.Configuration.GetValue<bool>("Database:EnsureCreated");
-var connectionString = NormalizeConnectionString(
+var rawConnectionString =
     builder.Configuration["AZURE_SQL_CONNECTION_STRING"] ??
     builder.Configuration.GetConnectionString("TrainingDatabase") ??
-    builder.Configuration["ConnectionStrings__TrainingDatabase"]);
+    builder.Configuration["ConnectionStrings__TrainingDatabase"];
+var connectionStringSource =
+    builder.Configuration["AZURE_SQL_CONNECTION_STRING"] is not null
+        ? "AZURE_SQL_CONNECTION_STRING"
+        : builder.Configuration.GetConnectionString("TrainingDatabase") is not null
+            ? "ConnectionStrings:TrainingDatabase"
+            : "ConnectionStrings__TrainingDatabase";
+var connectionString = NormalizeConnectionString(
+    rawConnectionString);
 var allowedOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>()
     ?? Array.Empty<string>();
 var allowAnyOrigin = builder.Configuration.GetValue<bool>("Cors:AllowAnyOrigin");
@@ -73,8 +81,17 @@ var app = builder.Build();
 if (autoCreateDatabase)
 {
     using var scope = app.Services.CreateScope();
-    var dbContext = scope.ServiceProvider.GetRequiredService<TrainingDbContext>();
-    dbContext.Database.EnsureCreated();
+    Console.WriteLine($"Database startup: provider={databaseProvider}; source={connectionStringSource}; rawLength={rawConnectionString?.Length ?? 0}; normalizedLength={connectionString?.Length ?? 0}; startsWithServer={connectionString?.StartsWith("Server=", StringComparison.OrdinalIgnoreCase) ?? false}");
+    try
+    {
+        var dbContext = scope.ServiceProvider.GetRequiredService<TrainingDbContext>();
+        dbContext.Database.EnsureCreated();
+    }
+    catch (Exception exception)
+    {
+        Console.WriteLine($"Database startup failed: {exception.GetType().Name}: {exception.Message}");
+        throw;
+    }
 }
 
 app.UseCors(frontendCorsPolicy);

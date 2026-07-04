@@ -16,13 +16,27 @@ var connectionStringCandidates = new[]
     new ConnectionStringCandidate("ConnectionStrings:TrainingDatabase", builder.Configuration.GetConnectionString("TrainingDatabase")),
     new ConnectionStringCandidate("ConnectionStrings__TrainingDatabase", builder.Configuration["ConnectionStrings__TrainingDatabase"])
 };
-var selectedConnectionString = connectionStringCandidates
+var normalizedConnectionStringCandidates = connectionStringCandidates
     .Select(candidate => candidate with { Value = NormalizeConnectionString(candidate.Value) })
-    .FirstOrDefault(candidate => IsUsableConnectionString(candidate.Value, databaseProvider))
-    ?? connectionStringCandidates
-        .Select(candidate => candidate with { Value = NormalizeConnectionString(candidate.Value) })
-        .FirstOrDefault(candidate => !string.IsNullOrWhiteSpace(candidate.Value));
-var rawConnectionString = selectedConnectionString?.Value;
+    .ToArray();
+var usableConnectionString = normalizedConnectionStringCandidates
+    .FirstOrDefault(candidate => IsUsableConnectionString(candidate.Value, databaseProvider));
+var fallbackConnectionString = normalizedConnectionStringCandidates
+    .FirstOrDefault(candidate => !string.IsNullOrWhiteSpace(candidate.Value));
+var configuredInMemoryServices = databaseProvider.Equals("InMemory", StringComparison.OrdinalIgnoreCase)
+    || databaseProvider.Equals("Memory", StringComparison.OrdinalIgnoreCase);
+var fallbackToInMemory = builder.Configuration.GetValue("Database:FallbackToInMemory", true);
+var useInMemoryServices = configuredInMemoryServices || (fallbackToInMemory && usableConnectionString is null);
+var selectedConnectionString = useInMemoryServices
+    ? new ConnectionStringCandidate(configuredInMemoryServices ? "InMemory" : "InMemoryFallback", null)
+    : usableConnectionString ?? fallbackConnectionString;
+var invalidConnectionStringSources = normalizedConnectionStringCandidates
+    .Where(candidate => !string.IsNullOrWhiteSpace(candidate.Value) && !IsUsableConnectionString(candidate.Value, databaseProvider))
+    .Select(candidate => candidate.Source)
+    .ToArray();
+var rawConnectionString = useInMemoryServices
+    ? fallbackConnectionString?.Value
+    : selectedConnectionString?.Value;
 var connectionStringSource = selectedConnectionString?.Source ?? "none";
 var connectionString = selectedConnectionString?.Value;
 var allowedOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>()
@@ -30,29 +44,37 @@ var allowedOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get
 var allowAnyOrigin = builder.Configuration.GetValue<bool>("Cors:AllowAnyOrigin");
 const string frontendCorsPolicy = "Frontend";
 
-builder.Services.AddDbContext<TrainingDbContext>(options =>
+if (useInMemoryServices && invalidConnectionStringSources.Length > 0)
 {
-    if (databaseProvider.Equals("PostgreSql", StringComparison.OrdinalIgnoreCase)
-        || databaseProvider.Equals("Postgres", StringComparison.OrdinalIgnoreCase))
+    Console.WriteLine($"Database startup: using in-memory services because these connection string sources are invalid: {string.Join(", ", invalidConnectionStringSources)}");
+}
+
+if (!useInMemoryServices)
+{
+    builder.Services.AddDbContext<TrainingDbContext>(options =>
     {
-        if (string.IsNullOrWhiteSpace(connectionString))
+        if (databaseProvider.Equals("PostgreSql", StringComparison.OrdinalIgnoreCase)
+            || databaseProvider.Equals("Postgres", StringComparison.OrdinalIgnoreCase))
         {
-            throw new InvalidOperationException("ConnectionStrings:TrainingDatabase is required when Database:Provider is PostgreSql.");
+            if (string.IsNullOrWhiteSpace(connectionString))
+            {
+                throw new InvalidOperationException("ConnectionStrings:TrainingDatabase is required when Database:Provider is PostgreSql.");
+            }
+
+            options.UseNpgsql(connectionString);
+            return;
         }
 
-        options.UseNpgsql(connectionString);
-        return;
-    }
+        var sqlServerConnectionString = connectionString
+            ?? "Server=(localdb)\\MSSQLLocalDB;Database=VRSimulatorTraining;Trusted_Connection=True;MultipleActiveResultSets=true";
+        if (!sqlServerConnectionString.Contains("Server=", StringComparison.OrdinalIgnoreCase))
+        {
+            throw new InvalidOperationException("SQL Server connection string must include a 'Server=' segment. Check the AZURE_SQL_CONNECTION_STRING or ConnectionStrings__TrainingDatabase secret value.");
+        }
 
-    var sqlServerConnectionString = connectionString
-        ?? "Server=(localdb)\\MSSQLLocalDB;Database=VRSimulatorTraining;Trusted_Connection=True;MultipleActiveResultSets=true";
-    if (!sqlServerConnectionString.Contains("Server=", StringComparison.OrdinalIgnoreCase))
-    {
-        throw new InvalidOperationException("SQL Server connection string must include a 'Server=' segment. Check the AZURE_SQL_CONNECTION_STRING or ConnectionStrings__TrainingDatabase secret value.");
-    }
-
-    options.UseSqlServer(sqlServerConnectionString);
-});
+        options.UseSqlServer(sqlServerConnectionString);
+    });
+}
 builder.Services.AddCors(options =>
 {
     options.AddPolicy(frontendCorsPolicy, policy =>
@@ -71,8 +93,16 @@ builder.Services.AddCors(options =>
             .AllowAnyMethod();
     });
 });
-builder.Services.AddScoped<ITrainingRepository, EfTrainingRepository>();
-builder.Services.AddScoped<IAuthService, EfAuthService>();
+if (useInMemoryServices)
+{
+    builder.Services.AddSingleton<ITrainingRepository, InMemoryTrainingRepository>();
+    builder.Services.AddSingleton<IAuthService, InMemoryAuthService>();
+}
+else
+{
+    builder.Services.AddScoped<ITrainingRepository, EfTrainingRepository>();
+    builder.Services.AddScoped<IAuthService, EfAuthService>();
+}
 builder.Services.AddScoped<IEmailNotificationService, SmtpEmailNotificationService>();
 builder.Services.Configure<JsonOptions>(options =>
 {
@@ -81,7 +111,7 @@ builder.Services.Configure<JsonOptions>(options =>
 
 var app = builder.Build();
 
-if (autoCreateDatabase)
+if (!useInMemoryServices && autoCreateDatabase)
 {
     using var scope = app.Services.CreateScope();
     Console.WriteLine($"Database startup: provider={databaseProvider}; source={connectionStringSource}; rawLength={rawConnectionString?.Length ?? 0}; normalizedLength={connectionString?.Length ?? 0}; startsWithServer={connectionString?.StartsWith("Server=", StringComparison.OrdinalIgnoreCase) ?? false}");
@@ -97,8 +127,9 @@ if (autoCreateDatabase)
     }
 }
 
-using (var scope = app.Services.CreateScope())
+if (!useInMemoryServices)
 {
+    using var scope = app.Services.CreateScope();
     try
     {
         var dbContext = scope.ServiceProvider.GetRequiredService<TrainingDbContext>();
@@ -161,6 +192,18 @@ app.MapGet("/api/diagnostics/database", (IServiceProvider serviceProvider) =>
 {
     try
     {
+        if (useInMemoryServices)
+        {
+            return Results.Ok(new
+            {
+                status = "ok",
+                provider = databaseProvider,
+                source = "InMemory",
+                canConnect = true,
+                pendingMigrations = 0
+            });
+        }
+
         using var diagnosticScope = serviceProvider.CreateScope();
         var dbContext = diagnosticScope.ServiceProvider.GetRequiredService<TrainingDbContext>();
         var canConnect = dbContext.Database.CanConnect();

@@ -235,9 +235,9 @@ public sealed class EfAuthService : IAuthService
             return "Email adresa nije ispravna.";
         }
 
-        if (request.Password.Length < 8)
+        if (request.Password.Length < 5)
         {
-            return "Lozinka mora imati najmanje 8 karaktera.";
+            return "Lozinka mora imati najmanje 5 karaktera.";
         }
 
         return null;
@@ -258,9 +258,9 @@ public sealed class EfAuthService : IAuthService
             return "Email adresa nije ispravna.";
         }
 
-        if (request.Password.Length < 8)
+        if (request.Password.Length < 5)
         {
-            return "Lozinka mora imati najmanje 8 karaktera.";
+            return "Lozinka mora imati najmanje 5 karaktera.";
         }
 
         return null;

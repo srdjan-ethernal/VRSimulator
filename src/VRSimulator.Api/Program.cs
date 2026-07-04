@@ -10,7 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 var databaseProvider = builder.Configuration["Database:Provider"] ?? "SqlServer";
 var autoCreateDatabase = builder.Configuration.GetValue<bool>("Database:EnsureCreated");
-var connectionString = builder.Configuration.GetConnectionString("TrainingDatabase");
+var connectionString = NormalizeConnectionString(builder.Configuration.GetConnectionString("TrainingDatabase"));
 var allowedOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>()
     ?? Array.Empty<string>();
 var allowAnyOrigin = builder.Configuration.GetValue<bool>("Cors:AllowAnyOrigin");
@@ -450,4 +450,26 @@ static Result<UserProfileResponse> ResolveCurrentUser(HttpRequest request, IAuth
     return string.IsNullOrWhiteSpace(token)
         ? Result<UserProfileResponse>.Failure("Token nije poslat.")
         : authService.GetCurrentUser(token);
+}
+
+static string? NormalizeConnectionString(string? value)
+{
+    if (string.IsNullOrWhiteSpace(value))
+    {
+        return value;
+    }
+
+    var normalized = value.Trim().Trim('`').Trim();
+    const string secretNamePrefix = "ConnectionStrings__TrainingDatabase=";
+    if (normalized.StartsWith(secretNamePrefix, StringComparison.OrdinalIgnoreCase))
+    {
+        normalized = normalized[secretNamePrefix.Length..].Trim();
+    }
+
+    var serverLine = normalized
+        .Split(new[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries)
+        .Select(line => line.Trim().Trim('`').Trim())
+        .FirstOrDefault(line => line.StartsWith("Server=", StringComparison.OrdinalIgnoreCase));
+
+    return serverLine ?? normalized;
 }

@@ -10,18 +10,21 @@ var builder = WebApplication.CreateBuilder(args);
 
 var databaseProvider = builder.Configuration["Database:Provider"] ?? "SqlServer";
 var autoCreateDatabase = builder.Configuration.GetValue<bool>("Database:EnsureCreated");
-var rawConnectionString =
-    builder.Configuration["AZURE_SQL_CONNECTION_STRING"] ??
-    builder.Configuration.GetConnectionString("TrainingDatabase") ??
-    builder.Configuration["ConnectionStrings__TrainingDatabase"];
-var connectionStringSource =
-    builder.Configuration["AZURE_SQL_CONNECTION_STRING"] is not null
-        ? "AZURE_SQL_CONNECTION_STRING"
-        : builder.Configuration.GetConnectionString("TrainingDatabase") is not null
-            ? "ConnectionStrings:TrainingDatabase"
-            : "ConnectionStrings__TrainingDatabase";
-var connectionString = NormalizeConnectionString(
-    rawConnectionString);
+var connectionStringCandidates = new[]
+{
+    new ConnectionStringCandidate("AZURE_SQL_CONNECTION_STRING", builder.Configuration["AZURE_SQL_CONNECTION_STRING"]),
+    new ConnectionStringCandidate("ConnectionStrings:TrainingDatabase", builder.Configuration.GetConnectionString("TrainingDatabase")),
+    new ConnectionStringCandidate("ConnectionStrings__TrainingDatabase", builder.Configuration["ConnectionStrings__TrainingDatabase"])
+};
+var selectedConnectionString = connectionStringCandidates
+    .Select(candidate => candidate with { Value = NormalizeConnectionString(candidate.Value) })
+    .FirstOrDefault(candidate => IsUsableConnectionString(candidate.Value, databaseProvider))
+    ?? connectionStringCandidates
+        .Select(candidate => candidate with { Value = NormalizeConnectionString(candidate.Value) })
+        .FirstOrDefault(candidate => !string.IsNullOrWhiteSpace(candidate.Value));
+var rawConnectionString = selectedConnectionString?.Value;
+var connectionStringSource = selectedConnectionString?.Source ?? "none";
+var connectionString = selectedConnectionString?.Value;
 var allowedOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>()
     ?? Array.Empty<string>();
 var allowAnyOrigin = builder.Configuration.GetValue<bool>("Cors:AllowAnyOrigin");
@@ -552,3 +555,17 @@ static string? NormalizeConnectionString(string? value)
 
     return normalized;
 }
+
+static bool IsUsableConnectionString(string? value, string provider)
+{
+    if (string.IsNullOrWhiteSpace(value))
+    {
+        return false;
+    }
+
+    return provider.Equals("PostgreSql", StringComparison.OrdinalIgnoreCase)
+        || provider.Equals("Postgres", StringComparison.OrdinalIgnoreCase)
+        || value.Contains("Server=", StringComparison.OrdinalIgnoreCase);
+}
+
+public sealed record ConnectionStringCandidate(string Source, string? Value);

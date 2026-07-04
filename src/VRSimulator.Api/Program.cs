@@ -98,7 +98,11 @@ app.UseCors(frontendCorsPolicy);
 app.UseDefaultFiles();
 app.UseStaticFiles();
 
-app.MapGet("/", () => Results.File("wwwroot/index.html", "text/html"));
+app.MapGet("/", (IWebHostEnvironment environment) =>
+{
+    var indexPath = Path.Combine(environment.WebRootPath ?? environment.ContentRootPath, "index.html");
+    return Results.File(indexPath, "text/html");
+});
 
 app.MapGet("/api", () => Results.Ok(new
 {

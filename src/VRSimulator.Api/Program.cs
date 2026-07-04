@@ -98,12 +98,7 @@ app.UseCors(frontendCorsPolicy);
 app.UseDefaultFiles();
 app.UseStaticFiles();
 
-app.MapGet("/", () => Results.Ok(new
-{
-    service = "VR Simulator Training API",
-    version = "0.1.0",
-    documentation = "/api"
-}));
+app.MapGet("/", () => Results.File("wwwroot/index.html", "text/html"));
 
 app.MapGet("/api", () => Results.Ok(new
 {

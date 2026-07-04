@@ -1,6 +1,6 @@
 ---
 title: Safety Sim
-colorFrom: teal
+colorFrom: green
 colorTo: blue
 sdk: docker
 app_port: 7860

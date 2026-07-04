@@ -466,10 +466,22 @@ static string? NormalizeConnectionString(string? value)
         normalized = normalized[secretNamePrefix.Length..].Trim();
     }
 
+    var serverIndex = normalized.IndexOf("Server=", StringComparison.OrdinalIgnoreCase);
+    if (serverIndex > 0)
+    {
+        normalized = normalized[serverIndex..].Trim();
+    }
+
     var serverLine = normalized
         .Split(new[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries)
         .Select(line => line.Trim().Trim('`').Trim())
-        .FirstOrDefault(line => line.StartsWith("Server=", StringComparison.OrdinalIgnoreCase));
+        .FirstOrDefault(line => line.Contains("Server=", StringComparison.OrdinalIgnoreCase));
 
-    return serverLine ?? normalized;
+    if (serverLine is not null)
+    {
+        var lineServerIndex = serverLine.IndexOf("Server=", StringComparison.OrdinalIgnoreCase);
+        return lineServerIndex > 0 ? serverLine[lineServerIndex..].Trim() : serverLine;
+    }
+
+    return normalized;
 }

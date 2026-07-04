@@ -154,10 +154,12 @@ app.MapGet("/api/health", () => Results.Ok(new
     timestampUtc = DateTimeOffset.UtcNow
 }));
 
-app.MapGet("/api/diagnostics/database", (TrainingDbContext dbContext) =>
+app.MapGet("/api/diagnostics/database", (IServiceProvider serviceProvider) =>
 {
     try
     {
+        using var diagnosticScope = serviceProvider.CreateScope();
+        var dbContext = diagnosticScope.ServiceProvider.GetRequiredService<TrainingDbContext>();
         var canConnect = dbContext.Database.CanConnect();
         return Results.Ok(new
         {

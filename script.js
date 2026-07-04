@@ -1000,10 +1000,6 @@ const authStorageKey = "safetySimAuth";
 
 if (pageName === "login") {
   authPanels.forEach((form) => {
-    if (form.dataset.authPanel !== "login") {
-      return;
-    }
-
     form.querySelectorAll("input").forEach((input) => {
       input.value = "";
     });

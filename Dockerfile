@@ -13,7 +13,8 @@ WORKDIR /app
 
 ENV ASPNETCORE_URLS=http://+:7860
 ENV Database__Provider=SqlServer
-ENV Database__EnsureCreated=true
+ENV Database__EnsureCreated=false
+ENV Database__FallbackToInMemory=false
 ENV Cors__AllowAnyOrigin=true
 
 COPY --from=build /app/publish ./

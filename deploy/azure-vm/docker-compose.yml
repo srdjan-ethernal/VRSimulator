@@ -1,0 +1,38 @@
+services:
+  vrsimulator:
+    build:
+      context: ../..
+      dockerfile: Dockerfile
+    image: vrsimulator:latest
+    restart: unless-stopped
+    environment:
+      ASPNETCORE_URLS: http://+:7860
+      Database__Provider: SqlServer
+      Database__EnsureCreated: "false"
+      Database__FallbackToInMemory: "false"
+      Cors__AllowAnyOrigin: "false"
+      Cors__AllowedOrigins__0: https://${APP_DOMAIN}
+      Cors__AllowedOrigins__1: http://${APP_DOMAIN}
+      ConnectionStrings__TrainingDatabase: ${AZURE_SQL_CONNECTION_STRING}
+    expose:
+      - "7860"
+
+  caddy:
+    image: caddy:2
+    restart: unless-stopped
+    depends_on:
+      - vrsimulator
+    environment:
+      APP_DOMAIN: ${APP_DOMAIN}
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+
+volumes:
+  caddy_data:
+  caddy_config:
+

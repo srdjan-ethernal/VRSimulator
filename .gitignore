@@ -2,4 +2,6 @@ VRSimulator-site.zip
 .vs/
 bin/
 obj/
+*.log
+deploy/azure-vm/.env
 

@@ -1,0 +1,5 @@
+{$APP_DOMAIN:localhost} {
+    encode gzip
+    reverse_proxy vrsimulator:7860
+}
+

@@ -91,3 +91,16 @@ Deployment tok:
 3. Napraviti Hugging Face Space sa SDK tipom `Docker`.
 4. Pushovati repo u Space.
 5. Otvoriti Space URL i testirati registraciju kompanije, dodavanje radnika, dodelu obuke i izdavanje sertifikata.
+
+## Azure VM deployment
+
+Za produkcioni demo na Microsoft stack-u koristi se Azure SQL Database Free tier i Azure VM sa Docker Compose deploymentom.
+
+Fajlovi su u `deploy/azure-vm`:
+
+- `docker-compose.yml` pokrece ASP.NET Core API i frontend zajedno
+- `Caddyfile` objavljuje aplikaciju na portovima `80` i `443`
+- `.env.example` pokazuje vrednosti koje treba popuniti na VM-u
+- `deploy.sh` radi build i restart containera
+
+Detaljni koraci su u `deploy/azure-vm/README.md`.

@@ -37,6 +37,7 @@
       eyebrow: "Slucajevi upotrebe",
       title: "Scenariji spremni za prezentaciju i razvoj",
       copy: "Katalog scenarija pokriva industrijsku bezbednost, upravljanje opasnim materijalima i obuke za odgovorno postupanje sa otpadom.",
+      demoLink: "Pogledaj demo",
     },
     method: {
       eyebrow: "Metodologija",
@@ -411,6 +412,7 @@
       eyebrow: "Use cases",
       title: "Scenarios ready for presentation and development",
       copy: "The scenario catalog covers industrial safety, hazardous material handling, and training for responsible waste management.",
+      demoLink: "Watch demo",
     },
     method: {
       eyebrow: "Methodology",
@@ -752,6 +754,7 @@ const scenarios = [
   {
     image: "assets/fire-protection-vr.png",
     variant: "is-warning",
+    demoUrl: "https://www.youtube.com/watch?v=J9PR-glKDrQ",
     content: {
       sr: {
         title: "Protivpozarna zastita",
@@ -782,6 +785,7 @@ const scenarios = [
   {
     image: "assets/radioactive-materials-vr.png",
     variant: "is-lab",
+    demoUrl: "https://www.youtube.com/watch?v=mw_4WdcQAeY",
     content: {
       sr: {
         title: "Upravljanje radioaktivnim materijalima",
@@ -1175,6 +1179,10 @@ function renderScenarios(language) {
   scenarioGrid.innerHTML = scenarios
     .map((scenario) => {
       const content = scenario.content[language];
+      const dictionary = translations[language].scenarios;
+      const demoLink = scenario.demoUrl
+        ? `<a class="scenario-demo-link" href="${scenario.demoUrl}" target="_blank" rel="noopener noreferrer">${dictionary.demoLink}</a>`
+        : "";
 
       return `
         <article class="scenario-card ${scenario.variant}">
@@ -1186,6 +1194,7 @@ function renderScenarios(language) {
             <ul class="scenario-list">
               ${content.points.map((point) => `<li>${point}</li>`).join("")}
             </ul>
+            ${demoLink}
           </div>
         </article>
       `;

@@ -419,6 +419,29 @@ h1 {
   background: #dc2626;
 }
 
+.scenario-demo-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  margin-top: 22px;
+  padding: 0 16px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #ffffff;
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 800;
+  text-decoration: none;
+  transition: border-color 180ms ease, color 180ms ease, transform 180ms ease;
+}
+
+.scenario-demo-link:hover {
+  border-color: var(--teal);
+  color: var(--teal-dark);
+  transform: translateY(-1px);
+}
+
 .light-section {
   background: var(--surface);
   border-block: 1px solid var(--line);

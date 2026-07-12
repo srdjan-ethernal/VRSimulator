@@ -12,7 +12,7 @@ ASP.NET Core backend za evidenciju VR obuka radnika.
 - PostgreSQL provider za opcionu Neon demo varijantu
 
 Podrazumevana lokalna baza: SQL Server uz Entity Framework Core.
-Demo hosting baza: Azure SQL preko `Database:Provider=SqlServer`.
+Demo hosting baza: Neon PostgreSQL preko `Database:Provider=PostgreSql`.
 
 ## Naming standard
 
@@ -55,15 +55,16 @@ Podrazumevani connection string koristi SQL Server LocalDB:
 
 Ako LocalDB nije instaliran, instalirati SQL Server Express LocalDB ili promeniti `ConnectionStrings:TrainingDatabase` u `appsettings.Development.json`.
 
-Za Azure SQL demo koristi se:
+Za Neon demo koristi se:
 
 ```text
-Database__Provider=SqlServer
+DATABASE_URL=postgresql://<user>:<password>@<host>/<database>?sslmode=require
+Database__Provider=PostgreSql
 Database__EnsureCreated=true
-ConnectionStrings__TrainingDatabase=Server=tcp:nswd.database.windows.net,1433;Initial Catalog=free-sql-db-3793918;Persist Security Info=False;User ID=CloudSA1ff17985;Password=<password>;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;
+Database__FallbackToInMemory=false
 ```
 
-`EnsureCreated` je namenjen samo za demo okruzenje bez rucnog migracionog koraka.
+Backend prihvata `DATABASE_URL`, `NEON_DATABASE_URL` ili `ConnectionStrings__TrainingDatabase`. `EnsureCreated` je namenjen samo za demo okruzenje bez rucnog migracionog koraka.
 
 Kreiranje / azuriranje baze:
 

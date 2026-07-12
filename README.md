@@ -67,39 +67,32 @@ Korisnik se registruje uz kompaniju. Radnici, upisi i sertifikati se citaju i me
 
 Za lokalnu bazu instalirati SQL Server Express LocalDB ili podesiti `ConnectionStrings:TrainingDatabase` na postojeci SQL Server. Migracije su u `src/VRSimulator.Api/Persistence/Migrations`.
 
-## Demo deployment: Hugging Face + Azure SQL
+## Demo deployment: Hugging Face + Neon
 
-Repo sadrzi `Dockerfile` za Hugging Face Docker Space. Docker build objavljuje ASP.NET Core API i staticki frontend zajedno, na portu `7860`. Ovo je najjednostavniji deployment: Hugging Face hostuje aplikaciju, Azure SQL cuva podatke.
+Repo sadrzi `Dockerfile` za Hugging Face Docker Space. Docker build objavljuje ASP.NET Core API i staticki frontend zajedno, na portu `7860`. Ovo je najjednostavniji demo deployment: Hugging Face hostuje aplikaciju, a Neon PostgreSQL cuva podatke.
 
-Za Azure SQL demo bazu podesiti Hugging Face Space secrets:
+Za Neon demo bazu podesiti Hugging Face Space secrets/variables:
 
 ```text
-ConnectionStrings__TrainingDatabase=Server=tcp:nswd.database.windows.net,1433;Initial Catalog=free-sql-db-3793918;Persist Security Info=False;User ID=CloudSA1ff17985;Password=<password>;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;
-Database__Provider=SqlServer
-Database__EnsureCreated=false
+DATABASE_URL=postgresql://<user>:<password>@<host>/<database>?sslmode=require
+Database__Provider=PostgreSql
+Database__EnsureCreated=true
 Database__FallbackToInMemory=false
 Cors__AllowAnyOrigin=true
 ```
 
-API pri startu pokrece EF migracije kroz demo account/database setup i kreira potrebne tabele kada je Azure SQL connection string ispravan. `Database__FallbackToInMemory=false` je vazno za ovaj setup: ako baza nije dobro povezana, aplikacija treba jasno da prijavi gresku umesto da podatke cuva samo privremeno u memoriji.
-
-Azure SQL firewall:
-
-- Za demo je najjednostavnije omoguciti public access iz svih IP adresa kroz firewall rule `0.0.0.0` - `255.255.255.255`.
-- Bez toga Hugging Face Space cesto ne moze stabilno do baze jer nema garantovan staticki outbound IP.
-- Za produkciju ovo treba zameniti sigurnijim hostingom ili mreznim pravilom sa poznatim IP adresama.
+Backend podrzava i `NEON_DATABASE_URL` i `ConnectionStrings__TrainingDatabase`, ali `DATABASE_URL` je najjednostavniji jer ga Neon cesto prikazuje direktno. API pri startu kreira tabele za demo bazu kada je `Database__EnsureCreated=true`. `Database__FallbackToInMemory=false` je vazno za ovaj setup: ako baza nije dobro povezana, aplikacija treba jasno da prijavi gresku umesto da podatke cuva samo privremeno u memoriji.
 
 Frontend automatski koristi isti domen kao API kada je otvoren preko javnog HTTPS domena, a lokalno ostaje na `http://localhost:5222`.
 
 Deployment tok:
 
-1. Napraviti Azure SQL bazu.
-2. U Azure SQL firewall-u dozvoliti pristup sa Hugging Face-a.
-3. Kopirati kompletan ADO.NET connection string u Hugging Face secret `ConnectionStrings__TrainingDatabase`.
-4. Dodati Hugging Face variables `Database__Provider=SqlServer`, `Database__EnsureCreated=false`, `Database__FallbackToInMemory=false`, `Cors__AllowAnyOrigin=true`.
-5. Napraviti Hugging Face Space sa SDK tipom `Docker`.
-6. Pushovati repo u Space.
-7. Otvoriti Space URL i testirati registraciju kompanije, dodavanje radnika, dodelu obuke i izdavanje sertifikata.
+1. Napraviti Neon PostgreSQL projekat i bazu.
+2. Kopirati Neon pooled connection string u Hugging Face secret `DATABASE_URL`.
+3. Dodati Hugging Face variables `Database__Provider=PostgreSql`, `Database__EnsureCreated=true`, `Database__FallbackToInMemory=false`, `Cors__AllowAnyOrigin=true`.
+4. Napraviti Hugging Face Space sa SDK tipom `Docker`.
+5. Pushovati repo u Space.
+6. Otvoriti Space URL i testirati registraciju kompanije, dodavanje radnika, dodelu obuke i izdavanje sertifikata.
 
 ## Azure VM deployment
 

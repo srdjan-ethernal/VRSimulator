@@ -12,8 +12,8 @@ FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS runtime
 WORKDIR /app
 
 ENV ASPNETCORE_URLS=http://+:7860
-ENV Database__Provider=SqlServer
-ENV Database__EnsureCreated=false
+ENV Database__Provider=PostgreSql
+ENV Database__EnsureCreated=true
 ENV Database__FallbackToInMemory=false
 ENV Cors__AllowAnyOrigin=true
 

@@ -12,12 +12,14 @@ var databaseProvider = builder.Configuration["Database:Provider"] ?? "SqlServer"
 var autoCreateDatabase = builder.Configuration.GetValue<bool>("Database:EnsureCreated");
 var connectionStringCandidates = new[]
 {
+    new ConnectionStringCandidate("DATABASE_URL", builder.Configuration["DATABASE_URL"]),
+    new ConnectionStringCandidate("NEON_DATABASE_URL", builder.Configuration["NEON_DATABASE_URL"]),
     new ConnectionStringCandidate("AZURE_SQL_CONNECTION_STRING", builder.Configuration["AZURE_SQL_CONNECTION_STRING"]),
     new ConnectionStringCandidate("ConnectionStrings:TrainingDatabase", builder.Configuration.GetConnectionString("TrainingDatabase")),
     new ConnectionStringCandidate("ConnectionStrings__TrainingDatabase", builder.Configuration["ConnectionStrings__TrainingDatabase"])
 };
 var normalizedConnectionStringCandidates = connectionStringCandidates
-    .Select(candidate => candidate with { Value = NormalizeConnectionString(candidate.Value) })
+    .Select(candidate => candidate with { Value = NormalizeConnectionString(candidate.Value, databaseProvider) })
     .ToArray();
 var usableConnectionString = normalizedConnectionStringCandidates
     .FirstOrDefault(candidate => IsUsableConnectionString(candidate.Value, databaseProvider));
@@ -565,7 +567,7 @@ static Result<UserProfileResponse> ResolveCurrentUser(HttpRequest request, IAuth
         : authService.GetCurrentUser(token);
 }
 
-static string? NormalizeConnectionString(string? value)
+static string? NormalizeConnectionString(string? value, string provider)
 {
     if (string.IsNullOrWhiteSpace(value))
     {
@@ -573,6 +575,11 @@ static string? NormalizeConnectionString(string? value)
     }
 
     var normalized = value.Trim().Trim('`').Trim();
+    if (IsPostgreSqlProvider(provider) && TryConvertPostgreSqlUrl(normalized, out var postgresConnectionString))
+    {
+        return postgresConnectionString;
+    }
+
     const string secretNamePrefix = "ConnectionStrings__TrainingDatabase=";
     if (normalized.StartsWith(secretNamePrefix, StringComparison.OrdinalIgnoreCase))
     {
@@ -606,9 +613,48 @@ static bool IsUsableConnectionString(string? value, string provider)
         return false;
     }
 
-    return provider.Equals("PostgreSql", StringComparison.OrdinalIgnoreCase)
-        || provider.Equals("Postgres", StringComparison.OrdinalIgnoreCase)
+    return IsPostgreSqlProvider(provider)
         || value.Contains("Server=", StringComparison.OrdinalIgnoreCase);
+}
+
+static bool IsPostgreSqlProvider(string provider)
+{
+    return provider.Equals("PostgreSql", StringComparison.OrdinalIgnoreCase)
+        || provider.Equals("Postgres", StringComparison.OrdinalIgnoreCase);
+}
+
+static bool TryConvertPostgreSqlUrl(string value, out string connectionString)
+{
+    connectionString = string.Empty;
+    if (!Uri.TryCreate(value, UriKind.Absolute, out var uri)
+        || (uri.Scheme != "postgres" && uri.Scheme != "postgresql"))
+    {
+        return false;
+    }
+
+    var userInfo = uri.UserInfo.Split(':', 2);
+    var username = userInfo.Length > 0 ? Uri.UnescapeDataString(userInfo[0]) : string.Empty;
+    var password = userInfo.Length > 1 ? Uri.UnescapeDataString(userInfo[1]) : string.Empty;
+    var database = uri.AbsolutePath.TrimStart('/');
+    var query = ParseQuery(uri.Query);
+    var sslMode = query.TryGetValue("sslmode", out var configuredSslMode) ? configuredSslMode : "Require";
+
+    var port = uri.Port > 0 ? uri.Port : 5432;
+    connectionString = $"Host={uri.Host};Port={port};Database={database};Username={username};Password={password};Ssl Mode={sslMode};Trust Server Certificate=true";
+    return true;
+}
+
+static Dictionary<string, string> ParseQuery(string query)
+{
+    return query
+        .TrimStart('?')
+        .Split('&', StringSplitOptions.RemoveEmptyEntries)
+        .Select(part => part.Split('=', 2))
+        .Where(parts => parts.Length == 2)
+        .ToDictionary(
+            parts => Uri.UnescapeDataString(parts[0]),
+            parts => Uri.UnescapeDataString(parts[1]),
+            StringComparer.OrdinalIgnoreCase);
 }
 
 public sealed record ConnectionStringCandidate(string Source, string? Value);

@@ -31,7 +31,7 @@ var fallbackToInMemory = builder.Configuration.GetValue("Database:FallbackToInMe
 var useInMemoryServices = configuredInMemoryServices || (fallbackToInMemory && usableConnectionString is null);
 var selectedConnectionString = useInMemoryServices
     ? new ConnectionStringCandidate(configuredInMemoryServices ? "InMemory" : "InMemoryFallback", null)
-    : usableConnectionString ?? fallbackConnectionString;
+    : IsPostgreSqlProvider(databaseProvider) ? usableConnectionString : usableConnectionString ?? fallbackConnectionString;
 var invalidConnectionStringSources = normalizedConnectionStringCandidates
     .Where(candidate => !string.IsNullOrWhiteSpace(candidate.Value) && !IsUsableConnectionString(candidate.Value, databaseProvider))
     .Select(candidate => candidate.Source)
@@ -613,8 +613,12 @@ static bool IsUsableConnectionString(string? value, string provider)
         return false;
     }
 
-    return IsPostgreSqlProvider(provider)
-        || value.Contains("Server=", StringComparison.OrdinalIgnoreCase);
+    if (IsPostgreSqlProvider(provider))
+    {
+        return value.Contains("Host=", StringComparison.OrdinalIgnoreCase);
+    }
+
+    return value.Contains("Server=", StringComparison.OrdinalIgnoreCase);
 }
 
 static bool IsPostgreSqlProvider(string provider)
